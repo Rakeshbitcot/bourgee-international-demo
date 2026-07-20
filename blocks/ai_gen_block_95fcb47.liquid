@@ -1,0 +1,575 @@
+{% doc %}
+  @prompt
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-location-map-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-location-map-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding }}px;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-location-map-header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-location-map-title-{{ ai_gen_id }} {
+    margin: 0 0 8px 0;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.title_size }}px;
+  }
+
+  .ai-location-map-description-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.description_size }}px;
+    opacity: 0.8;
+  }
+
+  .ai-location-map-content-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-location-map-content-{{ ai_gen_id }} {
+      grid-template-columns: {% if block.settings.layout == 'map_left' %}1fr 1fr{% elsif block.settings.layout == 'map_right' %}1fr 1fr{% else %}1fr{% endif %};
+    }
+  }
+
+  .ai-location-map-iframe-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: {{ block.settings.map_border_radius }}px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    {% if block.settings.layout == 'map_right' %}
+      order: 2;
+    {% endif %}
+  }
+
+  .ai-location-map-iframe-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .ai-location-map-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    color: #666;
+  }
+
+  .ai-location-map-placeholder-{{ ai_gen_id }} svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .ai-location-map-placeholder-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .ai-location-map-info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    {% if block.settings.layout == 'map_right' %}
+      order: 1;
+    {% endif %}
+  }
+
+  .ai-location-map-info-item-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+  }
+
+  .ai-location-map-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-location-map-info-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+  }
+
+  .ai-location-map-info-label-{{ ai_gen_id }} {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.6;
+    margin: 0 0 4px 0;
+  }
+
+  .ai-location-map-info-value-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-location-map-info-value-{{ ai_gen_id }} a {
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+  }
+
+  .ai-location-map-info-value-{{ ai_gen_id }} a:hover {
+    text-decoration: underline;
+  }
+
+  .ai-location-map-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-location-map-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+
+  .ai-location-map-button-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-location-map-container-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding | times: 0.6 }}px;
+    }
+
+    .ai-location-map-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-location-map-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<location-map-{{ ai_gen_id }} class="ai-location-map-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-location-map-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank or block.settings.description != blank %}
+      <div class="ai-location-map-header-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="ai-location-map-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.description != blank %}
+          <p class="ai-location-map-description-{{ ai_gen_id }}">{{ block.settings.description }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-location-map-content-{{ ai_gen_id }}">
+      <div class="ai-location-map-iframe-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.map_url != blank %}
+          <iframe
+            class="ai-location-map-iframe-{{ ai_gen_id }}"
+            src="{{ block.settings.map_url }}"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Location map"
+          ></iframe>
+        {% else %}
+          <div class="ai-location-map-placeholder-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <div class="ai-location-map-placeholder-text-{{ ai_gen_id }}">
+              Add your Google Maps embed URL to display the map
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if block.settings.show_info %}
+        <div class="ai-location-map-info-{{ ai_gen_id }}">
+          {% if block.settings.address != blank %}
+            <div class="ai-location-map-info-item-{{ ai_gen_id }}">
+              <div class="ai-location-map-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div class="ai-location-map-info-content-{{ ai_gen_id }}">
+                <p class="ai-location-map-info-label-{{ ai_gen_id }}">Address</p>
+                <p class="ai-location-map-info-value-{{ ai_gen_id }}">{{ block.settings.address }}</p>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.phone != blank %}
+            <div class="ai-location-map-info-item-{{ ai_gen_id }}">
+              <div class="ai-location-map-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div class="ai-location-map-info-content-{{ ai_gen_id }}">
+                <p class="ai-location-map-info-label-{{ ai_gen_id }}">Phone</p>
+                <p class="ai-location-map-info-value-{{ ai_gen_id }}">
+                  <a href="tel:{{ block.settings.phone | replace: ' ', '' }}">{{ block.settings.phone }}</a>
+                </p>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.email != blank %}
+            <div class="ai-location-map-info-item-{{ ai_gen_id }}">
+              <div class="ai-location-map-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div class="ai-location-map-info-content-{{ ai_gen_id }}">
+                <p class="ai-location-map-info-label-{{ ai_gen_id }}">Email</p>
+                <p class="ai-location-map-info-value-{{ ai_gen_id }}">
+                  <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+                </p>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.hours != blank %}
+            <div class="ai-location-map-info-item-{{ ai_gen_id }}">
+              <div class="ai-location-map-icon-{{ ai_gen_id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="ai-location-map-info-content-{{ ai_gen_id }}">
+                <p class="ai-location-map-info-label-{{ ai_gen_id }}">Hours</p>
+                <div class="ai-location-map-info-value-{{ ai_gen_id }}">{{ block.settings.hours }}</div>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if block.settings.show_directions_button and block.settings.directions_url != blank %}
+            <a
+              href="{{ block.settings.directions_url }}"
+              class="ai-location-map-button-{{ ai_gen_id }}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg class="ai-location-map-button-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              </svg>
+              {{ block.settings.directions_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</location-map-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class LocationMap{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('location-map-{{ ai_gen_id }}', LocationMap{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Location map",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Visit us"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Find us at our location"
+    },
+    {
+      "type": "text",
+      "id": "map_url",
+      "label": "Google Maps embed URL",
+      "info": "Get the embed URL from Google Maps: Share > Embed a map > Copy HTML"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "map_left",
+          "label": "Map on left"
+        },
+        {
+          "value": "map_right",
+          "label": "Map on right"
+        },
+        {
+          "value": "map_only",
+          "label": "Map only"
+        }
+      ],
+      "default": "map_left"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Location information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info",
+      "label": "Show location information",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "123 Main Street, New York, NY 10001"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email"
+    },
+    {
+      "type": "richtext",
+      "id": "hours",
+      "label": "Hours",
+      "default": "<p>Mon-Fri: 9am - 6pm<br>Sat-Sun: 10am - 4pm</p>"
+    },
+    {
+      "type": "header",
+      "content": "Directions button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_directions_button",
+      "label": "Show directions button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "directions_button_text",
+      "label": "Button text",
+      "default": "Get directions"
+    },
+    {
+      "type": "url",
+      "id": "directions_url",
+      "label": "Directions URL"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "map_border_radius",
+      "label": "Map border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icons",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Links",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#333333"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Location map"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,87 @@
+<div class="toggle-buttons">
+  <button class="toggle-btn active" data-type="men">Men</button>
+  <button class="toggle-btn" data-type="women">Women</button>
+</div>
+
+<div class="product-grid">
+  {% assign men_collection = collections['men'] %}
+  {% assign women_collection = collections['women'] %}
+
+  <!-- MEN PRODUCTS -->
+  <div class="product-group" data-group="men">
+    {% for product in men_collection.products limit: 8 %}
+      <div class="product-item">
+        <img src="{{ product.featured_image | img_url: 'medium' }}">
+        <h4>{{ product.title }}</h4>
+        <p>{{ product.price | money }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- WOMEN PRODUCTS -->
+  <div class="product-group" data-group="women" style="display:none;">
+    {% for product in women_collection.products limit: 8 %}
+      <div class="product-item">
+        <img src="{{ product.featured_image | img_url: 'medium' }}">
+        <h4>{{ product.title }}</h4>
+        <p>{{ product.price | money }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.toggle-buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  background: #ddd;
+}
+
+.toggle-btn.active {
+  background: black;
+  color: #fff;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+</style>
+
+<script>
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+
+    let type = this.getAttribute('data-type');
+
+    // active button
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+
+    // show/hide products
+    document.querySelectorAll('.product-group').forEach(group => {
+      group.style.display = (group.getAttribute('data-group') === type) ? 'grid' : 'none';
+    });
+
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Toggle Collection",
+  "presets": [
+    {
+      "name": "Toggle Collection"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,618 @@
+{% assign sid = section.id | replace: '_', '' | downcase %}
+
+{% style %}
+
+.popcats-{{ sid }} {
+  width: 100%;
+  background: #fff;
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+
+/* ── Header ── */
+.popcats-header-{{ sid }} {
+  padding: 0 {{ section.settings.side_padding }}px 18px;
+}
+
+.popcats-heading-{{ sid }} {
+  font-size: {{ section.settings.heading_size }}px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 14px 0;
+  line-height: 1.2;
+  font-family: inherit;
+}
+
+/* ── Tabs ── */
+.popcats-tabs-{{ sid }} {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.popcats-tab-{{ sid }} {
+  background: none;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  font-size: {{ section.settings.tab_size }}px;
+  font-weight: 400;
+  color: #111;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.4;
+  transition: border-color 0.15s;
+}
+
+.popcats-tab-{{ sid }}.is-active {
+  border-color: #111;
+}
+
+/* ── Carousel ── */
+.popcats-carousel-{{ sid }} {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Each tab track */
+.popcats-track-{{ sid }} {
+  display: none;
+  flex-wrap: nowrap;
+  gap: 20px;
+  transition: transform 0.42s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform;
+}
+
+.popcats-track-{{ sid }}.is-active {
+  display: flex;
+}
+
+/* ── Card ── */
+.popcats-card-{{ sid }} {
+  flex: 0 0 {{ section.settings.card_width_pct }}%;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.popcats-img-box-{{ sid }} {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: {{ section.settings.image_ratio }}%;
+  background: #c8c8c8;
+}
+
+.popcats-img-{{ sid }} {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.popcats-card-{{ sid }}:hover .popcats-img-{{ sid }} {
+  transform: scale(1.04);
+}
+
+/* gradient for text readability */
+.popcats-img-box-{{ sid }}::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.08) 38%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Placeholder */
+.popcats-placeholder-{{ sid }} {
+  position: absolute;
+  inset: 0;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popcats-placeholder-{{ sid }} svg {
+  width: 35%;
+  height: 35%;
+  opacity: 0.2;
+}
+
+/* Category label — overlaid bottom-left */
+.popcats-label-{{ sid }} {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  right: 8px;
+  z-index: 2;
+  font-size: {{ section.settings.label_size }}px;
+  font-weight: 500;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+  font-family: inherit;
+  pointer-events: none;
+}
+
+/* ── Arrows — small white square buttons floating over carousel ── */
+.popcats-arrow-{{ sid }} {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.20);
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.popcats-arrow-{{ sid }}:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.popcats-arrow-{{ sid }} svg {
+  width: 16px;
+  height: 16px;
+  stroke: #111;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.popcats-prev-{{ sid }} { left: 10px; }
+.popcats-next-{{ sid }} { right: 10px; }
+
+/* ── Responsive ── */
+@media (max-width: 989px) {
+  .popcats-card-{{ sid }} { flex: 0 0 {{ section.settings.card_width_tablet }}%; }
+  .popcats-heading-{{ sid }} { font-size: {{ section.settings.heading_size | times: 0.85 | round }}px; }
+}
+@media (max-width: 749px) {
+  .popcats-card-{{ sid }} { flex: 0 0 {{ section.settings.card_width_mobile }}%; }
+  .popcats-heading-{{ sid }} { font-size: {{ section.settings.heading_size | times: 0.75 | round }}px; }
+  .popcats-header-{{ sid }} { padding-left: 16px; padding-right: 16px; }
+}
+
+{% endstyle %}
+
+<div class="popcats-{{ sid }}">
+
+  <div class="popcats-header-{{ sid }}">
+    {% if section.settings.heading != blank %}
+      <h2 class="popcats-heading-{{ sid }}">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="popcats-tabs-{{ sid }}" role="tablist">
+      <button class="popcats-tab-{{ sid }} is-active" data-tab="women" role="tab" aria-selected="true">{{ section.settings.women_label }}</button>
+      <button class="popcats-tab-{{ sid }}" data-tab="men" role="tab" aria-selected="false">{{ section.settings.men_label }}</button>
+    </div>
+  </div>
+
+  <div class="popcats-carousel-{{ sid }}">
+
+    <button class="popcats-arrow-{{ sid }} popcats-prev-{{ sid }}" aria-label="Previous" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    {% assign iw = section.settings.img_resolution %}
+    {% assign ih = iw | times: section.settings.image_ratio | divided_by: 100 %}
+
+    {%- comment -%}── WOMEN TRACK ──{%- endcomment -%}
+    <div class="popcats-track-{{ sid }} is-active" data-track="women">
+      {% for i in (1..8) %}
+        {% assign ck = 'women_col_' | append: i %}
+        {% assign col = section.settings[ck] %}
+        {% if col != blank %}
+          <a class="popcats-card-{{ sid }}" href="{{ col.url }}">
+            <div class="popcats-img-box-{{ sid }}">
+              {% if col.image %}
+                <img class="popcats-img-{{ sid }}" src="{{ col.image | image_url: width: iw }}" alt="{{ col.title | escape }}" loading="lazy" width="{{ iw }}" height="{{ ih }}">
+              {% elsif col.products.first.featured_image %}
+                <img class="popcats-img-{{ sid }}" src="{{ col.products.first.featured_image | image_url: width: iw }}" alt="{{ col.title | escape }}" loading="lazy" width="{{ iw }}" height="{{ ih }}">
+              {% else %}
+                <div class="popcats-placeholder-{{ sid }}">{{ 'collection-apparel-1' | placeholder_svg_tag }}</div>
+              {% endif %}
+              <p class="popcats-label-{{ sid }}">{{ col.title }}</p>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {%- comment -%}── MEN TRACK ──{%- endcomment -%}
+    <div class="popcats-track-{{ sid }}" data-track="men">
+      {% for i in (1..8) %}
+        {% assign ck = 'men_col_' | append: i %}
+        {% assign col = section.settings[ck] %}
+        {% if col != blank %}
+          <a class="popcats-card-{{ sid }}" href="{{ col.url }}">
+            <div class="popcats-img-box-{{ sid }}">
+              {% if col.image %}
+                <img class="popcats-img-{{ sid }}" src="{{ col.image | image_url: width: iw }}" alt="{{ col.title | escape }}" loading="lazy" width="{{ iw }}" height="{{ ih }}">
+              {% elsif col.products.first.featured_image %}
+                <img class="popcats-img-{{ sid }}" src="{{ col.products.first.featured_image | image_url: width: iw }}" alt="{{ col.title | escape }}" loading="lazy" width="{{ iw }}" height="{{ ih }}">
+              {% else %}
+                <div class="popcats-placeholder-{{ sid }}">{{ 'collection-apparel-1' | placeholder_svg_tag }}</div>
+              {% endif %}
+              <p class="popcats-label-{{ sid }}">{{ col.title }}</p>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <button class="popcats-arrow-{{ sid }} popcats-next-{{ sid }}" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var SID = '{{ sid }}';
+
+  function setup(root) {
+    var tabs    = root.querySelectorAll('.popcats-tab-' + SID);
+    var tracks  = root.querySelectorAll('.popcats-track-' + SID);
+    var btnPrev = root.querySelector('.popcats-prev-' + SID);
+    var btnNext = root.querySelector('.popcats-next-' + SID);
+    var carousel = root.querySelector('.popcats-carousel-' + SID);
+
+    var current = 'women';
+    var offsets = { women: 0, men: 0 };
+
+    function getTrack(name) {
+      return root.querySelector('.popcats-track-' + SID + '[data-track="' + name + '"]');
+    }
+
+    function cardW() {
+      var c = getTrack(current).querySelector('.popcats-card-' + SID);
+      return c ? c.offsetWidth : 0;
+    }
+
+    function maxOff(track) {
+      return Math.max(0, track.scrollWidth - carousel.offsetWidth);
+    }
+
+    function moveTo(name, off) {
+      var track = getTrack(name);
+      off = Math.max(0, Math.min(off, maxOff(track)));
+      offsets[name] = off;
+      track.style.transform = 'translateX(-' + off + 'px)';
+    }
+
+    function refreshArrows() {
+      btnPrev.disabled = offsets[current] <= 0;
+      btnNext.disabled = offsets[current] >= maxOff(getTrack(current));
+    }
+
+    /* Tab switching */
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var name = tab.dataset.tab;
+        if (name === current) return;
+        tabs.forEach(function(t) {
+          var on = t.dataset.tab === name;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        tracks.forEach(function(tr) {
+          var on = tr.dataset.track === name;
+          tr.classList.toggle('is-active', on);
+          if (on) tr.style.transform = 'translateX(-' + offsets[name] + 'px)';
+        });
+        current = name;
+        refreshArrows();
+      });
+    });
+
+    /* Arrows — scroll one card at a time */
+    btnPrev.addEventListener('click', function() {
+      moveTo(current, offsets[current] - cardW());
+      refreshArrows();
+    });
+    btnNext.addEventListener('click', function() {
+      moveTo(current, offsets[current] + cardW());
+      refreshArrows();
+    });
+
+    /* Touch swipe */
+    var tx0 = 0, off0 = 0;
+    carousel.addEventListener('touchstart', function(e) {
+      tx0 = e.touches[0].clientX;
+      off0 = offsets[current];
+    }, { passive: true });
+    carousel.addEventListener('touchend', function(e) {
+      var dx = tx0 - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 30) { moveTo(current, off0 + dx); refreshArrows(); }
+    }, { passive: true });
+
+    window.addEventListener('resize', refreshArrows);
+    refreshArrows();
+  }
+
+  function init() {
+    document.querySelectorAll('.popcats-' + SID).forEach(setup);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  document.addEventListener('shopify:section:load', function(e) {
+    var el = e.target.querySelector('.popcats-' + SID);
+    if (el) setup(el);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Popular Categories",
+  "tag": "div",
+  "class": "popular-categories-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Popular Categories"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 18,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Header side padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Section top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Section bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "women_label",
+      "label": "Women tab label",
+      "default": "Women"
+    },
+    {
+      "type": "text",
+      "id": "men_label",
+      "label": "Men tab label",
+      "default": "Men"
+    },
+    {
+      "type": "range",
+      "id": "tab_size",
+      "label": "Tab font size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Women's Collections"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_4",
+      "label": "Collection 4"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_5",
+      "label": "Collection 5"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_6",
+      "label": "Collection 6"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_7",
+      "label": "Collection 7"
+    },
+    {
+      "type": "collection",
+      "id": "women_col_8",
+      "label": "Collection 8"
+    },
+    {
+      "type": "header",
+      "content": "Men's Collections"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_4",
+      "label": "Collection 4"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_5",
+      "label": "Collection 5"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_6",
+      "label": "Collection 6"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_7",
+      "label": "Collection 7"
+    },
+    {
+      "type": "collection",
+      "id": "men_col_8",
+      "label": "Collection 8"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_ratio",
+      "label": "Image height (% of card width)",
+      "info": "130% matches the screenshot portrait style. 100% = square.",
+      "min": 60,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 130
+    },
+    {
+      "type": "range",
+      "id": "img_resolution",
+      "label": "Image resolution (px)",
+      "min": 400,
+      "max": 2000,
+      "step": 100,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Card label"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Cards per row"
+    },
+    {
+      "type": "range",
+      "id": "card_width_pct",
+      "label": "Card width % — desktop",
+      "info": "22% ≈ 4.5 cards visible (like screenshot). 20% = 5 full cards.",
+      "min": 14,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "card_width_tablet",
+      "label": "Card width % — tablet",
+      "min": 25,
+      "max": 70,
+      "step": 1,
+      "unit": "%",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width % — mobile",
+      "min": 40,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popular Categories"
+    }
+  ]
+}
+{% endschema %}

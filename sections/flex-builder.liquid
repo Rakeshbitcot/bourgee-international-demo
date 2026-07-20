@@ -1,0 +1,120 @@
+{% schema %}
+{
+  "name": "Flex Builder",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "justify",
+      "label": "Horizontal Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" },
+        { "value": "space-between", "label": "Space Between" },
+        { "value": "space-around", "label": "Space Around" },
+        { "value": "space-evenly", "label": "Space Evenly" }
+      ],
+      "default": "center"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text" },
+        { "type": "color", "id": "color", "label": "Text Color", "default": "#000000" },
+        { "type": "range", "id": "size", "min": 12, "max": 60, "step": 2, "unit": "px", "label": "Font Size", "default": 18 }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "range", "id": "width", "min": 100, "max": 800, "step": 50, "unit": "px", "label": "Width", "default": 300 }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Button Text", "default": "Shop Now" },
+        { "type": "url", "id": "link", "label": "Button Link" },
+        { "type": "color", "id": "bg", "label": "Button BG", "default": "#000000" },
+        { "type": "color", "id": "color", "label": "Button Text Color", "default": "#ffffff" }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Flex Builder"
+    }
+  ]
+}
+{% endschema %}
+
+
+<section
+  style="
+    background: {{ section.settings.bg_color }};
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content: {{ section.settings.justify }};
+    align-items:center;
+    padding:60px 20px;
+  "
+>
+
+{% for block in section.blocks %}
+
+  {% case block.type %}
+
+    {% when 'text' %}
+      <div>
+        <p style="
+          color:{{ block.settings.color }};
+          font-size:{{ block.settings.size }}px;
+          margin:0;">
+          {{ block.settings.text }}
+        </p>
+      </div>
+
+    {% when 'image' %}
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 800 }}"
+          width="800"
+          height="auto"
+          style="width: {{ block.settings.width }}px;"
+          alt=""
+          loading="lazy"
+        >
+      {% endif %}
+
+    {% when 'button' %}
+      <a href="{{ block.settings.link }}"
+         style="
+          background:{{ block.settings.bg }};
+          color:{{ block.settings.color }};
+          padding:12px 24px;
+          text-decoration:none;
+          display:inline-block;
+         ">
+        {{ block.settings.label }}
+      </a>
+
+  {% endcase %}
+
+{% endfor %}
+
+</section>

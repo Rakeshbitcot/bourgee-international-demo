@@ -1,0 +1,456 @@
+{% doc %}
+  @prompt
+    I need a section that one men category and second block category women i need select options to select categories and shop now button with category title i did not required and slider i need title on above image and looks great for me 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-category-showcase-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-category-showcase__container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.gap }}px;
+  }
+
+  .ai-category-showcase__item-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-category-showcase__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+  }
+
+  .ai-category-showcase__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-category-showcase__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-category-showcase__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-category-showcase__content-{{ ai_gen_id }} {
+    position: absolute;
+    top: {{ block.settings.content_vertical_position }}%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+    z-index: 2;
+  }
+
+  .ai-category-showcase__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-category-showcase__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+  }
+
+  .ai-category-showcase__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-category-showcase__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-category-showcase__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.gap_mobile }}px;
+    }
+
+    .ai-category-showcase__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-category-showcase__button-{{ ai_gen_id }} {
+      font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.button_padding_vertical | times: 0.8 }}px {{ block.settings.button_padding_horizontal | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-category-showcase-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-category-showcase__container-{{ ai_gen_id }}">
+    <div class="ai-category-showcase__item-{{ ai_gen_id }}">
+      <div class="ai-category-showcase__image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.men_collection.featured_image %}
+          <img
+            src="{{ block.settings.men_collection.featured_image | image_url: width: 1000 }}"
+            alt="{{ block.settings.men_collection.featured_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.men_collection.featured_image.width }}"
+            height="{{ block.settings.men_collection.featured_image.height }}"
+            class="ai-category-showcase__image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-category-showcase__image-placeholder-{{ ai_gen_id }}">
+            {{ 'collection-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <div class="ai-category-showcase__overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-category-showcase__content-{{ ai_gen_id }}">
+          {% if block.settings.men_collection %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}">
+              {{ block.settings.men_collection.title }}
+            </h3>
+            <a
+              href="{{ block.settings.men_collection.url }}"
+              class="ai-category-showcase__button-{{ ai_gen_id }}"
+            >
+              {{ block.settings.button_text }}
+            </a>
+          {% else %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}">Men's Collection</h3>
+            <a href="#" class="ai-category-showcase__button-{{ ai_gen_id }}">
+              {{ block.settings.button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-category-showcase__item-{{ ai_gen_id }}">
+      <div class="ai-category-showcase__image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.women_collection.featured_image %}
+          <img
+            src="{{ block.settings.women_collection.featured_image | image_url: width: 1000 }}"
+            alt="{{ block.settings.women_collection.featured_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.women_collection.featured_image.width }}"
+            height="{{ block.settings.women_collection.featured_image.height }}"
+            class="ai-category-showcase__image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-category-showcase__image-placeholder-{{ ai_gen_id }}">
+            {{ 'collection-apparel-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <div class="ai-category-showcase__overlay-{{ ai_gen_id }}"></div>
+        <div class="ai-category-showcase__content-{{ ai_gen_id }}">
+          {% if block.settings.women_collection %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}">
+              {{ block.settings.women_collection.title }}
+            </h3>
+            <a
+              href="{{ block.settings.women_collection.url }}"
+              class="ai-category-showcase__button-{{ ai_gen_id }}"
+            >
+              {{ block.settings.button_text }}
+            </a>
+          {% else %}
+            <h3 class="ai-category-showcase__title-{{ ai_gen_id }}">Women's Collection</h3>
+            <a href="#" class="ai-category-showcase__button-{{ ai_gen_id }}">
+              {{ block.settings.button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collections"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection",
+      "label": "Men's collection"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection",
+      "label": "Women's collection"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "16/9",
+          "label": "Wide (16:9)"
+        }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between items",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Gap on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Content position"
+    },
+    {
+      "type": "range",
+      "id": "content_vertical_position",
+      "label": "Vertical position",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Spacing below title",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Vertical padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category showcase"
+    }
+  ]
+}
+{% endschema %}

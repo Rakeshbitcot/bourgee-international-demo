@@ -1,0 +1,241 @@
+{% comment %}
+SHOP BY COLOR — FINAL STABLE VERSION
+Dynamic Variant Color Image
+Layout unchanged
+{% endcomment %}
+
+<section class="shop-by-color">
+  <div class="page-width">
+
+    {% if section.settings.heading != blank %}
+      <h2 class="color-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="swiper shop-color-swiper-{{ section.id }}">
+      <div class="swiper-wrapper">
+
+        {% for block in section.blocks %}
+        <div class="swiper-slide">
+
+          {% assign selected_color = block.settings.color_name %}
+          {% assign found_image = false %}
+
+          <a href="{{ block.settings.collection.url }}" class="color-card">
+
+            <!-- IMAGE AUTO FROM VARIANT -->
+            <div class="color-image">
+
+              {% for product in collections.all.products %}
+                {% for variant in product.variants %}
+
+                  {% if variant.option1 == selected_color
+                    or variant.option2 == selected_color
+                    or variant.option3 == selected_color %}
+
+                    {% if variant.image %}
+                      <img
+                        src="{{ variant.image | image_url: width: 900 }}" height="auto" width="auto"
+                        loading="lazy"
+                        alt="{{ selected_color }}">
+                      {% assign found_image = true %}
+                      {% break %}
+                    {% endif %}
+
+                  {% endif %}
+
+                {% endfor %}
+                {% if found_image %}{% break %}{% endif %}
+              {% endfor %}
+
+              {% unless found_image %}
+                {% if block.settings.image %}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 900 }}" height="auto" width="auto"
+                    loading="lazy"
+                    alt="{{ selected_color }}">
+                {% endif %}
+              {% endunless %}
+
+            </div>
+
+            <!-- COLOR STRIP -->
+            <div class="color-bar"
+                 style="background: {{ block.settings.color_code }};">
+            </div>
+
+            <!-- COLOR NAME -->
+            <div class="color-name">
+              {{ block.settings.color_name }}
+            </div>
+
+          </a>
+
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- NAVIGATION -->
+      <div class="swiper-button-prev color-prev-{{ section.id }}"></div>
+      <div class="swiper-button-next color-next-{{ section.id }}"></div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+
+.shop-by-color{
+  padding:60px 40px;
+  background: #f0f8ffc2;
+}
+
+.color-heading {
+    font-size: 28px;
+    margin-bottom: 30px;   
+}
+
+/* CARD */
+.color-card{
+  text-decoration:none;
+  color:#000;
+  display:block;
+}
+
+/* IMAGE */
+.color-image{
+  width:100%;
+  height:380px;
+  overflow:hidden;
+}
+
+.color-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.4s ease;
+  object-position:top;
+}
+
+.color-card:hover img{
+  transform:scale(1.05);
+}
+
+/* COLOR STRIP */
+.color-bar{
+  display:block;
+  width:100%;
+  height:48px;
+  min-height:48px;
+}
+
+/* NAME */
+.color-name {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ARROWS */
+.swiper-button-prev,
+.swiper-button-next{
+  background:#fff;
+  width:48px;
+  height:48px;
+  border-radius:4px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after{
+  font-size:16px;
+  color:#000;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .color-image{
+    height:260px;
+  }
+}
+
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  new Swiper('.shop-color-swiper-{{ section.id }}', {
+
+    slidesPerView:4.5,
+    spaceBetween:10,
+    loop:true,
+    grabCursor:true,
+
+    navigation:{
+      nextEl:'.color-next-{{ section.id }}',
+      prevEl:'.color-prev-{{ section.id }}',
+    },
+
+    breakpoints:{
+      0:{slidesPerView:1.2},
+      640:{slidesPerView:2.2},
+      990:{slidesPerView:3.3},
+      1200:{slidesPerView:4.5}
+    }
+
+  });
+
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Shop By Color",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop By Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "color_item",
+      "name": "Color Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fallback Image"
+        },
+        {
+          "type": "text",
+          "id": "color_name",
+          "label": "Color Name",
+          "default": "Pink"
+        },
+        {
+          "type": "color",
+          "id": "color_code",
+          "label": "Color Strip Color"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Color"
+    }
+  ]
+}
+{% endschema %}
