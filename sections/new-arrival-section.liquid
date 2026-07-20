@@ -1,0 +1,269 @@
+{% comment %}
+NEW ARRIVALS SLIDER — FINAL WORKING VERSION
+{% endcomment %}
+
+{{ 'new-arrivals-section.css' | asset_url | stylesheet_tag }}
+
+<style>
+
+/* LEFT + SLIDER GAP */
+#new-arrivals-{{ section.id }} .new-arrivals-inner{
+  gap:{{ section.settings.left_slider_gap }}px;
+}
+
+/* =============================
+   CARD WIDTH CONTROL
+=============================*/
+
+#new-arrivals-{{ section.id }} .swiper-slide{
+  flex-shrink:0;
+}
+
+/* DESKTOP */
+@media(min-width:1024px){
+#new-arrivals-{{ section.id }} .swiper-slide{
+width:calc(100% / {{ section.settings.cards_desktop }}) !important;
+}
+}
+
+/* TABLET */
+@media(min-width:768px) and (max-width:1023px){
+#new-arrivals-{{ section.id }} .swiper-slide{
+width:calc(100% / {{ section.settings.cards_tablet }}) !important;
+}
+}
+
+/* MOBILE */
+@media(max-width:767px){
+#new-arrivals-{{ section.id }} .swiper-slide{
+width:calc(100% / {{ section.settings.cards_mobile }}) !important;
+}
+}
+
+</style>
+
+
+<section id="new-arrivals-{{ section.id }}" class="new-arrivals-section">
+
+<div class="new-arrivals-inner">
+
+<!-- LEFT PANEL -->
+<div class="new-arrivals-left">
+
+<h2>{{ section.settings.heading }}</h2>
+
+{% if section.settings.show_women_btn %}
+<a href="{{ section.settings.women_url }}" class="new-arrivals-btn">
+{{ section.settings.women_label }}
+</a>
+{% endif %}
+
+{% if section.settings.show_men_btn %}
+<a href="{{ section.settings.men_url }}" class="new-arrivals-btn">
+{{ section.settings.men_label }}
+</a>
+{% endif %}
+
+</div>
+
+
+<!-- SWIPER -->
+<div class="new-arrivals-slider-wrap">
+
+<div class="swiper new-arrivals-swiper">
+<div class="swiper-wrapper">
+
+{% for block in section.blocks %}
+{% assign product = block.settings.product %}
+{% if product %}
+
+{% assign first_image = product.featured_image %}
+{% assign second_image = product.images[1] %}
+{% assign sizes_arr = block.settings.sizes | split: ',' %}
+
+<div class="swiper-slide">
+
+<div class="product-card">
+
+<a href="{{ product.url }}">
+<div class="product-card__image-wrap">
+
+{% if first_image %}
+<img
+src="{{ first_image | img_url: '600x800' }}"
+class="product-card__img product-card__img--primary"
+loading="lazy" height="auto" width="auto">
+{% endif %}
+
+{% if second_image %}
+<img
+src="{{ second_image | img_url: '600x800' }}"
+class="product-card__img product-card__img--secondary"
+loading="lazy" height="auto" width="auto">
+{% endif %}
+
+</div>
+</a>
+
+<div class="product-card__sizes">
+{% for size in sizes_arr %}
+<button
+class="size-btn"
+data-size="{{ size | strip }}"
+data-product-title="{{ product.title }}"
+data-product-price="{{ product.price | money }}"
+data-product-url="{{ product.url }}"
+data-product-image="{{ first_image | img_url: '300x400' }}"
+>
+{{ size }}
+</button>
+{% endfor %}
+</div>
+
+<div class="product-card__info">
+<a href="{{ product.url }}">{{ product.title }}</a>
+<span>{{ product.price | money }}</span>
+</div>
+
+</div>
+</div>
+
+{% endif %}
+{% endfor %}
+
+</div>
+</div>
+
+
+<button class="new-arrivals-nav new-arrivals-nav--prev">‹</button>
+<button class="new-arrivals-nav new-arrivals-nav--next">›</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- SIZE POPUP -->
+<div class="size-popup-overlay" id="sizePopupOverlay-{{ section.id }}">
+<div class="size-popup">
+
+<button id="sizePopupClose-{{ section.id }}">✕</button>
+
+<img id="sizePopupImage-{{ section.id }}" height="auto" width="auto">
+<h4 id="sizePopupTitle-{{ section.id }}"></h4>
+<p id="sizePopupSize-{{ section.id }}"></p>
+<p id="sizePopupPrice-{{ section.id }}"></p>
+
+<a id="sizePopupBtn-{{ section.id }}">View Product</a>
+
+</div>
+</div>
+
+
+<script>
+(function(){
+
+var sid='{{ section.id }}';
+
+var swiper=new Swiper(
+'#new-arrivals-'+sid+' .new-arrivals-swiper',
+{
+slidesPerView:'auto',
+spaceBetween:{{ section.settings.slide_gap }},
+loop:{{ section.settings.enable_loop | json }},
+
+navigation:{
+nextEl:'#new-arrivals-'+sid+' .new-arrivals-nav--next',
+prevEl:'#new-arrivals-'+sid+' .new-arrivals-nav--prev'
+},
+
+{% if section.settings.enable_autoplay %}
+autoplay:{
+delay:{{ section.settings.autoplay_delay }},
+disableOnInteraction:false,
+pauseOnMouseEnter:true
+},
+{% endif %}
+});
+
+
+// SIZE POPUP
+var overlay=document.getElementById('sizePopupOverlay-'+sid);
+
+document.querySelectorAll('#new-arrivals-'+sid+' .size-btn')
+.forEach(function(btn){
+
+btn.onclick=function(e){
+
+e.preventDefault();
+
+document.getElementById('sizePopupImage-'+sid).src=btn.dataset.productImage;
+document.getElementById('sizePopupTitle-'+sid).textContent=btn.dataset.productTitle;
+document.getElementById('sizePopupSize-'+sid).textContent='Size: '+btn.dataset.size;
+document.getElementById('sizePopupPrice-'+sid).textContent=btn.dataset.productPrice;
+document.getElementById('sizePopupBtn-'+sid).href=btn.dataset.productUrl;
+
+overlay.classList.add('is-active');
+document.body.style.overflow='hidden';
+
+};
+});
+
+document.getElementById('sizePopupClose-'+sid).onclick=function(){
+overlay.classList.remove('is-active');
+document.body.style.overflow='';
+};
+
+})();
+</script>
+
+
+{% schema %}
+{
+"name":"New Arrivals Slider",
+"settings":[
+
+{"type":"text","id":"heading","label":"Heading","default":"New Arrivals"},
+
+{"type":"checkbox","id":"show_women_btn","label":"Show Women Button","default":true},
+{"type":"text","id":"women_label","label":"Women Label","default":"Shop Women"},
+{"type":"url","id":"women_url","label":"Women Link"},
+
+{"type":"checkbox","id":"show_men_btn","label":"Show Men Button","default":true},
+{"type":"text","id":"men_label","label":"Men Label","default":"Shop Men"},
+{"type":"url","id":"men_url","label":"Men Link"},
+
+{"type":"header","content":"Cards Per View"},
+
+{"type":"range","id":"cards_desktop","label":"Desktop Cards","min":1,"max":6,"step":1,"default":4},
+{"type":"range","id":"cards_tablet","label":"Tablet Cards","min":1,"max":4,"step":1,"default":2},
+{"type":"range","id":"cards_mobile","label":"Mobile Cards","min":1,"max":3,"step":1,"default":1},
+
+{"type":"range","id":"slide_gap","label":"Slide Gap","min":0,"max":40,"step":2,"default":10},
+
+{"type":"range","id":"left_slider_gap","label":"Left Gap","min":0,"max":120,"step":4,"default":20},
+
+{"type":"checkbox","id":"enable_loop","label":"Loop","default":true},
+
+{"type":"checkbox","id":"enable_autoplay","label":"Autoplay","default":false},
+
+{"type":"range","id":"autoplay_delay","label":"Autoplay Delay","min":1000,"max":8000,"step":500,"default":3000}
+
+],
+
+"blocks":[
+{
+"type":"product",
+"name":"Product",
+"settings":[
+{"type":"product","id":"product","label":"Product"},
+{"type":"text","id":"sizes","label":"Sizes","default":"S,M,L,XL"}
+]
+}
+],
+
+"presets":[{"name":"New Arrivals Slider"}]
+
+}
+{% endschema %}

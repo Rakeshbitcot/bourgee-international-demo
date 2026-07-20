@@ -1,0 +1,869 @@
+{% doc %}
+  @prompt
+    I need a section show all product of men and women category using tabs given me cool design so i will use this design on click select tabs i need product images also and also i need slider so i will show products in slide i need best design
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-tabs-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-product-tabs__container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-product-tabs__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-product-tabs__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 12px;
+  }
+
+  .ai-product-tabs__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+  }
+
+  .ai-product-tabs__tabs-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .ai-product-tabs__tab-{{ ai_gen_id }} {
+    padding: 14px 32px;
+    background-color: {{ block.settings.tab_bg_color }};
+    color: {{ block.settings.tab_text_color }};
+    border: {{ block.settings.tab_border_width }}px solid {{ block.settings.tab_border_color }};
+    border-radius: {{ block.settings.tab_border_radius }}px;
+    cursor: pointer;
+    font-size: {{ block.settings.tab_font_size }}px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .ai-product-tabs__tab-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_bg_color }};
+    color: {{ block.settings.tab_hover_text_color }};
+    border-color: {{ block.settings.tab_hover_border_color }};
+  }
+
+  .ai-product-tabs__tab-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.tab_active_bg_color }};
+    color: {{ block.settings.tab_active_text_color }};
+    border-color: {{ block.settings.tab_active_border_color }};
+  }
+
+  .ai-product-tabs__content-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-product-tabs__panel-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-product-tabs__panel-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-product-tabs__slider-{{ ai_gen_id }} {
+    position: relative;
+    padding: 0 50px;
+  }
+
+  .ai-product-tabs__slider-wrapper-{{ ai_gen_id }} {
+    overflow: hidden;
+  }
+
+  .ai-product-tabs__slider-track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.product_gap }}px;
+    transition: transform 0.4s ease;
+  }
+
+  .ai-product-tabs__product-card-{{ ai_gen_id }} {
+    flex: 0 0 calc((100% - ({{ block.settings.products_per_slide }} - 1) * {{ block.settings.product_gap }}px) / {{ block.settings.products_per_slide }});
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-product-tabs__product-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .ai-product-tabs__product-image-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background-color: #f5f5f5;
+  }
+
+  .ai-product-tabs__product-image-{{ ai_gen_id }} img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-tabs__product-info-{{ ai_gen_id }} {
+    padding: 16px;
+  }
+
+  .ai-product-tabs__product-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    color: {{ block.settings.product_title_color }};
+    margin: 0 0 8px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ai-product-tabs__product-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_price_size }}px;
+    color: {{ block.settings.product_price_color }};
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .ai-product-tabs__product-link-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .ai-product-tabs__product-link-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+  }
+
+  .ai-product-tabs__nav-button-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: {{ block.settings.nav_button_bg_color }};
+    color: {{ block.settings.nav_button_color }};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-product-tabs__nav-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.nav_button_hover_bg_color }};
+    color: {{ block.settings.nav_button_hover_color }};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-product-tabs__nav-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-product-tabs__nav-button--prev-{{ ai_gen_id }} {
+    left: 0;
+  }
+
+  .ai-product-tabs__nav-button--next-{{ ai_gen_id }} {
+    right: 0;
+  }
+
+  .ai-product-tabs__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-product-tabs__product-card-{{ ai_gen_id }} {
+      flex: 0 0 calc((100% - {{ block.settings.product_gap }}px) / 2);
+    }
+
+    .ai-product-tabs__slider-{{ ai_gen_id }} {
+      padding: 0 40px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-tabs__product-card-{{ ai_gen_id }} {
+      flex: 0 0 100%;
+    }
+
+    .ai-product-tabs__tabs-{{ ai_gen_id }} {
+      gap: 8px;
+    }
+
+    .ai-product-tabs__tab-{{ ai_gen_id }} {
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+
+    .ai-product-tabs__slider-{{ ai_gen_id }} {
+      padding: 0 35px;
+    }
+
+    .ai-product-tabs__nav-button-{{ ai_gen_id }} {
+      width: 32px;
+      height: 32px;
+    }
+  }
+{% endstyle %}
+
+<product-tabs-{{ ai_gen_id }} class="ai-product-tabs-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-tabs__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank or block.settings.subheading != blank %}
+      <div class="ai-product-tabs__header-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-product-tabs__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <p class="ai-product-tabs__subtitle-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-product-tabs__tabs-{{ ai_gen_id }}">
+      <button
+        class="ai-product-tabs__tab-{{ ai_gen_id }} active"
+        data-tab="men"
+        aria-selected="true"
+        role="tab"
+      >
+        {{ block.settings.men_tab_label }}
+      </button>
+      <button
+        class="ai-product-tabs__tab-{{ ai_gen_id }}"
+        data-tab="women"
+        aria-selected="false"
+        role="tab"
+      >
+        {{ block.settings.women_tab_label }}
+      </button>
+    </div>
+
+    <div class="ai-product-tabs__content-{{ ai_gen_id }}">
+      <div class="ai-product-tabs__panel-{{ ai_gen_id }} active" data-panel="men" role="tabpanel">
+        {% if block.settings.men_collection != blank %}
+          <div class="ai-product-tabs__slider-{{ ai_gen_id }}">
+            <button
+              class="ai-product-tabs__nav-button-{{ ai_gen_id }} ai-product-tabs__nav-button--prev-{{ ai_gen_id }}"
+              data-slider="men"
+              data-direction="prev"
+              aria-label="Previous products"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="ai-product-tabs__slider-wrapper-{{ ai_gen_id }}">
+              <div class="ai-product-tabs__slider-track-{{ ai_gen_id }}" data-track="men">
+                {% for product in block.settings.men_collection.products limit: 12 %}
+                  <div class="ai-product-tabs__product-card-{{ ai_gen_id }}">
+                    <div class="ai-product-tabs__product-image-{{ ai_gen_id }}">
+                      {% if product.featured_image %}
+                        <img
+                          src="{{ product.featured_image | image_url: width: 600 }}"
+                          alt="{{ product.featured_image.alt | escape }}"
+                          loading="lazy"
+                          width="600"
+                          height="600"
+                        >
+                      {% else %}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {% endif %}
+                    </div>
+                    <div class="ai-product-tabs__product-info-{{ ai_gen_id }}">
+                      <h3 class="ai-product-tabs__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+                      <div class="ai-product-tabs__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+                      <a href="{{ product.url }}" class="ai-product-tabs__product-link-{{ ai_gen_id }}">
+                        {{ block.settings.button_text }}
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <button
+              class="ai-product-tabs__nav-button-{{ ai_gen_id }} ai-product-tabs__nav-button--next-{{ ai_gen_id }}"
+              data-slider="men"
+              data-direction="next"
+              aria-label="Next products"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        {% else %}
+          <div class="ai-product-tabs__empty-state-{{ ai_gen_id }}">
+            <p>Select a collection for men's products</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-product-tabs__panel-{{ ai_gen_id }}" data-panel="women" role="tabpanel">
+        {% if block.settings.women_collection != blank %}
+          <div class="ai-product-tabs__slider-{{ ai_gen_id }}">
+            <button
+              class="ai-product-tabs__nav-button-{{ ai_gen_id }} ai-product-tabs__nav-button--prev-{{ ai_gen_id }}"
+              data-slider="women"
+              data-direction="prev"
+              aria-label="Previous products"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="ai-product-tabs__slider-wrapper-{{ ai_gen_id }}">
+              <div class="ai-product-tabs__slider-track-{{ ai_gen_id }}" data-track="women">
+                {% for product in block.settings.women_collection.products limit: 12 %}
+                  <div class="ai-product-tabs__product-card-{{ ai_gen_id }}">
+                    <div class="ai-product-tabs__product-image-{{ ai_gen_id }}">
+                      {% if product.featured_image %}
+                        <img
+                          src="{{ product.featured_image | image_url: width: 600 }}"
+                          alt="{{ product.featured_image.alt | escape }}"
+                          loading="lazy"
+                          width="600"
+                          height="600"
+                        >
+                      {% else %}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {% endif %}
+                    </div>
+                    <div class="ai-product-tabs__product-info-{{ ai_gen_id }}">
+                      <h3 class="ai-product-tabs__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+                      <div class="ai-product-tabs__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+                      <a href="{{ product.url }}" class="ai-product-tabs__product-link-{{ ai_gen_id }}">
+                        {{ block.settings.button_text }}
+                      </a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <button
+              class="ai-product-tabs__nav-button-{{ ai_gen_id }} ai-product-tabs__nav-button--next-{{ ai_gen_id }}"
+              data-slider="women"
+              data-direction="next"
+              aria-label="Next products"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        {% else %}
+          <div class="ai-product-tabs__empty-state-{{ ai_gen_id }}">
+            <p>Select a collection for women's products</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</product-tabs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductTabs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = { men: 0, women: 0 };
+        this.productsPerSlide = {{ block.settings.products_per_slide }};
+      }
+
+      connectedCallback() {
+        this.tabs = this.querySelectorAll('.ai-product-tabs__tab-{{ ai_gen_id }}');
+        this.panels = this.querySelectorAll('.ai-product-tabs__panel-{{ ai_gen_id }}');
+        this.navButtons = this.querySelectorAll('.ai-product-tabs__nav-button-{{ ai_gen_id }}');
+
+        this.setupTabs();
+        this.setupSliders();
+        this.updateNavButtons();
+      }
+
+      setupTabs() {
+        this.tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const targetTab = tab.dataset.tab;
+
+            this.tabs.forEach(t => {
+              t.classList.remove('active');
+              t.setAttribute('aria-selected', 'false');
+            });
+            this.panels.forEach(p => p.classList.remove('active'));
+
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            const targetPanel = this.querySelector(`[data-panel="${targetTab}"]`);
+            if (targetPanel) {
+              targetPanel.classList.add('active');
+            }
+          });
+        });
+      }
+
+      setupSliders() {
+        this.navButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const slider = button.dataset.slider;
+            const direction = button.dataset.direction;
+            this.slide(slider, direction);
+          });
+        });
+      }
+
+      slide(slider, direction) {
+        const track = this.querySelector(`[data-track="${slider}"]`);
+        if (!track) return;
+
+        const cards = track.querySelectorAll('.ai-product-tabs__product-card-{{ ai_gen_id }}');
+        const totalCards = cards.length;
+        const maxSlide = Math.max(0, totalCards - this.getVisibleCards());
+
+        if (direction === 'next') {
+          this.currentSlide[slider] = Math.min(this.currentSlide[slider] + 1, maxSlide);
+        } else {
+          this.currentSlide[slider] = Math.max(this.currentSlide[slider] - 1, 0);
+        }
+
+        const cardWidth = cards[0].offsetWidth;
+        const gap = {{ block.settings.product_gap }};
+        const offset = this.currentSlide[slider] * (cardWidth + gap);
+
+        track.style.transform = `translateX(-${offset}px)`;
+        this.updateNavButtons();
+      }
+
+      getVisibleCards() {
+        const width = window.innerWidth;
+        if (width <= 749) return 1;
+        if (width <= 989) return 2;
+        return this.productsPerSlide;
+      }
+
+      updateNavButtons() {
+        ['men', 'women'].forEach(slider => {
+          const track = this.querySelector(`[data-track="${slider}"]`);
+          if (!track) return;
+
+          const cards = track.querySelectorAll('.ai-product-tabs__product-card-{{ ai_gen_id }}');
+          const totalCards = cards.length;
+          const maxSlide = Math.max(0, totalCards - this.getVisibleCards());
+
+          const prevButton = this.querySelector(`[data-slider="${slider}"][data-direction="prev"]`);
+          const nextButton = this.querySelector(`[data-slider="${slider}"][data-direction="next"]`);
+
+          if (prevButton) {
+            prevButton.disabled = this.currentSlide[slider] === 0;
+          }
+          if (nextButton) {
+            nextButton.disabled = this.currentSlide[slider] >= maxSlide;
+          }
+        });
+      }
+    }
+
+    customElements.define('product-tabs-{{ ai_gen_id }}', ProductTabs{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product category tabs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our latest collections"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "men_tab_label",
+      "label": "Men tab label",
+      "default": "Men"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection",
+      "label": "Men collection"
+    },
+    {
+      "type": "text",
+      "id": "women_tab_label",
+      "label": "Women tab label",
+      "default": "Women"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection",
+      "label": "Women collection"
+    },
+    {
+      "type": "header",
+      "content": "Slider settings"
+    },
+    {
+      "type": "range",
+      "id": "products_per_slide",
+      "label": "Products per slide",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "product_gap",
+      "label": "Gap between products",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Tab style"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "tab_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "tab_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "tab_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_text_color",
+      "label": "Hover text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_border_color",
+      "label": "Hover border",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg_color",
+      "label": "Active background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Active text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_border_color",
+      "label": "Active border",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Product card style"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "product_price_size",
+      "label": "Price size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "product_price_color",
+      "label": "Price color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View Product"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Navigation buttons"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_color",
+      "label": "Hover icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product category tabs"
+    }
+  ]
+}
+{% endschema %}

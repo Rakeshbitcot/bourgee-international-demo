@@ -1,0 +1,19 @@
+@media (max-width: 990px) {
+    .na-left {
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    /* .header__row.header__navigation-bar-row.color-scheme-1 {
+    display: none;
+} */
+ .header-actions__action{
+background:#fff;
+    margin-left: 5px;
+}
+}
+.header__column--left {
+    justify-content: left !important;
+}

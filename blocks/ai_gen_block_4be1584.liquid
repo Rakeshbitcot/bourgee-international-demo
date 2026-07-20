@@ -1,0 +1,829 @@
+{% doc %}
+  @prompt
+   
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-popular-categories-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-popular-categories__container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-popular-categories__header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin-bottom: 40px;
+  }
+
+  .ai-popular-categories__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 20px;
+  }
+
+  .ai-popular-categories__tabs-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    justify-content: {{ block.settings.heading_alignment }};
+    flex-wrap: wrap;
+  }
+
+  .ai-popular-categories__tab-{{ ai_gen_id }} {
+    padding: 12px 32px;
+    background-color: {{ block.settings.tab_background }};
+    color: {{ block.settings.tab_text_color }};
+    border: {{ block.settings.tab_border_width }}px solid {{ block.settings.tab_border_color }};
+    border-radius: {{ block.settings.tab_border_radius }}px;
+    cursor: pointer;
+    font-size: {{ block.settings.tab_font_size }}px;
+    transition: all 0.3s ease;
+  }
+
+  .ai-popular-categories__tab-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_background }};
+    color: {{ block.settings.tab_hover_text_color }};
+  }
+
+  .ai-popular-categories__tab-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.tab_active_background }};
+    color: {{ block.settings.tab_active_text_color }};
+    border-color: {{ block.settings.tab_active_border_color }};
+  }
+
+  .ai-popular-categories__carousel-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    margin-top: 30px;
+  }
+
+  .ai-popular-categories__carousel-container-{{ ai_gen_id }} {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-popular-categories__carousel-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.card_gap }}px;
+    transition: transform 0.4s ease;
+    padding: 10px 0;
+  }
+
+  .ai-popular-categories__tab-content-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-popular-categories__tab-content-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-popular-categories__card-{{ ai_gen_id }} {
+    flex: 0 0 calc((100% - ({{ block.settings.cards_per_row }} - 1) * {{ block.settings.card_gap }}px) / {{ block.settings.cards_per_row }});
+    min-width: 0;
+    text-decoration: none;
+    display: block;
+  }
+
+  .ai-popular-categories__card-inner-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-popular-categories__card-{{ ai_gen_id }}:hover .ai-popular-categories__card-inner-{{ ai_gen_id }} {
+    transform: translateY(-5px);
+  }
+
+  .ai-popular-categories__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ block.settings.image_aspect_ratio }}%;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: {{ block.settings.card_border_radius }}px;
+  }
+
+  .ai-popular-categories__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-popular-categories__image-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+  }
+
+  .ai-popular-categories__image-placeholder-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  .ai-popular-categories__card-title-{{ ai_gen_id }} {
+    margin-top: 12px;
+    font-size: {{ block.settings.card_title_size }}px;
+    color: {{ block.settings.card_title_color }};
+    text-align: {{ block.settings.card_title_alignment }};
+    font-weight: 600;
+  }
+
+  .ai-popular-categories__nav-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
+    background-color: {{ block.settings.arrow_background }};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-popular-categories__nav-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.arrow_hover_background }};
+  }
+
+  .ai-popular-categories__nav-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-popular-categories__nav-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    stroke: {{ block.settings.arrow_color }};
+  }
+
+  .ai-popular-categories__nav--prev-{{ ai_gen_id }} {
+    left: -{{ block.settings.arrow_size | divided_by: 2 }}px;
+  }
+
+  .ai-popular-categories__nav--next-{{ ai_gen_id }} {
+    right: -{{ block.settings.arrow_size | divided_by: 2 }}px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-popular-categories__card-{{ ai_gen_id }} {
+      flex: 0 0 calc((100% - ({{ block.settings.cards_per_row_tablet }} - 1) * {{ block.settings.card_gap }}px) / {{ block.settings.cards_per_row_tablet }});
+    }
+
+    .ai-popular-categories__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-popular-categories__card-{{ ai_gen_id }} {
+      flex: 0 0 calc((100% - ({{ block.settings.cards_per_row_mobile }} - 1) * {{ block.settings.card_gap }}px) / {{ block.settings.cards_per_row_mobile }});
+    }
+
+    .ai-popular-categories__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.7 }}px;
+    }
+
+    .ai-popular-categories__nav-{{ ai_gen_id }} {
+      width: {{ block.settings.arrow_size | times: 0.8 }}px;
+      height: {{ block.settings.arrow_size | times: 0.8 }}px;
+    }
+
+    .ai-popular-categories__nav--prev-{{ ai_gen_id }} {
+      left: 0;
+    }
+
+    .ai-popular-categories__nav--next-{{ ai_gen_id }} {
+      right: 0;
+    }
+  }
+{% endstyle %}
+
+<popular-categories-{{ ai_gen_id }} class="ai-popular-categories-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-popular-categories__container-{{ ai_gen_id }}">
+    <div class="ai-popular-categories__header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-popular-categories__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+
+      <div class="ai-popular-categories__tabs-{{ ai_gen_id }}">
+        <button
+          class="ai-popular-categories__tab-{{ ai_gen_id }} active"
+          data-tab="women"
+          aria-label="Show women's categories"
+        >
+          {{ block.settings.women_tab_label }}
+        </button>
+        <button
+          class="ai-popular-categories__tab-{{ ai_gen_id }}"
+          data-tab="men"
+          aria-label="Show men's categories"
+        >
+          {{ block.settings.men_tab_label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="ai-popular-categories__carousel-wrapper-{{ ai_gen_id }}">
+      <button
+        class="ai-popular-categories__nav-{{ ai_gen_id }} ai-popular-categories__nav--prev-{{ ai_gen_id }}"
+        aria-label="Previous categories"
+        data-direction="prev"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <div class="ai-popular-categories__carousel-container-{{ ai_gen_id }}">
+        <div
+          class="ai-popular-categories__carousel-{{ ai_gen_id }} ai-popular-categories__tab-content-{{ ai_gen_id }} active"
+          data-content="women"
+        >
+          {% for i in (1..5) %}
+            {% liquid
+              assign collection_key = 'women_collection_' | append: i
+              assign collection = block.settings[collection_key]
+            %}
+
+            {% if collection != blank %}
+              <a
+                href="{{ collection.url }}"
+                class="ai-popular-categories__card-{{ ai_gen_id }}"
+              >
+                <div class="ai-popular-categories__card-inner-{{ ai_gen_id }}">
+                  <div class="ai-popular-categories__image-wrapper-{{ ai_gen_id }}">
+                    {% if collection.image %}
+                      <img
+                        src="{{ collection.image | image_url: width: 600 }}"
+                        alt="{{ collection.title | escape }}"
+                        class="ai-popular-categories__image-{{ ai_gen_id }}"
+                        loading="lazy"
+                        width="600"
+                        height="{{ 600 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                      >
+                    {% elsif collection.products.first and collection.products.first.featured_image %}
+                      <img
+                        src="{{ collection.products.first.featured_image | image_url: width: 600 }}"
+                        alt="{{ collection.title | escape }}"
+                        class="ai-popular-categories__image-{{ ai_gen_id }}"
+                        loading="lazy"
+                        width="600"
+                        height="{{ 600 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                      >
+                    {% else %}
+                      <div class="ai-popular-categories__image-placeholder-{{ ai_gen_id }}">
+                        {{ 'collection-apparel-1' | placeholder_svg_tag }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <h3 class="ai-popular-categories__card-title-{{ ai_gen_id }}">{{ collection.title }}</h3>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div
+          class="ai-popular-categories__carousel-{{ ai_gen_id }} ai-popular-categories__tab-content-{{ ai_gen_id }}"
+          data-content="men"
+        >
+          {% for i in (1..5) %}
+            {% liquid
+              assign collection_key = 'men_collection_' | append: i
+              assign collection = block.settings[collection_key]
+            %}
+
+            {% if collection != blank %}
+              <a
+                href="{{ collection.url }}"
+                class="ai-popular-categories__card-{{ ai_gen_id }}"
+              >
+                <div class="ai-popular-categories__card-inner-{{ ai_gen_id }}">
+                  <div class="ai-popular-categories__image-wrapper-{{ ai_gen_id }}">
+                    {% if collection.image %}
+                      <img
+                        src="{{ collection.image | image_url: width: 600 }}"
+                        alt="{{ collection.title | escape }}"
+                        class="ai-popular-categories__image-{{ ai_gen_id }}"
+                        loading="lazy"
+                        width="600"
+                        height="{{ 600 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                      >
+                    {% elsif collection.products.first and collection.products.first.featured_image %}
+                      <img
+                        src="{{ collection.products.first.featured_image | image_url: width: 600 }}"
+                        alt="{{ collection.title | escape }}"
+                        class="ai-popular-categories__image-{{ ai_gen_id }}"
+                        loading="lazy"
+                        width="600"
+                        height="{{ 600 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                      >
+                    {% else %}
+                      <div class="ai-popular-categories__image-placeholder-{{ ai_gen_id }}">
+                        {{ 'collection-apparel-1' | placeholder_svg_tag }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <h3 class="ai-popular-categories__card-title-{{ ai_gen_id }}">{{ collection.title }}</h3>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <button
+        class="ai-popular-categories__nav-{{ ai_gen_id }} ai-popular-categories__nav--next-{{ ai_gen_id }}"
+        aria-label="Next categories"
+        data-direction="next"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</popular-categories-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PopularCategories{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentTab = 'women';
+        this.scrollPosition = { women: 0, men: 0 };
+      }
+
+      connectedCallback() {
+        this.tabs = this.querySelectorAll('.ai-popular-categories__tab-{{ ai_gen_id }}');
+        this.tabContents = this.querySelectorAll('.ai-popular-categories__tab-content-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-popular-categories__nav--prev-{{ ai_gen_id }}');
+        this.nextButton = this.querySelector('.ai-popular-categories__nav--next-{{ ai_gen_id }}');
+        this.carouselContainer = this.querySelector('.ai-popular-categories__carousel-container-{{ ai_gen_id }}');
+
+        this.setupTabs();
+        this.setupNavigation();
+        this.updateNavigationButtons();
+      }
+
+      setupTabs() {
+        this.tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            this.switchTab(tabName);
+          });
+        });
+      }
+
+      switchTab(tabName) {
+        this.tabs.forEach(tab => {
+          if (tab.dataset.tab === tabName) {
+            tab.classList.add('active');
+          } else {
+            tab.classList.remove('active');
+          }
+        });
+
+        this.tabContents.forEach(content => {
+          if (content.dataset.content === tabName) {
+            content.classList.add('active');
+            content.style.transform = `translateX(-${this.scrollPosition[tabName]}px)`;
+          } else {
+            content.classList.remove('active');
+          }
+        });
+
+        this.currentTab = tabName;
+        this.updateNavigationButtons();
+      }
+
+      setupNavigation() {
+        this.prevButton.addEventListener('click', () => this.scroll('prev'));
+        this.nextButton.addEventListener('click', () => this.scroll('next'));
+
+        this.carouselContainer.addEventListener('scroll', () => {
+          this.updateNavigationButtons();
+        });
+      }
+
+      scroll(direction) {
+        const activeCarousel = this.querySelector('.ai-popular-categories__tab-content-{{ ai_gen_id }}.active');
+        const card = activeCarousel.querySelector('.ai-popular-categories__card-{{ ai_gen_id }}');
+        
+        if (!card) return;
+
+        const cardWidth = card.offsetWidth;
+        const gap = {{ block.settings.card_gap }};
+        const scrollAmount = cardWidth + gap;
+
+        if (direction === 'next') {
+          this.scrollPosition[this.currentTab] += scrollAmount;
+        } else {
+          this.scrollPosition[this.currentTab] -= scrollAmount;
+        }
+
+        const maxScroll = activeCarousel.scrollWidth - activeCarousel.parentElement.offsetWidth;
+        this.scrollPosition[this.currentTab] = Math.max(0, Math.min(this.scrollPosition[this.currentTab], maxScroll));
+
+        activeCarousel.style.transform = `translateX(-${this.scrollPosition[this.currentTab]}px)`;
+        this.updateNavigationButtons();
+      }
+
+      updateNavigationButtons() {
+        const activeCarousel = this.querySelector('.ai-popular-categories__tab-content-{{ ai_gen_id }}.active');
+        
+        if (!activeCarousel) return;
+
+        const maxScroll = activeCarousel.scrollWidth - activeCarousel.parentElement.offsetWidth;
+        const currentScroll = this.scrollPosition[this.currentTab];
+
+        this.prevButton.disabled = currentScroll <= 0;
+        this.nextButton.disabled = currentScroll >= maxScroll;
+      }
+    }
+
+    customElements.define('popular-categories-{{ ai_gen_id }}', PopularCategories{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Popular categories",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Popular Categories"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "women_tab_label",
+      "label": "Women tab label",
+      "default": "Women"
+    },
+    {
+      "type": "text",
+      "id": "men_tab_label",
+      "label": "Men tab label",
+      "default": "Men"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Tab font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "tab_background",
+      "label": "Tab background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "tab_border_width",
+      "label": "Tab border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "tab_border_radius",
+      "label": "Tab border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_background",
+      "label": "Tab hover background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_text_color",
+      "label": "Tab hover text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_background",
+      "label": "Active tab background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Active tab text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_border_color",
+      "label": "Active tab border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Women's categories"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection_1",
+      "label": "Category 1"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection_2",
+      "label": "Category 2"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection_3",
+      "label": "Category 3"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection_4",
+      "label": "Category 4"
+    },
+    {
+      "type": "collection",
+      "id": "women_collection_5",
+      "label": "Category 5"
+    },
+    {
+      "type": "header",
+      "content": "Men's categories"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection_1",
+      "label": "Category 1"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection_2",
+      "label": "Category 2"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection_3",
+      "label": "Category 3"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection_4",
+      "label": "Category 4"
+    },
+    {
+      "type": "collection",
+      "id": "men_collection_5",
+      "label": "Category 5"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "cards_per_row",
+      "label": "Cards per row (desktop)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "cards_per_row_tablet",
+      "label": "Cards per row (tablet)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "cards_per_row_mobile",
+      "label": "Cards per row (mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "card_title_alignment",
+      "label": "Title alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Navigation arrows"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow size",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_background",
+      "label": "Arrow hover background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popular categories"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,444 @@
+{% doc %}
+  @prompt
+    Create a responsive “Contact Us” page section with an embedded Google Map location area.
+    The section should include:
+    
+    Heading: “Our Location”
+    Embedded map container
+    A customizable setting for adding Google Maps Embed Code
+    Address text below the map
+    Mobile responsive layout
+    Clean modern design matching Shopify themes
+    Shopify theme editor settings so admin can paste/update the map embed iframe code easily
+    Optional contact info like phone and email
+    Proper spacing, rounded corners, and responsive iframe width
+    
+    Add schema settings for:
+    
+    Section heading
+    Google Maps embed code textarea
+    Address text
+    Phone number
+    Email
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-location-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-contact-location__container-{{ ai_gen_id }} {
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+
+  .ai-contact-location__heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-contact-location__map-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: {{ block.settings.map_border_radius }}px;
+    margin-bottom: {{ block.settings.content_spacing }}px;
+    background-color: #f5f5f5;
+  }
+
+  .ai-contact-location__map-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.map_height }}px;
+    border: none;
+    display: block;
+  }
+
+  .ai-contact-location__map-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.map_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .ai-contact-location__info-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.info_spacing }}px;
+  }
+
+  .ai-contact-location__info-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-contact-location__info-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.label_color }};
+    margin: 0;
+  }
+
+  .ai-contact-location__info-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .ai-contact-location__info-link-{{ ai_gen_id }} {
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.text_size }}px;
+  }
+
+  .ai-contact-location__info-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-location-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.section_padding | times: 0.6 }}px 16px;
+    }
+
+    .ai-contact-location__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.7 }}px;
+    }
+
+    .ai-contact-location__map-{{ ai_gen_id }},
+    .ai-contact-location__map-placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.map_height_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<contact-location-{{ ai_gen_id }}
+  class="ai-contact-location-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-contact-location__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-contact-location__heading-{{ ai_gen_id }}">
+        {{ block.settings.heading }}
+      </h2>
+    {% endif %}
+
+    <div class="ai-contact-location__map-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.map_embed_code != blank %}
+        {{ block.settings.map_embed_code }}
+      {% else %}
+        <div class="ai-contact-location__map-placeholder-{{ ai_gen_id }}">
+          Add your Google Maps embed code in the block settings to display the map
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-contact-location__info-{{ ai_gen_id }}">
+      {% if block.settings.address != blank %}
+        <div class="ai-contact-location__info-item-{{ ai_gen_id }}">
+          <h3 class="ai-contact-location__info-label-{{ ai_gen_id }}">Address</h3>
+          <div class="ai-contact-location__info-text-{{ ai_gen_id }}">
+            {{ block.settings.address }}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.phone != blank %}
+        <div class="ai-contact-location__info-item-{{ ai_gen_id }}">
+          <h3 class="ai-contact-location__info-label-{{ ai_gen_id }}">Phone</h3>
+          <a
+            href="tel:{{ block.settings.phone | replace: ' ', '' | replace: '-', '' }}"
+            class="ai-contact-location__info-link-{{ ai_gen_id }}"
+          >
+            {{ block.settings.phone }}
+          </a>
+        </div>
+      {% endif %}
+
+      {% if block.settings.email != blank %}
+        <div class="ai-contact-location__info-item-{{ ai_gen_id }}">
+          <h3 class="ai-contact-location__info-label-{{ ai_gen_id }}">Email</h3>
+          <a
+            href="mailto:{{ block.settings.email }}"
+            class="ai-contact-location__info-link-{{ ai_gen_id }}"
+          >
+            {{ block.settings.email }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</contact-location-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ContactLocation{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.adjustIframeAttributes();
+      }
+
+      adjustIframeAttributes() {
+        const mapWrapper = this.querySelector('.ai-contact-location__map-wrapper-{{ ai_gen_id }}');
+        if (!mapWrapper) return;
+
+        const iframe = mapWrapper.querySelector('iframe');
+        if (iframe) {
+          iframe.classList.add('ai-contact-location__map-{{ ai_gen_id }}');
+          iframe.setAttribute('loading', 'lazy');
+          iframe.setAttribute('title', 'Google Maps Location');
+        }
+      }
+    }
+
+    customElements.define('contact-location-{{ ai_gen_id }}', ContactLocation{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Contact location",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Location"
+    },
+    {
+      "type": "html",
+      "id": "map_embed_code",
+      "label": "Google Maps embed code",
+      "info": "Paste the full iframe embed code from Google Maps"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "123 Main Street\nNew York, NY 10001\nUnited States"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "+1 (555) 123-4567"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "contact@example.com"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Content spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "info_spacing",
+      "label": "Info spacing",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "range",
+      "id": "map_height",
+      "label": "Map height (desktop)",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 450
+    },
+    {
+      "type": "range",
+      "id": "map_height_mobile",
+      "label": "Map height (mobile)",
+      "min": 200,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "map_border_radius",
+      "label": "Map border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover",
+      "default": "#333333"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact location"
+    }
+  ]
+}
+{% endschema %}

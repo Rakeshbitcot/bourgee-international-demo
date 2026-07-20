@@ -1,0 +1,179 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+.ai-styled-text-{{ ai_gen_id }}{
+display:block;
+width:{{ block.settings.custom_width }}{{ block.settings.width_unit }};
+max-width:{{ block.settings.max_width }}px;
+padding:{{ block.settings.padding }}px;
+
+/* BACKGROUND */
+background:
+{% if block.settings.transparent_bg %}
+transparent
+{% else %}
+{{ block.settings.background_color }}
+{% endif %};
+
+border-radius:{{ block.settings.border_radius }}px;
+
+/* ✅ INDIVIDUAL BORDER CONTROL */
+border-style:solid;
+border-color:{{ block.settings.border_color }};
+border-top-width:{{ block.settings.border_top }}px;
+border-right-width:{{ block.settings.border_right }}px;
+border-bottom-width:{{ block.settings.border_bottom }}px;
+border-left-width:{{ block.settings.border_left }}px;
+
+transition:.3s ease;
+}
+
+.ai-styled-text-{{ ai_gen_id }}:hover{
+
+background:
+{% if block.settings.transparent_bg %}
+transparent
+{% else %}
+{{ block.settings.background_hover_color }}
+{% endif %};
+
+border-color:{{ block.settings.border_hover_color }};
+}
+
+/* LINK STYLE */
+.ai-styled-text__content-{{ ai_gen_id }} a{
+color:{{ block.settings.link_color }};
+text-decoration:{% if block.settings.underline %}underline{% else %}none{% endif %};
+transition:.3s ease;
+}
+
+.ai-styled-text__content-{{ ai_gen_id }} a:hover{
+color:{{ block.settings.link_hover_color }};
+text-decoration:{% if block.settings.underline_hover %}underline{% else %}none{% endif %};
+}
+
+/* TEXT STYLE */
+.ai-styled-text__content-{{ ai_gen_id }}{
+color:{{ block.settings.text_color }};
+font-size:{{ block.settings.font_size }}px;
+line-height:{{ block.settings.line_height }};
+text-align:{{ block.settings.text_alignment }};
+letter-spacing:{{ block.settings.letter_spacing }}px;
+font-weight:{{ block.settings.font_weight }};
+font-style:{{ block.settings.font_style }};
+text-transform:{{ block.settings.text_transform }};
+transition:.3s ease;
+}
+
+.ai-styled-text-{{ ai_gen_id }}:hover 
+.ai-styled-text__content-{{ ai_gen_id }}{
+color:{{ block.settings.text_hover_color }};
+}
+
+@media(max-width:749px){
+.ai-styled-text-{{ ai_gen_id }}{
+width:100%;
+}
+.ai-styled-text__content-{{ ai_gen_id }}{
+font-size:{{ block.settings.font_size_mobile }}px;
+}
+}
+{% endstyle %}
+
+<div class="ai-styled-text-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+
+{% if block.settings.link != blank %}
+<a href="{{ block.settings.link }}">
+{% endif %}
+
+<div class="ai-styled-text__content-{{ ai_gen_id }}">
+{{ block.settings.content }}
+</div>
+
+{% if block.settings.link != blank %}
+</a>
+{% endif %}
+
+</div>
+
+{% schema %}
+
+{
+"name":"Styled text",
+"settings":[
+
+{ "type":"richtext","id":"content","label":"Text content","default":"<p>Add your custom text</p>" },
+{ "type":"url","id":"link","label":"Link URL" },
+{
+"type":"select",
+"id":"text_alignment",
+"label":"Text alignment",
+"options":[
+{"value":"left","label":"Left"},
+{"value":"center","label":"Center"},
+{"value":"right","label":"Right"}
+],
+"default":"left"
+},
+{
+"type":"header",
+"content":"Typography"
+},
+
+{"type":"range","id":"font_size","label":"Font size desktop","min":10,"max":100,"step":2,"default":16},
+{"type":"range","id":"font_size_mobile","label":"Font size mobile","min":10,"max":80,"step":2,"default":14},
+
+{
+"type":"header",
+"content":"Colors"
+},
+
+{"type":"color","id":"text_color","label":"Text","default":"#000"},
+{"type":"color","id":"text_hover_color","label":"Text hover","default":"#333"},
+{"type":"color","id":"background_color","label":"Background","default":"#ffffff"},
+{"type":"color","id":"background_hover_color","label":"Background hover","default":"#f5f5f5"},
+
+{
+"type":"checkbox",
+"id":"transparent_bg",
+"label":"Transparent background",
+"default":false
+},
+
+{
+"type":"header",
+"content":"Border"
+},
+
+{"type":"range","id":"border_top","label":"Border Top","min":0,"max":10,"step":1,"default":0},
+{"type":"range","id":"border_right","label":"Border Right","min":0,"max":10,"step":1,"default":0},
+{"type":"range","id":"border_bottom","label":"Border Bottom","min":0,"max":10,"step":1,"default":0},
+{"type":"range","id":"border_left","label":"Border Left","min":0,"max":10,"step":1,"default":0},
+
+{"type":"color","id":"border_color","label":"Border color","default":"#000000"},
+{"type":"color","id":"border_hover_color","label":"Border hover color","default":"#000000"},
+
+{
+"type":"header",
+"content":"Layout"
+},
+
+{"type":"range","id":"custom_width","label":"Width","min":1,"max":100,"step":1,"default":100},
+{"type":"select","id":"width_unit","label":"Width unit",
+"options":[
+{"value":"%","label":"%"},
+{"value":"px","label":"px"},
+{"value":"vw","label":"vw"}
+],
+"default":"%"
+},
+
+{"type":"range","id":"max_width","label":"Max width","min":200,"max":2000,"step":50,"default":1200},
+{"type":"range","id":"padding","label":"Padding","min":0,"max":100,"step":5,"default":20},
+{"type":"range","id":"border_radius","label":"Border radius","min":0,"max":50,"step":2,"default":0}
+
+],
+
+"presets":[{"name":"Styled text"}]
+}
+{% endschema %}
