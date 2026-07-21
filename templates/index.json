@@ -424,69 +424,6 @@
         "padding-block-end": 48
       }
     },
-    "blocks_chetf6": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_d69de83_EKrYNX": {
-          "type": "ai_gen_block_d69de83",
-          "name": "Category carousel",
-          "settings": {
-            "heading": "Shop by category",
-            "subheading": "Discover our curated collections",
-            "heading_alignment": "center",
-            "heading_size": 36,
-            "subheading_size": 16,
-            "heading_spacing": 40,
-            "collection_1": "men",
-            "collection_1_title": "",
-            "collection_1_description": "",
-            "collection_2": "brown",
-            "collection_2_title": "",
-            "collection_2_description": "",
-            "collection_3": "casual-shoes",
-            "collection_3_title": "",
-            "collection_3_description": "",
-            "collection_4": "men-shoes",
-            "collection_4_title": "",
-            "collection_4_description": "",
-            "desktop_width_percent": 100,
-            "section_padding": 50,
-            "cards_per_view_desktop": 4,
-            "card_gap": 20,
-            "card_border_radius": 12,
-            "image_aspect_ratio": 125,
-            "text_alignment": "flex-start",
-            "card_title_size": 24,
-            "card_description_size": 14,
-            "show_button": true,
-            "button_text": "Shop now",
-            "button_border_radius": 8,
-            "button_border_width": 0,
-            "background_color": "#ffffff",
-            "heading_color": "#000000",
-            "subheading_color": "#666666",
-            "overlay_color": "#000000cc",
-            "card_title_color": "#ffffff",
-            "card_description_color": "#ffffffcc",
-            "button_background": "#ffffff",
-            "button_text_color": "#000000",
-            "button_border_color": "#ffffff",
-            "button_hover_background": "#000000",
-            "button_hover_text_color": "#ffffff",
-            "button_hover_border_color": "#000000",
-            "nav_button_background": "#ffffff",
-            "nav_button_hover_background": "#f5f5f5",
-            "nav_button_icon_color": "#000000"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_d69de83_EKrYNX"
-      ],
-      "name": "Category carousel",
-      "settings": {}
-    },
     "popular_categories_C43miG": {
       "type": "popular-categories",
       "blocks": {
@@ -1390,7 +1327,6 @@
   "order": [
     "hero_jVaWmY",
     "collection_list_GhFcRC",
-    "blocks_chetf6",
     "popular_categories_C43miG",
     "section_pGEWhF",
     "new_arrivals_cQf8cY",
