@@ -205,9 +205,8 @@
       ],
       "name": "t:names.hero",
       "settings": {
-        "media_type_1": "video",
+        "media_type_1": "image",
         "image_1": "shopify://shop_images/bannerhero.webp",
-        "video_1": "shopify://files/videos/create_a_video_for_the_shoes_f.mp4",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -1063,109 +1062,198 @@
         "padding-block-end": 48
       }
     },
-    "popular_categories_C43miG": {
-      "type": "popular-categories",
+    "product_list_bestsellers": {
+      "type": "product-list",
       "blocks": {
-        "men_aDKq7h": {
-          "type": "men",
+        "static-header": {
+          "type": "_product-list-content",
+          "name": "t:names.header",
+          "static": true,
           "settings": {
-            "image": "shopify://shop_images/CAMPO-148MUSGO_PAPAVERO_fdf35337-a4fc-453e-a4fc-5a1aad784cb0.jpg",
-            "title": "CAMPO",
-            "link": "shopify://collections/campo"
-          }
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_list_text": {
+              "type": "_product-list-text",
+              "name": "t:names.collection_title",
+              "settings": {
+                "text": "<h2>Best Sellers</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h3",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_list_button": {
+              "type": "_product-list-button",
+              "name": "t:names.product_list_button",
+              "settings": {
+                "label": "View all",
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_list_text",
+            "product_list_button"
+          ]
         },
-        "men_tr6cYr": {
-          "type": "men",
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
           "settings": {
-            "image": "shopify://shop_images/GIOCO-103_CANGURU_GREIGE.jpg",
-            "title": "GIOCO",
-            "link": "shopify://collections/gioco"
-          }
-        },
-        "men_HR6xpn": {
-          "type": "men",
-          "settings": {
-            "image": "shopify://shop_images/TIFA-100FUXIA_LAGREIN.jpg",
-            "title": "TIFA",
-            "link": "shopify://collections/tifa"
-          }
-        },
-        "men_GhKF8c": {
-          "type": "men",
-          "settings": {
-            "image": "shopify://shop_images/TIFO-017MATTONE_MENTA.jpg",
-            "title": "TIFO",
-            "link": "shopify://collections/tifo"
-          }
-        },
-        "men_6arnpA": {
-          "type": "men",
-          "settings": {
-            "image": "shopify://shop_images/CAMPO-148_NERO_COMBI.jpg",
-            "title": "CAMPO",
-            "link": "shopify://collections/campo"
-          }
-        },
-        "women_AqXqC7": {
-          "type": "women",
-          "settings": {
-            "image": "shopify://shop_images/CAMPO-048BRICK_ARANCIO.jpg",
-            "title": "CAMPO",
-            "link": "shopify://collections/campo"
-          }
-        },
-        "women_m8i8YG": {
-          "type": "women",
-          "settings": {
-            "image": "shopify://shop_images/TIFA-016_LIMONE_COGNAC.jpg",
-            "title": "TIFA",
-            "link": "shopify://collections/tifa"
-          }
-        },
-        "women_QKftey": {
-          "type": "women",
-          "settings": {
-            "image": "shopify://shop_images/GIOCO-003_WALNUT_CIELO.jpg",
-            "title": "GIOCO",
-            "link": "shopify://collections/gioco"
-          }
-        },
-        "women_MiUzTa": {
-          "type": "women",
-          "settings": {
-            "image": "shopify://shop_images/TIFO-144PEPEOIL_GIRASOLE_779da59e-cbca-4ed9-b1a3-5541958f595b.jpg",
-            "title": "TIFO",
-            "link": "shopify://collections/tifo"
-          }
-        },
-        "women_FHTGby": {
-          "type": "women",
-          "settings": {
-            "image": "shopify://shop_images/CAMPO-148MUSGO_PAPAVERO.jpg",
-            "title": "CAMPO",
-            "link": "shopify://collections/campo"
-          }
+            "product_card_gap": 4,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product-card-gallery": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
         }
       },
-      "block_order": [
-        "men_aDKq7h",
-        "men_tr6cYr",
-        "men_HR6xpn",
-        "men_GhKF8c",
-        "men_6arnpA",
-        "women_AqXqC7",
-        "women_m8i8YG",
-        "women_QKftey",
-        "women_MiUzTa",
-        "women_FHTGby"
-      ],
-      "custom_css": [
-        "h2.popular-categories__title {padding: 0 38px;}",
-        ".popular-categories .pc-tabs {padding: 0 38px;}"
-      ],
-      "name": "Popular Categories",
+      "name": "Best Sellers",
       "settings": {
-        "title": "Popular Categories"
+        "collection": "shoes",
+        "layout_type": "grid",
+        "carousel_on_mobile": true,
+        "max_products": 4,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 16,
+        "rows_gap": 32,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "horizontal_alignment": "flex-start",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
       }
     },
     "section_pGEWhF": {
@@ -1640,6 +1728,111 @@
         "heading": "Shop By Color"
       }
     },
+    "popular_categories_C43miG": {
+      "type": "popular-categories",
+      "blocks": {
+        "men_aDKq7h": {
+          "type": "men",
+          "settings": {
+            "image": "shopify://shop_images/CAMPO-148MUSGO_PAPAVERO_fdf35337-a4fc-453e-a4fc-5a1aad784cb0.jpg",
+            "title": "CAMPO",
+            "link": "shopify://collections/campo"
+          }
+        },
+        "men_tr6cYr": {
+          "type": "men",
+          "settings": {
+            "image": "shopify://shop_images/GIOCO-103_CANGURU_GREIGE.jpg",
+            "title": "GIOCO",
+            "link": "shopify://collections/gioco"
+          }
+        },
+        "men_HR6xpn": {
+          "type": "men",
+          "settings": {
+            "image": "shopify://shop_images/TIFA-100FUXIA_LAGREIN.jpg",
+            "title": "TIFA",
+            "link": "shopify://collections/tifa"
+          }
+        },
+        "men_GhKF8c": {
+          "type": "men",
+          "settings": {
+            "image": "shopify://shop_images/TIFO-017MATTONE_MENTA.jpg",
+            "title": "TIFO",
+            "link": "shopify://collections/tifo"
+          }
+        },
+        "men_6arnpA": {
+          "type": "men",
+          "settings": {
+            "image": "shopify://shop_images/CAMPO-148_NERO_COMBI.jpg",
+            "title": "CAMPO",
+            "link": "shopify://collections/campo"
+          }
+        },
+        "women_AqXqC7": {
+          "type": "women",
+          "settings": {
+            "image": "shopify://shop_images/CAMPO-048BRICK_ARANCIO.jpg",
+            "title": "CAMPO",
+            "link": "shopify://collections/campo"
+          }
+        },
+        "women_m8i8YG": {
+          "type": "women",
+          "settings": {
+            "image": "shopify://shop_images/TIFA-016_LIMONE_COGNAC.jpg",
+            "title": "TIFA",
+            "link": "shopify://collections/tifa"
+          }
+        },
+        "women_QKftey": {
+          "type": "women",
+          "settings": {
+            "image": "shopify://shop_images/GIOCO-003_WALNUT_CIELO.jpg",
+            "title": "GIOCO",
+            "link": "shopify://collections/gioco"
+          }
+        },
+        "women_MiUzTa": {
+          "type": "women",
+          "settings": {
+            "image": "shopify://shop_images/TIFO-144PEPEOIL_GIRASOLE_779da59e-cbca-4ed9-b1a3-5541958f595b.jpg",
+            "title": "TIFO",
+            "link": "shopify://collections/tifo"
+          }
+        },
+        "women_FHTGby": {
+          "type": "women",
+          "settings": {
+            "image": "shopify://shop_images/CAMPO-148MUSGO_PAPAVERO.jpg",
+            "title": "CAMPO",
+            "link": "shopify://collections/campo"
+          }
+        }
+      },
+      "block_order": [
+        "men_aDKq7h",
+        "men_tr6cYr",
+        "men_HR6xpn",
+        "men_GhKF8c",
+        "men_6arnpA",
+        "women_AqXqC7",
+        "women_m8i8YG",
+        "women_QKftey",
+        "women_MiUzTa",
+        "women_FHTGby"
+      ],
+      "custom_css": [
+        "h2.popular-categories__title {padding: 0 38px;}",
+        ".popular-categories .pc-tabs {padding: 0 38px;}"
+      ],
+      "name": "Popular Categories",
+      "settings": {
+        "title": "Popular Categories"
+      }
+    },
     "recommended_products_xt7T34": {
       "type": "recommended-products",
       "blocks": {
@@ -1960,191 +2153,6 @@
         "reflection_opacity": 75,
         "padding-block-start": 60,
         "padding-block-end": 40
-      }
-    },
-    "product_list_bestsellers": {
-      "type": "product-list",
-      "name": "Best Sellers",
-      "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h2>Best Sellers</h2>",
-                "type_preset": "h3",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            },
-            "product_list_button": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              }
-            }
-          },
-          "block_order": [
-            "product_list_text",
-            "product_list_button"
-          ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product-card-gallery": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            },
-            "product_title": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            },
-            "price": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            }
-          },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
-        }
-      },
-      "block_order": [],
-      "settings": {
-        "collection": "shoes",
-        "layout_type": "grid",
-        "carousel_on_mobile": true,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 16,
-        "rows_gap": 32,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
       }
     }
   },
