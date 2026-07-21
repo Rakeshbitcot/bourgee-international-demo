@@ -137,6 +137,7 @@
             "ai_gen_block_416b0cb_hDgVPA": {
               "type": "ai_gen_block_416b0cb",
               "name": "Styled text",
+              "disabled": true,
               "settings": {
                 "content": "<p>SHOP MEN</p>",
                 "link": "shopify://collections/men",
@@ -165,6 +166,7 @@
             "ai_gen_block_416b0cb_dJNbQ4": {
               "type": "ai_gen_block_416b0cb",
               "name": "Styled text",
+              "disabled": true,
               "settings": {
                 "content": "<p>SHOP WOMEN</p>",
                 "link": "shopify://collections/women",
@@ -198,10 +200,113 @@
             "ai_gen_block_416b0cb_hDgVPA",
             "ai_gen_block_416b0cb_dJNbQ4"
           ]
+        },
+        "group_7g8wkJ": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 37,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "ai_gen_block_416b0cb_6jzikF": {
+              "type": "ai_gen_block_416b0cb",
+              "name": "Styled text",
+              "settings": {
+                "content": "<p>SHOP MEN</p>",
+                "link": "shopify://collections/men",
+                "text_alignment": "left",
+                "font_size": 20,
+                "font_size_mobile": 14,
+                "text_color": "#000000",
+                "text_hover_color": "#000000",
+                "background_color": "#ffffff",
+                "background_hover_color": "#ffffff",
+                "transparent_bg": false,
+                "border_top": 0,
+                "border_right": 0,
+                "border_bottom": 0,
+                "border_left": 0,
+                "border_color": "#ffffff",
+                "border_hover_color": "#ffffff",
+                "custom_width": 100,
+                "width_unit": "%",
+                "max_width": 1200,
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            },
+            "ai_gen_block_416b0cb_mY8RYV": {
+              "type": "ai_gen_block_416b0cb",
+              "name": "Styled text",
+              "settings": {
+                "content": "<p>SHOP WOMEN</p>",
+                "link": "shopify://collections/women",
+                "text_alignment": "left",
+                "font_size": 20,
+                "font_size_mobile": 14,
+                "text_color": "#000",
+                "text_hover_color": "#333",
+                "background_color": "#ffffff",
+                "background_hover_color": "#f5f5f5",
+                "transparent_bg": false,
+                "border_top": 0,
+                "border_right": 0,
+                "border_bottom": 0,
+                "border_left": 0,
+                "border_color": "#000000",
+                "border_hover_color": "#000000",
+                "custom_width": 100,
+                "width_unit": "%",
+                "max_width": 1200,
+                "padding": 10,
+                "border_radius": 10
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ai_gen_block_416b0cb_6jzikF",
+            "ai_gen_block_416b0cb_mY8RYV"
+          ]
         }
       },
       "block_order": [
-        "group_nnxJH6"
+        "group_nnxJH6",
+        "group_7g8wkJ"
       ],
       "name": "t:names.hero",
       "settings": {
