@@ -1726,6 +1726,7 @@
         "color_item_UXCMad",
         "color_item_BmnAJJ"
       ],
+      "disabled": true,
       "name": "Shop By Color",
       "settings": {
         "heading": "Shop By Color"
@@ -1827,6 +1828,7 @@
         "women_MiUzTa",
         "women_FHTGby"
       ],
+      "disabled": true,
       "custom_css": [
         "h2.popular-categories__title {padding: 0 38px;}",
         ".popular-categories .pc-tabs {padding: 0 38px;}"
@@ -1891,6 +1893,7 @@
         "product_GmEwLD",
         "product_LmAN4a"
       ],
+      "disabled": true,
       "name": "bourgee Recommended",
       "settings": {
         "heading": "Recommended For You",
@@ -2125,6 +2128,7 @@
       "block_order": [
         "group_mAeX7j"
       ],
+      "disabled": true,
       "name": "t:names.hero_bottom_aligned",
       "settings": {
         "media_type_1": "image",
