@@ -125,14 +125,14 @@
   ></script>
 </div>
 
-<link
-  rel="preload"
-  href="{{ 'wishlist.css' | asset_url }}"
-  as="style"
-  onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-  {{ 'wishlist.css' | asset_url | stylesheet_tag }}
-</noscript>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = "{{ 'wishlist.css' | asset_url }}";
+  document.head.appendChild(link);
+});
+</script>
 
 {% schema %}
 {
