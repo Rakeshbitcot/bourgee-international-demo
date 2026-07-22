@@ -174,3 +174,149 @@
 .trust-badge-custom{
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+/* ===========================
+   Collection Page
+=========================== */
+
+.custom-collection-section {
+    padding: 40px 0;
+}
+
+/* Sidebar */
+.custom-collection-section .facets,
+.custom-collection-section .collection-filters,
+.custom-collection-section .facets-wrapper {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+}
+
+.custom-collection-section .facets__heading,
+.custom-collection-section .filter-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.custom-collection-section .facet-checkbox {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.custom-collection-section .facet-checkbox input {
+    margin-right: 8px;
+}
+
+/* Product Grid */
+.custom-collection-section .resource-list__grid,
+.custom-collection-section .product-grid {
+    gap: 20px;
+}
+
+/* Product Card */
+
+.custom-collection-section .product-card__content {
+    background: #fff;
+    border: 1px solid #ECECEC;
+    border-radius: 10px;
+    padding: 15px;
+    transition: .25s ease;
+    height: 100%;
+}
+
+.custom-collection-section .product-card__content:hover {
+    border-color: #d7d7d7;
+    box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+
+/* Image */
+
+.custom-collection-section .product-card__media,
+.custom-collection-section .product-card__image {
+    aspect-ratio: 1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.custom-collection-section .product-card__media img,
+.custom-collection-section .product-card__image img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* Title */
+
+.custom-collection-section .product-title,
+.custom-collection-section .product-card__title{
+    font-size:14px;
+    font-weight:600;
+    color:#111;
+    margin-top:12px;
+    line-height:1.4;
+}
+
+/* Price */
+
+.custom-collection-section .price{
+    font-size:15px;
+    font-weight:700;
+    color:#111;
+    margin-top:6px;
+}
+
+/* Swatches */
+
+.custom-collection-section .swatches{
+    margin:10px 0;
+}
+
+.custom-collection-section .swatch{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    border:1px solid #ddd;
+}
+
+/* Pagination */
+
+.custom-collection-section .pagination{
+    margin-top:40px;
+    justify-content:center;
+}
+
+.custom-collection-section .pagination a,
+.custom-collection-section .pagination span{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #ddd;
+    border-radius:6px;
+    margin:0 4px;
+}
+
+.custom-collection-section .pagination .active{
+    background:#111;
+    color:#fff;
+    border-color:#111;
+}
+
+/* Style Suggestions */
+
+.custom-collection-section .style-suggestions{
+    margin-top:40px;
+    background:#fff;
+    border:1px solid #ececec;
+    border-radius:10px;
+    padding:20px;
+}
+.custom-collection-section .facets-block-wrapper--vertical {
+    top: 7rem; 
+}
