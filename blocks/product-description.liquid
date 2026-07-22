@@ -1,14 +1,5 @@
 
 
-{% liquid
-  assign product = block.settings.product
-  if request.visual_preview_mode and product == blank
-    assign product = collections.all.products.first
-    assign text = product.description
-  endif
-%}
-
-{% render 'text', fallback_text: text, block: block %}
 
 {% schema %}
 {
