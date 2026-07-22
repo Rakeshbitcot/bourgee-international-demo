@@ -467,8 +467,8 @@
         "section_width": "page-width",
         "gap": 0,
         "color_scheme": "scheme-1",
-        "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-start": 16,
+        "padding-block-end": 16
       }
     },
     "product_list_PfyKX4": {
