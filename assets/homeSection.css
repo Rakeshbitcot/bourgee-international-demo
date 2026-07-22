@@ -320,3 +320,199 @@
 .custom-collection-section .facets-block-wrapper--vertical {
     top: 7rem; 
 }
+
+/* single page */
+
+.single-product-custom .product-details {
+    padding-left: 40px;
+}
+
+.single-product-custom .group-block-content {
+    gap: 22px !important;
+}
+
+.single-product-custom h1 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #111;
+    margin-bottom: 8px;
+}
+
+.single-product-custom .price {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111;
+}
+
+.single-product-custom .divider__line {
+    background: #ececec;
+}
+
+.single-product-custom .product-media {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+}
+
+.single-product-custom .slideshow-controls__thumbnail {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: .25s ease;
+}
+
+.single-product-custom .slideshow-controls__thumbnail:hover {
+    border-color: #123a22;
+}
+
+.single-product-custom .slideshow-controls__thumbnail[aria-selected="true"] {
+    border: 2px solid #123a22;
+}
+
+.single-product-custom .variant-picker {
+    margin: 28px 0;
+}
+
+.single-product-custom .variant-option {
+    margin-bottom: 24px;
+}
+
+.single-product-custom .variant-option legend {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #444;
+    margin-bottom: 14px;
+}
+
+.single-product-custom .variant-option__button-label {
+    margin: 0 8px 8px 0;
+}
+
+.single-product-custom .variant-option__button-label__text {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .25s ease;
+}
+
+.single-product-custom .variant-option__button-label:hover .variant-option__button-label__text {
+    border-color: #123a22;
+}
+
+.single-product-custom .variant-option__button-label input:checked + .variant-option__button-label__pill + .variant-option__button-label__text {
+    background: #123a22;
+    border-color: #123a22;
+    color: #fff;
+}
+
+.single-product-custom .quantity-selector-wrapper {
+    margin-bottom: 24px;
+}
+
+.single-product-custom .quantity-selector {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.single-product-custom .quantity-selector button {
+    width: 44px;
+    height: 44px;
+}
+
+.single-product-custom .quantity-selector input {
+    width: 56px;
+    border: 0;
+    text-align: center;
+    font-weight: 600;
+    background: transparent;
+}
+
+.single-product-custom .buy-buttons-block {
+    margin-top: 16px;
+}
+
+.single-product-custom .add-to-cart-button {
+    height: 56px;
+    border-radius: 6px;
+    background: #123a22;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: .25s;
+}
+
+.single-product-custom .add-to-cart-button:hover {
+    background: #0d2d1b;
+}
+
+.single-product-custom .shopify-payment-button__button {
+    height: 56px;
+    border-radius: 6px;
+    background: #000;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.single-product-custom .wishlist-button,
+.single-product-custom .button-wishlist {
+    height: 54px;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    background: #fff;
+    font-weight: 600;
+}
+
+.single-product-custom details {
+    border: 1px solid #ececec;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.single-product-custom summary {
+    padding: 18px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #fff;
+    cursor: pointer;
+}
+
+.single-product-custom details[open] summary {
+    border-bottom: 1px solid #ececec;
+}
+
+.single-product-custom details .rte {
+    padding: 18px 20px;
+    color: #666;
+    line-height: 1.7;
+}
+
+.single-product-custom .rte {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.single-product-custom .inventory-status,
+.single-product-custom .product-inventory {
+    color: #2f8b3a;
+    font-size: 15px;
+    font-weight: 600;
+}
