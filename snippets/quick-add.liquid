@@ -99,14 +99,7 @@
           >
             {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
           </span>
-          <span class="add-to-cart-text__content is-visually-hidden-mobile">
-            <span>
-              {% comment %} use a double-nested span to bake the padding into the text {% endcomment %}
-              <span>
-                {{ choose_options_text }}
-              </span>
-            </span>
-          </span>
+          
         </span>
       </button>
     {%- endform -%}
