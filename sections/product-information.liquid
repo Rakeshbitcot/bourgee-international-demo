@@ -12,7 +12,13 @@
   -%}
 {% endcapture %}
 
-
+{% capture product_details %}
+  {% content_for 'block',
+    type: '_product-details',
+    id: 'product-details',
+    closest.product: closest.product
+  %}
+{% endcapture %}
 
 {% capture additional_blocks %}
   {% content_for 'blocks' %}
@@ -21,7 +27,7 @@
 {% if section.settings.enable_sticky_add_to_cart %}
   {% liquid
     assign current_variant = product.selected_or_first_available_variant
-    # Get the initial quantity based on quantity rules
+    # Get the initial quantity based on quantity rules data rule
     assign initial_quantity = current_variant.quantity_rule.min | default: 1
   %}
 
