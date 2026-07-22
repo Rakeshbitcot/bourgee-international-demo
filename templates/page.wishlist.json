@@ -33,6 +33,8 @@
               "type": "_product-card-gallery",
               "settings": {
                 "image_ratio": "adapt",
+                "custom_badge_text": "none",
+                "show_wishlist_icon": true,
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
