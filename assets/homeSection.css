@@ -120,3 +120,46 @@
         rgba(18,22,18,0) 100%
     ) !important;
 }
+/* Desktop only */
+@media screen and (min-width: 750px) {
+
+    /* Full-width media container */
+    .custom-gradient-hero .hero__media-grid {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    /* Keep overlay full width */
+    .custom-gradient-hero .overlay.overlay--gradient {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Right aligned image */
+    .custom-gradient-hero .hero__media-wrapper {
+        width: 75%;
+        margin-left: auto;
+        position: relative;
+        z-index: 0;
+    }
+
+    /* Fill wrapper */
+    .custom-gradient-hero .hero__media {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: right center;
+    }
+
+    /* Keep content above overlay */
+    .custom-gradient-hero .hero__content-wrapper {
+        position: relative;
+        z-index: 3;
+    }
+}
