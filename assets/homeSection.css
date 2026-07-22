@@ -71,3 +71,38 @@
 .shop-by-category-custom .collection-card__media {
   border-radius: 10px !important;
 }
+/* best seller */
+.best-seller-custom .product-card__content {
+    background: #fff;
+    border: 1px solid #ECECEC;
+    border-radius: 10px;
+    padding: 12px;
+    transition: .25s;
+    height: 100%;
+}
+
+.best-seller-custom .product-card__content:hover{
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.best-seller-custom img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:contain;
+}
+
+.best-seller-custom .product-title{
+    font-size:13px;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.best-seller-custom .price{
+    font-size:14px;
+    font-weight:700;
+    margin-top:6px;
+}
+
+.best-seller-custom .resource-list__item{
+    width:190px;
+}
