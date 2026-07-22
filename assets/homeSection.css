@@ -165,5 +165,5 @@
 }
  .best-seller-custom slideshow-component[actioned] :is(.resource-list__carousel :is(slideshow-slide:has(+slideshow-slide[aria-hidden=false]),slideshow-slide[aria-hidden=false]+slideshow-slide)) {
     content-visibility: visible;
-    min-width: 216px;
+    min-width: 216px !important;
 }
