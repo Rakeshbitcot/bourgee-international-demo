@@ -430,11 +430,42 @@
     },
     "frequently_bought_together_HbXq3T": {
       "type": "frequently-bought-together",
+      "blocks": {
+        "fbt_product_pkqLRV": {
+          "type": "_fbt-product",
+          "name": "t:names.product",
+          "settings": {
+            "product": "campo-148-musgo"
+          },
+          "blocks": {}
+        },
+        "fbt_product_bb7BiX": {
+          "type": "_fbt-product",
+          "name": "t:names.product",
+          "settings": {
+            "product": "campo-048"
+          },
+          "blocks": {}
+        },
+        "fbt_product_AQNawX": {
+          "type": "_fbt-product",
+          "name": "t:names.product",
+          "settings": {
+            "product": "ankle-boost-hi"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "fbt_product_pkqLRV",
+        "fbt_product_bb7BiX",
+        "fbt_product_AQNawX"
+      ],
       "settings": {
         "heading": "Frequently bought together",
         "button_label": "Add selected to cart",
         "section_width": "page-width",
-        "gap": 12,
+        "gap": 0,
         "color_scheme": "scheme-1",
         "padding-block-start": 40,
         "padding-block-end": 40
