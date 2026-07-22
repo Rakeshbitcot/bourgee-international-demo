@@ -313,8 +313,7 @@
     "filters": "Filtering and sorting",
     "follow_on_shop": "Follow on Shop",
     "footer": "Footer",
-    "frequently_bought_together": "Frequently bought together",
-    "fbt_product": "Frequently bought together: product",
+    "frequently_bought_together": "Bought together",
     "footer_password": "Password footer",
     // Footer block containing copyright, policies, and social links
     "footer_utilities": "Footer utilities",

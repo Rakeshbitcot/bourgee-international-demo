@@ -1,9 +1,9 @@
-{%- doc -%}
+{% comment %}
   Renders a "Frequently bought together" widget on the product page: the product
   being viewed plus merchant-selected companion products (added via blocks), each
   with a checkbox, and a single button that adds every checked item to the cart
   in one request.
-{%- enddoc -%}
+{% endcomment %}
 
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
