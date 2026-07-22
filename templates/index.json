@@ -328,7 +328,7 @@
         "vertical_alignment_flex_direction_column": "center",
         "gap": 24,
         "section_width": "full-width",
-        "section_height": "medium",
+        "section_height": "large",
         "section_height_custom": 50,
         "color_scheme": "scheme-3",
         "toggle_overlay": true,
@@ -1277,6 +1277,8 @@
               "name": "t:names.product_card_media",
               "settings": {
                 "image_ratio": "adapt",
+                "custom_badge_text": "none",
+                "show_wishlist_icon": true,
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -1916,7 +1918,10 @@
               "blocks": {}
             }
           },
-          "block_order": ["icon_featQuality", "text_featQuality"]
+          "block_order": [
+            "icon_featQuality",
+            "text_featQuality"
+          ]
         },
         "group_featHandcrafted": {
           "type": "group",
@@ -1994,7 +1999,10 @@
               "blocks": {}
             }
           },
-          "block_order": ["icon_featHandcrafted", "text_featHandcrafted"]
+          "block_order": [
+            "icon_featHandcrafted",
+            "text_featHandcrafted"
+          ]
         },
         "group_featLimited": {
           "type": "group",
@@ -2072,7 +2080,10 @@
               "blocks": {}
             }
           },
-          "block_order": ["icon_featLimited", "text_featLimited"]
+          "block_order": [
+            "icon_featLimited",
+            "text_featLimited"
+          ]
         },
         "group_featSustainable": {
           "type": "group",
@@ -2150,7 +2161,10 @@
               "blocks": {}
             }
           },
-          "block_order": ["icon_featSustainable", "text_featSustainable"]
+          "block_order": [
+            "icon_featSustainable",
+            "text_featSustainable"
+          ]
         }
       },
       "block_order": [
@@ -2171,6 +2185,7 @@
         "gap": 16,
         "section_width": "page-width",
         "section_height": "",
+        "section_height_custom": 50,
         "color_scheme": "scheme-1",
         "background_media": "none",
         "video_position": "cover",
