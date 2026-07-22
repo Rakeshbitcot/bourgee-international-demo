@@ -1031,7 +1031,7 @@
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "h2",
+                "type_preset": "h4",
                 "font": "var(--font-body--family)",
                 "font_size": "",
                 "line_height": "normal",
@@ -1058,7 +1058,7 @@
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "width": "custom",
-                "custom_width": 10,
+                "custom_width": 5,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100
               },
