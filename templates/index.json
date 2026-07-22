@@ -1834,6 +1834,7 @@
         "color_item_UXCMad",
         "color_item_BmnAJJ"
       ],
+      "disabled": true,
       "name": "Shop By Color",
       "settings": {
         "heading": "Shop By Color"
