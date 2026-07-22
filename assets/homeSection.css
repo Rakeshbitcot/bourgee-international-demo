@@ -79,6 +79,9 @@
     padding: 12px;
     transition: .25s;
     height: 100%;
+        display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 .best-seller-custom .product-card__content:hover{
@@ -89,6 +92,7 @@
     width:100%;
     aspect-ratio:1/1;
     object-fit:contain;
+    min-height:198px;
 }
 
 .best-seller-custom .product-title{
