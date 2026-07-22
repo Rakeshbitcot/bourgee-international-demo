@@ -519,3 +519,6 @@
 .single-product-media-sticky{
   top:7rem;
 }
+.shop-by-category-custom .collection-card__image .resource-image__image {
+    height: 93%;
+}
