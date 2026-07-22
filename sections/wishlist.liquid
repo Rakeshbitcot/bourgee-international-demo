@@ -125,11 +125,7 @@
   ></script>
 </div>
 
-<link
-  rel="preload"
-  href="{{ 'wishlist.css' | asset_url }}"
-  as="style"
-  onload="this.onload=null;this.rel='stylesheet'">
+{{ 'wishlist.css' | asset_url | stylesheet_tag: preload: true }}
 
 {% schema %}
 {
