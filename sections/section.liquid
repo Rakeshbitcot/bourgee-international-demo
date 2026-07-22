@@ -3,9 +3,9 @@
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
-
+<div class="trust-badge-custom">
 {% render 'section', section: section, children: children %}
-
+</div>
 {% schema %}
 {
   "name": "t:names.section",
