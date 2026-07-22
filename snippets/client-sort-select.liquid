@@ -1,0 +1,79 @@
+{%- doc -%}
+  Renders a client-side sort control for Color, Size, and Availability.
+
+  This intentionally does NOT touch the native `sorting.liquid` component or
+  `assets/facets.js` — it reorders the already-rendered product grid in the
+  browser only, and resets whenever a native filter/sort request fires.
+
+  @param {string} section_id - The section ID
+  @param {string} [suffix] - Used to build a unique id when rendered multiple times on one page
+
+  @example
+  {% render 'client-sort-select', section_id: section.id, suffix: 'desktop' %}
+{%- enddoc -%}
+
+<script
+  src="{{ 'client-sort.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+<client-sort-component
+  class="client-sort"
+  on:change="/handleChange"
+>
+  <label
+    for="client-sort-select-{{ section_id }}-{{ suffix }}"
+    class="visually-hidden"
+  >
+    {{- 'actions.sort' | t -}}
+  </label>
+  <div class="client-sort__select-wrapper">
+    <select
+      id="client-sort-select-{{ section_id }}-{{ suffix }}"
+      class="client-sort__select"
+    >
+      <option value="">{{ 'content.grid_view.default_view' | t }}</option>
+      <option value="color-asc">{{ 'content.sort_by_color' | t }}</option>
+      <option value="color-desc">{{ 'content.sort_by_color_desc' | t }}</option>
+      <option value="size-asc">{{ 'content.sort_by_size' | t }}</option>
+      <option value="size-desc">{{ 'content.sort_by_size_desc' | t }}</option>
+      <option value="available-desc">{{ 'content.sort_by_availability' | t }}</option>
+    </select>
+    <span class="svg-wrapper client-sort__caret">
+      {{- 'icon-caret.svg' | inline_asset_content -}}
+    </span>
+  </div>
+</client-sort-component>
+
+{% stylesheet %}
+  .client-sort {
+    display: flex;
+    align-items: center;
+    height: var(--minimum-touch-target);
+  }
+
+  .client-sort__select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .client-sort__select {
+    appearance: none;
+    border: var(--style-border-width) solid var(--color-border);
+    border-radius: var(--style-border-radius-xs);
+    background: transparent;
+    padding: var(--padding-2xs) var(--padding-lg) var(--padding-2xs) var(--padding-xs);
+    font-size: var(--font-paragraph--size);
+    cursor: pointer;
+  }
+
+  .client-sort__caret {
+    position: absolute;
+    right: var(--padding-xs);
+    width: var(--icon-size-2xs);
+    height: var(--icon-size-2xs);
+    pointer-events: none;
+  }
+{% endstylesheet %}

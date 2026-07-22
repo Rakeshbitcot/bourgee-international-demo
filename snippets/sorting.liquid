@@ -354,4 +354,28 @@
       display: none;
     }
   }
+
+  /* Restyle: bordered pill for the desktop sort control */
+  .sorting-filter:not(.sorting-filter__horizontal) .facets__summary {
+    @media screen and (min-width: 750px) {
+      border: var(--style-border-width) solid var(--color-border);
+      border-radius: var(--style-border-radius-md);
+      padding: var(--padding-2xs) var(--padding-sm);
+      gap: var(--gap-xs);
+      transition: border-color var(--animation-speed) var(--animation-easing);
+    }
+  }
+
+  .sorting-filter:not(.sorting-filter__horizontal) .facets__summary:hover {
+    @media screen and (min-width: 750px) {
+      border-color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
+    }
+  }
+
+  .sorting-filter:not(.sorting-filter__horizontal) .facets__status {
+    @media screen and (min-width: 750px) {
+      font-weight: 400;
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+    }
+  }
 {% endstylesheet %}

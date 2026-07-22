@@ -22,6 +22,12 @@
   }
 {% endjavascript %}
 
+{% if collection != blank %}
+  <div class="collection-breadcrumb-wrapper">
+    {% render 'breadcrumb', collection: collection %}
+  </div>
+{% endif %}
+
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
@@ -51,11 +57,48 @@
     {% paginate collection.products by products_per_page %}
       {% capture children %}
         {% for product in collection.products %}
+          {% liquid
+            assign sort_color_index = null
+            assign sort_size_index = null
+
+            for option in product.options_with_values
+              assign option_name_downcase = option.name | downcase
+              if option_name_downcase == 'color' or option_name_downcase == 'colour'
+                assign sort_color_index = forloop.index0
+              endif
+              if option_name_downcase == 'size'
+                assign sort_size_index = forloop.index0
+              endif
+            endfor
+
+            if sort_color_index == null
+              for option in product.options_with_values
+                assign swatch_count = option.values | map: 'swatch' | compact | size
+                if swatch_count > 0
+                  assign sort_color_index = forloop.index0
+                  break
+                endif
+              endfor
+            endif
+
+            assign sort_variant = product.selected_or_first_available_variant
+            assign sort_color_value = ''
+            assign sort_size_value = ''
+            if sort_color_index != null
+              assign sort_color_value = sort_variant.options[sort_color_index]
+            endif
+            if sort_size_index != null
+              assign sort_size_value = sort_variant.options[sort_size_index]
+            endif
+          %}
           <li
             id="{{ section.id }}-{{ product.id }}"
             class="product-grid__item product-grid__item--{{ forloop.index0 }}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
+            data-sort-color="{{ sort_color_value | escape }}"
+            data-sort-size="{{ sort_size_value | escape }}"
+            data-sort-available="{{ product.available }}"
             ref="cards[]"
           >
             {% # theme-check-disable %}
@@ -75,6 +118,13 @@
     {% endpaginate %}
   </div>
 </results-list>
+
+{% stylesheet %}
+  .collection-breadcrumb-wrapper {
+    padding-inline: var(--page-margin, var(--padding-lg));
+    padding-block-start: var(--padding-sm);
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -144,7 +194,7 @@
       "type": "checkbox",
       "id": "enable_infinite_scroll",
       "label": "t:settings.auto_load_products",
-      "default": true
+      "default": false
     },
     {
       "type": "range",

@@ -1,6 +1,28 @@
 
 
 {% assign product = closest.product %}
+{% assign block_settings = block.settings %}
+
+{% liquid
+  # Automatic, tag-based badge detection (falls back to the manual override below
+  # for merchants who haven't tagged their catalog yet). Priority order when a
+  # product carries more than one badge tag: new > bestseller > trending > limited-edition.
+  assign auto_badge_key = null
+  if product.tags contains 'new'
+    assign auto_badge_key = 'new'
+  elsif product.tags contains 'bestseller'
+    assign auto_badge_key = 'bestseller'
+  elsif product.tags contains 'trending'
+    assign auto_badge_key = 'trending'
+  elsif product.tags contains 'limited-edition'
+    assign auto_badge_key = 'limited_edition'
+  endif
+
+  assign badge_key = auto_badge_key
+  if badge_key == null and block_settings.custom_badge_text != 'none'
+    assign badge_key = block_settings.custom_badge_text
+  endif
+%}
 
 {% capture children %}
   {% unless product == blank %}
@@ -24,8 +46,29 @@
             {{ 'content.product_badge_sale' | t }}
           {%- endif -%}
         </div>
+      {%- elsif badge_key -%}
+        <div
+          class="product-badges__badge product-badges__badge--rectangle product-badges__badge--custom-{{ badge_key }} color-{{ settings.badge_new_color_scheme }}"
+        >
+          {%- case badge_key -%}
+            {%- when 'new' -%}
+              {{ 'content.product_badge_new' | t }}
+            {%- when 'trending' -%}
+              {{ 'content.product_badge_trending' | t }}
+            {%- when 'bestseller' -%}
+              {{ 'content.product_badge_bestseller' | t }}
+            {%- when 'limited_edition' -%}
+              {{ 'content.product_badge_limited_edition' | t }}
+          {%- endcase -%}
+        </div>
       {%- endif -%}
     </div>
+    {% if block_settings.show_wishlist_icon %}
+      {% render 'wishlist-button', product: product %}
+    {% endif %}
+    {% if settings.enable_quick_view %}
+      {% render 'quick-view-button', product: product %}
+    {% endif %}
     {%  if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add', product: product, section_id: section.id %}
     {% endif %}
@@ -78,6 +121,45 @@
       "default": "portrait",
       "label": "t:settings.aspect_ratio",
       "info": "t:info.aspect_ratio_adjusted"
+    },
+    {
+      "type": "header",
+      "content": "Badge & wishlist"
+    },
+    {
+      "type": "select",
+      "id": "custom_badge_text",
+      "label": "Manual badge override",
+      "info": "Shown only when the product isn't sold out or on sale, and has none of the automatic badge tags (new, bestseller, trending, limited-edition).",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "new",
+          "label": "New"
+        },
+        {
+          "value": "trending",
+          "label": "Trending"
+        },
+        {
+          "value": "bestseller",
+          "label": "Best Seller"
+        },
+        {
+          "value": "limited_edition",
+          "label": "Limited Edition"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_icon",
+      "label": "Show wishlist icon",
+      "default": true
     },
     {
       "type": "header",

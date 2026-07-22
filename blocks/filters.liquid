@@ -106,10 +106,18 @@
           should_use_select_on_mobile: false,
           section_id: section.id
         %}
+
+        {% if block_settings.enable_client_sort %}
+          {% render 'client-sort-select', section_id: section.id, suffix: 'desktop' %}
+        {% endif %}
       {% endif %}
 
       {% if block_settings.enable_grid_density %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
+      {% endif %}
+
+      {% if block_settings.enable_view_toggle %}
+        {% render 'view-toggle-controls', viewport: 'desktop' %}
       {% endif %}
     </div>
   {% endif %}
@@ -264,10 +272,18 @@
                   should_use_select_on_mobile: false,
                   section_id: section.id
                 %}
+
+                {% if block_settings.enable_client_sort %}
+                  {% render 'client-sort-select', section_id: section.id, suffix: 'desktop-horizontal' %}
+                {% endif %}
               {% endif %}
 
               {% if block_settings.enable_grid_density %}
                 {% render 'grid-density-controls', viewport: 'desktop' %}
+              {% endif %}
+
+              {% if block_settings.enable_view_toggle %}
+                {% render 'view-toggle-controls', viewport: 'desktop' %}
               {% endif %}
             {% endif %}
           {% endif %}
@@ -283,6 +299,19 @@
       {{ facets_margin_style }}
     "
   >
+    <div
+      class="products-count-wrapper products-count-wrapper--mobile"
+      data-testid="products-count-mobile"
+    >
+      <span role="status">
+        {% if products_count > 25000 %}
+          {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+        {% else %}
+          {{- 'content.item_count' | t: count: products_count -}}
+        {% endif %}
+      </span>
+    </div>
+
     {% if block_settings.enable_filtering %}
       <div class="facets-toggle__wrapper">
         <button
@@ -318,6 +347,23 @@
       </div>
     {% endif %}
 
+    {% if block_settings.enable_filtering and block_settings.enable_sorting %}
+      <div class="facets-toggle__wrapper">
+        <button
+          class="button facets-toggle__button facets-toggle__button--sort button-unstyled button-unstyled--with-icon"
+          on:click="#sort-drawer/showDialog"
+          type="button"
+          aria-haspopup="dialog"
+        >
+          <span class="svg-wrapper icon-caret">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+
+          {{ 'actions.sort' | t }}
+        </button>
+      </div>
+    {% endif %}
+
     {% liquid
       assign child_count = 0
       if block_settings.enable_filtering == false and block_settings.enable_sorting
@@ -348,6 +394,10 @@
               should_use_select_on_mobile: should_use_select_on_mobile,
               section_id: section.id
             %}
+
+            {% if block_settings.enable_client_sort %}
+              {% render 'client-sort-select', section_id: section.id, suffix: 'mobile' %}
+            {% endif %}
           </form>
         </facets-form-component>
       {% endif %}
@@ -469,6 +519,10 @@
                 should_use_select_on_mobile: should_use_select_on_mobile,
                 section_id: section.id
               %}
+
+              {% if block_settings.enable_client_sort %}
+                {% render 'client-sort-select', section_id: section.id, suffix: 'drawer' %}
+              {% endif %}
             {% endif %}
           </scroll-hint>
         </form>
@@ -506,6 +560,76 @@
   </dialog-component>
 {% endif %}
 
+{% if block_settings.enable_filtering and block_settings.enable_sorting %}
+  {% comment %}
+    A dedicated mobile "Sort" bottom sheet, separate from the "Filter" drawer above —
+    matches the reference design's two distinct sticky Filter/Sort buttons. Reuses the
+    same dialog-component + facets-form-component + sorting.liquid pattern as the filter
+    drawer, so it's native ajax sort, just presented in its own sheet.
+  {% endcomment %}
+  <dialog-component
+    id="sort-drawer"
+    class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"
+  >
+    <dialog
+      ref="dialog"
+      class="facets facets--drawer facets--sort-drawer dialog-modal drawer spacing-style"
+      style="{% render 'spacing-style', settings: block_settings %}"
+      scroll-lock
+      aria-labelledby="sort-drawer-heading"
+    >
+      <div
+        class="facets__title-wrapper"
+        style="--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));"
+      >
+        <h2
+          id="sort-drawer-heading"
+          class="facets-drawer__title h3"
+        >
+          {{ 'actions.sort' | t }}
+        </h2>
+        <button
+          class="facets-drawer__close button-unstyled close-button"
+          on:click="dialog-component/closeDialog"
+          type="button"
+          aria-label="{{ 'actions.close' | t }}"
+          autofocus
+        >
+          <span class="svg-wrapper svg-wrapper--small">
+            {{ 'icon-close.svg' | inline_asset_content }}
+          </span>
+        </button>
+      </div>
+
+      <scroll-hint class="facets-drawer__filters">
+        <facets-form-component
+          section-id="{{ section.id }}"
+          id="FacetFiltersForm--{{ section.id }}-sort-drawer"
+        >
+          <form
+            action="{{ results_url }}"
+            id="FacetFiltersForm--{{ section.id }}-sort-drawer"
+            ref="facetsForm"
+          >
+            {% render 'sorting',
+              results: results,
+              sort_by: sort_by,
+              filter_style: 'vertical',
+              suffix: 'sort-drawer',
+              should_use_select_on_mobile: false,
+              section_id: section.id
+            %}
+
+            {% if block_settings.enable_client_sort %}
+              {% render 'client-sort-select', section_id: section.id, suffix: 'sort-drawer' %}
+            {% endif %}
+          </form>
+        </facets-form-component>
+      </scroll-hint>
+    </dialog>
+  </dialog-component>
+{% endif %}
+
 {% stylesheet %}
   .facets-block-wrapper {
     @media screen and (min-width: 750px) {
@@ -517,6 +641,11 @@
   .facets-block-wrapper--vertical {
     @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
+      position: sticky;
+      top: var(--padding-lg);
+      align-self: start;
+      max-height: calc(100vh - var(--padding-lg) * 2);
+      overflow-y: auto;
     }
   }
 
@@ -1308,6 +1437,80 @@
     height: var(--font-paragraph--size);
     position: absolute;
   }
+
+  /* Mobile: sticky Filter/Sort bar */
+  @media screen and (max-width: 749px) {
+    .facets-toggle {
+      position: sticky;
+      top: 0;
+      z-index: var(--facets-sticky-z-index, var(--layer-sticky));
+      background-color: var(--color-background);
+      border-bottom: var(--style-border-width) solid var(--color-border);
+      flex-wrap: wrap;
+      row-gap: var(--gap-2xs);
+    }
+
+    .products-count-wrapper--mobile {
+      display: flex;
+      width: 100%;
+      order: -1;
+      color: rgb(var(--color-foreground-rgb) / var(--opacity-60));
+      font-size: var(--font-size--sm);
+    }
+
+    .facets-toggle__wrapper {
+      flex: 1 1 0;
+    }
+
+    .facets-toggle__button,
+    .facets-toggle__button--sort {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .facets-toggle__button--sort .icon-caret {
+      width: var(--icon-size-2xs);
+      height: var(--icon-size-2xs);
+      transform: rotate(90deg);
+    }
+  }
+
+  /* Mobile: present the Filter and Sort dialogs as bottom sheets (rounded top
+     corners, slide up from the bottom) instead of the desktop side-drawer
+     animation, matching the reference design's mobile drawers. */
+  @media screen and (max-width: 749px) {
+    .facets--drawer {
+      position: fixed;
+      inset: auto 0 0 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      border-right: none;
+      border-top-left-radius: var(--style-border-radius-popover);
+      border-top-right-radius: var(--style-border-radius-popover);
+    }
+
+    .facets--drawer::before {
+      content: '';
+      display: block;
+      flex: 0 0 auto;
+      width: 36px;
+      height: 4px;
+      margin: var(--padding-xs) auto 0;
+      border-radius: var(--style-border-radius-50);
+      background-color: var(--color-border);
+    }
+
+    .facets--drawer[open] {
+      height: auto;
+      max-height: 85dvh;
+      animation: modalSlideInTop var(--animation-speed) var(--animation-easing) forwards;
+    }
+
+    .facets--drawer[open].dialog-closing {
+      animation: modalSlideOutTop var(--animation-speed) var(--animation-easing) forwards;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -1398,6 +1601,20 @@
       "id": "enable_grid_density",
       "label": "t:settings.enable_grid_density",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_view_toggle",
+      "label": "Enable grid/list view toggle",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_client_sort",
+      "label": "Enable Color/Size/Availability sort",
+      "info": "Sorts the currently loaded products in the browser only.",
+      "default": true,
+      "visible_if": "{{ block.settings.enable_sorting == true }}"
     },
     {
       "type": "checkbox",

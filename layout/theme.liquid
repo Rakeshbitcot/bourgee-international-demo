@@ -147,6 +147,10 @@
       {% render 'quick-add-modal' %}
     {% endif %}
 
+    {% if settings.enable_quick_view %}
+      {% render 'quick-view-modal' %}
+    {% endif %}
+
     <script>
   window.addEventListener("load", function(){
     document.getElementById("site-loader").style.opacity="0";

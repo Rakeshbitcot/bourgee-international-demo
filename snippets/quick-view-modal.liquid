@@ -1,0 +1,49 @@
+{%- doc -%}
+  Global Quick View dialog shell, modeled on `quick-add-modal.liquid`.
+  Rendered once from layout/theme.liquid; content is injected by
+  `assets/quick-view.js` when a `quick-view-trigger` is clicked.
+
+  @example
+  {% render 'quick-view-modal' %}
+{%- enddoc -%}
+
+<quick-view-dialog id="quick-view-dialog">
+  <dialog
+    class="quick-view-modal dialog-modal color-{{ settings.popover_color_scheme }}"
+    ref="dialog"
+    scroll-lock
+  >
+    <button
+      ref="closeButton"
+      on:click="/closeDialog"
+      class="button button-unstyled close-button quick-view-modal__close"
+      aria-label="{{ 'accessibility.close_dialog' | t }}"
+    >
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </button>
+
+    <div
+      id="quick-view-modal-content"
+      class="quick-view-modal__content quick-add-modal__content"
+    ></div>
+
+    <a
+      href="#"
+      ref="viewFullDetailsLink"
+      class="quick-view-modal__full-details button button-secondary"
+    >
+      {{- 'actions.view_full_details' | t -}}
+    </a>
+  </dialog>
+</quick-view-dialog>
+
+{% comment %}
+  Reuses quick-add's `.quick-add-modal__content` content-curation CSS (title/price/
+  variant-picker/buy-buttons only, gallery layout, sticky buy bar) so Quick View
+  shows the same lightweight preview — rendered explicitly here (not just relying
+  on quick-add-modal.liquid) since a merchant could enable Quick View while quick
+  add is disabled.
+{% endcomment %}
+{% render 'quick-add-modal-styles' %}
+{% render 'quick-view-modal-styles' %}
+{% render 'product-media-gallery-content-styles' %}

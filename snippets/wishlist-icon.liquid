@@ -1,0 +1,90 @@
+{%- doc -%}
+  Renders a header link to the wishlist page with a live count badge.
+  Count is read from localStorage client-side (wishlist state has no backend).
+
+  @example
+  {% render 'wishlist-icon' %}
+{%- enddoc -%}
+
+<wishlist-icon class="header-actions__action wishlist-icon">
+  <a
+    href="{{ pages.wishlist.url | default: '/pages/wishlist' }}"
+    class="wishlist-icon__link"
+    aria-label="{{ 'accessibility.wishlist' | t }}"
+  >
+    <span class="svg-wrapper">
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        {%- render 'icon', icon: 'heart' -%}
+      </svg>
+    </span>
+
+    <div
+      ref="wishlistBubble"
+      class="wishlist-bubble hidden"
+      data-maintain-ratio
+    >
+      <span class="wishlist-bubble__background"></span>
+      <span
+        ref="wishlistBubbleCount"
+        class="wishlist-bubble__text"
+        aria-hidden="true"
+      ></span>
+    </div>
+  </a>
+</wishlist-icon>
+
+<script
+  type="module"
+  src="{{ 'wishlist-icon.js' | asset_url }}"
+  fetchpriority="low"
+></script>
+
+{% stylesheet %}
+  .wishlist-icon__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wishlist-bubble {
+    --wishlist-bubble-size: 20px;
+
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    width: var(--wishlist-bubble-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: normal;
+  }
+
+  .wishlist-bubble.hidden {
+    display: none;
+  }
+
+  .wishlist-bubble__background {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-wishlist-active, #ff2d78);
+    border-radius: var(--style-border-radius-lg);
+  }
+
+  .wishlist-bubble__text {
+    position: relative;
+    color: var(--color-primary-button-text, #fff);
+    font-size: var(--font-size--3xs);
+    z-index: var(--layer-flat);
+  }
+{% endstylesheet %}

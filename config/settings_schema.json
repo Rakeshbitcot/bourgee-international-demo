@@ -1480,6 +1480,12 @@
         "default": "scheme-5"
       },
       {
+        "type": "color_scheme",
+        "id": "badge_new_color_scheme",
+        "label": "Promo badge color scheme (New / Trending / Best Seller / Limited Edition)",
+        "default": "scheme-3"
+      },
+      {
         "type": "header",
         "content": "t:names.typography"
       },
@@ -2068,6 +2074,13 @@
   {
     "name": "t:names.product_cards",
     "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_quick_view",
+        "label": "Enable Quick View",
+        "info": "Shows a Quick View icon on product cards that opens a lightweight preview modal.",
+        "default": true
+      },
       {
         "type": "checkbox",
         "id": "quick_add",

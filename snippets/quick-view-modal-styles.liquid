@@ -1,0 +1,95 @@
+{%- doc -%}
+  Quick View modal styles. Sizing/chrome only — content curation (which parts of
+  the fetched product markup are shown) is inherited from
+  `quick-add-modal-styles.liquid` via the shared `.quick-add-modal__content` class.
+
+  @example
+  {% render 'quick-view-modal-styles' %}
+{%- enddoc -%}
+
+{% stylesheet %}
+  #quick-view-dialog {
+    display: contents;
+  }
+
+  @media screen and (min-width: 750px) {
+    .quick-view-modal {
+      width: var(--quick-add-modal-width);
+      height: var(--quick-add-modal-height);
+      max-width: none;
+    }
+  }
+
+  .quick-view-modal {
+    padding: 0;
+    border: var(--style-border-popover);
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgb(0 0 0 / var(--opacity-15));
+
+    @media screen and (max-width: 749px) {
+      position: fixed;
+      margin: auto 0 0 0;
+      min-height: unset;
+      max-width: 100%;
+      border-radius: 0;
+      overflow: clip;
+      height: fit-content;
+    }
+  }
+
+  .quick-view-modal[open] {
+    @media screen and (max-width: 750px) {
+      border-top-left-radius: var(--style-border-radius-popover);
+      border-top-right-radius: var(--style-border-radius-popover);
+    }
+  }
+
+  .quick-view-modal[open] {
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideInTop var(--animation-speed) var(--animation-easing) forwards;
+  }
+
+  .quick-view-modal.dialog-closing {
+    animation: modalSlideOutTop var(--animation-speed) var(--animation-easing) forwards;
+  }
+
+  .quick-view-modal__close {
+    position: absolute;
+    top: var(--margin-2xs);
+    right: var(--margin-2xs);
+    z-index: var(--layer-raised);
+    overflow: visible;
+    transform-origin: center;
+    transition: transform 0.15s var(--animation-timing-bounce);
+  }
+
+  .quick-view-modal__close:active {
+    transform: scale(0.99) translateY(1px);
+  }
+
+  .quick-view-modal__close:focus-visible {
+    outline: none;
+  }
+
+  .quick-view-modal__close:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--style-border-radius-popover) - var(--margin-2xs));
+    outline: var(--focus-outline-width) solid currentColor;
+  }
+
+  .quick-view-modal__full-details {
+    flex: 0 0 auto;
+    margin: var(--padding-lg) var(--padding-3xl);
+  }
+
+  /* The modal already renders its own "view full details" link (view-more-details,
+     inherited from the fetched product markup) on mobile — avoid showing both. */
+  @media screen and (max-width: 749px) {
+    .quick-view-modal__full-details {
+      display: none;
+    }
+  }
+{% endstylesheet %}

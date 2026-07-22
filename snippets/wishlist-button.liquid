@@ -1,0 +1,92 @@
+{%- doc -%}
+  Renders a wishlist toggle button for a product card.
+  State is stored client-side (localStorage) — no backend/app required.
+
+  @param {object} product - The product object
+{%- enddoc -%}
+
+{% if product != blank %}
+  <wishlist-button
+    class="wishlist-button"
+    data-product-handle="{{ product.handle }}"
+    data-add-label="{{ 'content.wishlist_add' | t }}"
+    data-remove-label="{{ 'content.wishlist_remove' | t }}"
+  >
+    <button
+      type="button"
+      class="wishlist-button__toggle"
+      aria-pressed="false"
+      aria-label="{{ 'content.wishlist_add' | t }}"
+    >
+      <svg
+        class="wishlist-button__icon"
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 20 20"
+      >
+        {%- render 'icon', icon: 'heart' -%}
+      </svg>
+    </button>
+  </wishlist-button>
+
+  <script src="{{ 'wishlist-button.js' | asset_url }}" type="module"></script>
+{% endif %}
+
+{% stylesheet %}
+  .wishlist-button {
+    position: absolute;
+    top: var(--badge-inset, var(--padding-xs));
+    right: var(--badge-inset, var(--padding-xs));
+    z-index: var(--layer-raised);
+    opacity: 0;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .card-gallery:hover .wishlist-button,
+  .wishlist-button:focus-within,
+  .wishlist-button[data-active='true'] {
+    opacity: 1;
+  }
+
+  /* Always visible on touch devices — there is no hover to reveal it */
+  @media (hover: none), (pointer: coarse) {
+    .wishlist-button {
+      opacity: 1;
+    }
+  }
+
+  .wishlist-button__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: var(--style-border-radius-50);
+    background: rgb(var(--color-background-rgb));
+    box-shadow: var(--shadow-popover);
+    cursor: pointer;
+    transition: transform var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-button__toggle:hover {
+    transform: scale(1.08);
+  }
+
+  .wishlist-button__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-foreground);
+    fill: currentColor;
+    transition: color var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-button[data-active='true'] .wishlist-button__icon {
+    color: var(--color-wishlist-active, #ff2d78);
+    fill: var(--color-wishlist-active, #ff2d78);
+  }
+{% endstylesheet %}

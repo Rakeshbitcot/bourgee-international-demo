@@ -1,0 +1,105 @@
+{%- doc -%}
+  Renders a simple breadcrumb trail for collection pages.
+
+  @example
+  {% render 'breadcrumb', collection: collection %}
+{%- enddoc -%}
+
+<nav
+  class="breadcrumb"
+  aria-label="{{ 'accessibility.breadcrumb' | t }}"
+>
+  <ol class="breadcrumb__list list-unstyled">
+    <li class="breadcrumb__item">
+      <a
+        href="{{ routes.root_url }}"
+        class="breadcrumb__link"
+      >
+        {{- 'content.breadcrumb_home' | t -}}
+      </a>
+    </li>
+    <li
+      class="breadcrumb__item"
+      aria-hidden="true"
+    >
+      <span class="svg-wrapper breadcrumb__chevron">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </li>
+    <li class="breadcrumb__item">
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="breadcrumb__link"
+      >
+        {{- 'content.breadcrumb_collections' | t -}}
+      </a>
+    </li>
+    {%- if collection != blank -%}
+      <li
+        class="breadcrumb__item"
+        aria-hidden="true"
+      >
+        <span class="svg-wrapper breadcrumb__chevron">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+      </li>
+      <li
+        class="breadcrumb__item breadcrumb__item--current"
+        aria-current="page"
+      >
+        {{- collection.title -}}
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>
+
+{% stylesheet %}
+  .breadcrumb {
+    padding-block-start: var(--padding-md);
+  }
+
+  .breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--gap-2xs);
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size--sm);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-60));
+  }
+
+  .breadcrumb__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumb__link {
+    color: inherit;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.15em;
+    transition: color var(--animation-speed) var(--animation-easing),
+      text-decoration-color var(--animation-speed) var(--animation-easing);
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--color-foreground);
+    text-decoration-color: currentcolor;
+  }
+
+  .breadcrumb__chevron {
+    width: var(--icon-size-2xs);
+    height: var(--icon-size-2xs);
+    transform: rotate(-90deg);
+    opacity: 0.5;
+  }
+
+  .breadcrumb__item--current {
+    color: var(--color-foreground);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40vw;
+  }
+{% endstylesheet %}

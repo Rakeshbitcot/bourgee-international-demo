@@ -1,0 +1,133 @@
+{% doc %}
+  Renders the wishlist page. Wishlist state lives entirely in the browser
+  (localStorage, see `assets/wishlist-button.js`) — there is no merchant/backend
+  data source, so the product grid here is built client-side by
+  `assets/wishlist-page.js`, which fetches each saved product handle via the
+  storefront's `/products/{handle}.js` JSON endpoint.
+{% enddoc %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section page-width-content color-{{ section.settings.color_scheme }} wishlist-section">
+  <h1 class="wishlist-section__heading h2">{{ section.settings.heading | default: 'content.wishlist_title' | t }}</h1>
+
+  <wishlist-page
+    class="wishlist-page"
+    data-money-format="{{ shop.money_format | escape }}"
+    data-currency="{{ cart.currency.iso_code }}"
+    data-empty-heading="{{ 'content.wishlist_empty_heading' | t }}"
+    data-empty-body="{{ 'content.wishlist_empty_body' | t }}"
+    data-add-label="{{ 'content.wishlist_add' | t }}"
+    data-remove-label="{{ 'content.wishlist_remove' | t }}"
+  >
+    <ul
+      ref="grid"
+      class="wishlist-page__grid"
+    ></ul>
+
+    <div
+      ref="emptyState"
+      class="wishlist-page__empty hidden"
+    >
+      <h2 class="h3">{{ 'content.wishlist_empty_heading' | t }}</h2>
+      <p>{{ 'content.wishlist_empty_body' | t }}</p>
+    </div>
+  </wishlist-page>
+
+  <script
+    src="{{ 'wishlist-button.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+  <script
+    src="{{ 'wishlist-page.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+</div>
+
+{% stylesheet %}
+  .wishlist-section {
+    padding-block: var(--padding-2xl);
+  }
+
+  .wishlist-section__heading {
+    margin-block-end: var(--margin-xl);
+  }
+
+  .wishlist-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .wishlist-page__grid:empty {
+    display: none;
+  }
+
+  .wishlist-page__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs);
+  }
+
+  .wishlist-page__item-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    border-radius: var(--style-border-radius-md);
+    overflow: hidden;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+
+  .wishlist-page__item-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wishlist-page__item-title {
+    font-size: var(--font-size--sm);
+    color: var(--color-foreground);
+  }
+
+  .wishlist-page__item-price {
+    font-size: var(--font-size--sm);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+  }
+
+  .wishlist-page__empty {
+    text-align: center;
+    padding-block: var(--padding-2xl);
+  }
+
+  .wishlist-page__empty.hidden {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.wishlist",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

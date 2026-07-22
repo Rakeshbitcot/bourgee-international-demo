@@ -9,6 +9,8 @@
  */
 {
   "current": {
+    "quick_add": true,
+    "mobile_quick_add": true,
     "logo": "shopify://shop_images/bourgee-main-logo.webp",
     "logo_height": 80,
     "logo_height_mobile": 60,

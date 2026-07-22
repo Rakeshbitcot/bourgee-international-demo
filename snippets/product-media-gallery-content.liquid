@@ -23,6 +23,10 @@
     src="{{ 'zoom-dialog.js' | asset_url }}"
     type="module"
   ></script>
+  <script
+    src="{{ 'product-hover-zoom.js' | asset_url }}"
+    type="module"
+  ></script>
 {%- endif -%}
 {%- liquid
   assign selected_product = closest.product
@@ -1047,5 +1051,34 @@
 
   slideshow-slide.product-media-container--tallest {
     content-visibility: visible;
+  }
+
+  /* Desktop cursor-follow hover-zoom (assets/product-hover-zoom.js) */
+  .hover-zoom-pane {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hover-zoom-pane {
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  .hover-zoom-active .hover-zoom-pane {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hover-zoom-pane {
+      display: none;
+    }
   }
 {% endstylesheet %}

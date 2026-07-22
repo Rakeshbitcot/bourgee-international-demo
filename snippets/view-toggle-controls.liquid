@@ -1,0 +1,134 @@
+{%- doc -%}
+  Renders a grid/list view toggle for the product grid. Reuses the same
+  `product-grid-view` attribute + `results-list/updateLayout` mechanism as
+  `grid-density-controls.liquid` — no JS changes required.
+
+  @param {string} viewport - The viewport to render the controls for, either 'mobile' or 'desktop'.
+
+  @example
+  {% render 'view-toggle-controls', viewport: 'desktop' %}
+{%- enddoc -%}
+
+{% liquid
+  assign radio_name = 'grid'
+  if viewport == 'mobile'
+    assign radio_name = 'grid-mobile'
+  endif
+%}
+
+<div class="view-toggle-wrapper">
+  <fieldset class="view-toggle">
+    <legend class="visually-hidden">{{ 'content.grid_view.grid_fieldset' | t }}</legend>
+
+    <label class="view-toggle__option">
+      <input
+        type="radio"
+        name="{{ radio_name }}"
+        value="default"
+        class="view-toggle__option-input"
+        checked
+        aria-label="{{ 'accessibility.view_as_grid' | t }}"
+        on:change="results-list/updateLayout"
+      >
+      <span class="view-toggle__icon">
+        {{- 'icon-grid-default.svg' | inline_asset_content -}}
+      </span>
+    </label>
+
+    <label class="view-toggle__option">
+      <input
+        type="radio"
+        name="{{ radio_name }}"
+        value="list"
+        class="view-toggle__option-input"
+        aria-label="{{ 'accessibility.view_as_list' | t }}"
+        on:change="results-list/updateLayout"
+      >
+      <span class="view-toggle__icon">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M3 5H17M3 10H17M3 15H17"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+          />
+        </svg>
+      </span>
+    </label>
+  </fieldset>
+</div>
+
+{% stylesheet %}
+  .view-toggle-wrapper {
+    display: none;
+
+    @media screen and (min-width: 750px) {
+      display: flex;
+      align-items: center;
+      height: var(--minimum-touch-target);
+    }
+  }
+
+  .facets .view-toggle-wrapper {
+    display: none;
+
+    @media screen and (min-width: 750px) {
+      display: flex;
+    }
+  }
+
+  .view-toggle {
+    display: flex;
+    gap: var(--gap-2xs);
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .view-toggle__option {
+    position: relative;
+    display: flex;
+  }
+
+  .view-toggle__option-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .view-toggle__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+    padding: var(--padding-2xs);
+    border-radius: var(--style-border-radius-xs);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+    transition: background-color var(--animation-speed) ease, color var(--animation-speed) ease;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .view-toggle__option:hover .view-toggle__icon {
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+
+  .view-toggle__option-input:checked ~ .view-toggle__icon {
+    color: rgb(var(--color-foreground-rgb));
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+{% endstylesheet %}

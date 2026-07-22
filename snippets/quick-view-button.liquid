@@ -1,0 +1,93 @@
+{%- doc -%}
+  Renders a Quick View trigger button for a product card. Opens the shared
+  `#quick-view-dialog` (rendered once from layout/theme.liquid) with a
+  lightweight preview of the product — reuses the same fetch + dialog pattern
+  as `quick-add.js`, under its own component/dialog id.
+
+  @param {object} product - The product object
+
+  @example
+  {% render 'quick-view-button', product: product %}
+{%- enddoc -%}
+
+{% if product != blank %}
+  <quick-view-trigger
+    class="quick-view-button"
+    data-product-title="{{ product.title | escape }}"
+    data-view-full-details-label="{{ 'actions.view_full_details' | t }}"
+  >
+    <button
+      type="button"
+      class="quick-view-button__toggle"
+      on:click="/handleClick"
+      aria-haspopup="dialog"
+      aria-label="{{ 'accessibility.quick_view' | t: product_name: product.title | escape }}"
+    >
+      <svg
+        class="quick-view-button__icon"
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 20 20"
+      >
+        {%- render 'icon', icon: 'eye' -%}
+      </svg>
+    </button>
+  </quick-view-trigger>
+
+  <script
+    src="{{ 'quick-view.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
+
+{% stylesheet %}
+  .quick-view-button {
+    position: absolute;
+    top: calc(var(--badge-inset, var(--padding-xs)) + 40px);
+    right: var(--badge-inset, var(--padding-xs));
+    z-index: var(--layer-raised);
+    opacity: 0;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .card-gallery:hover .quick-view-button,
+  .quick-view-button:focus-within {
+    opacity: 1;
+  }
+
+  /* Always visible on touch devices — there is no hover to reveal it */
+  @media (hover: none), (pointer: coarse) {
+    .quick-view-button {
+      opacity: 1;
+    }
+  }
+
+  .quick-view-button__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: var(--style-border-radius-50);
+    background: rgb(var(--color-background-rgb));
+    box-shadow: var(--shadow-popover);
+    cursor: pointer;
+    transition: transform var(--animation-speed) var(--animation-easing);
+  }
+
+  .quick-view-button__toggle:hover {
+    transform: scale(1.08);
+  }
+
+  .quick-view-button__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-foreground);
+  }
+{% endstylesheet %}
