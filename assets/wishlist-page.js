@@ -29,6 +29,15 @@ function readWishlist() {
 }
 
 /**
+ * @typedef {object} WishlistProduct
+ * @property {string} handle
+ * @property {string} title
+ * @property {number} price
+ * @property {string} [featured_image]
+ * @property {string[]} [images]
+ */
+
+/**
  * Renders the wishlist grid on the dedicated wishlist page. Wishlist state has
  * no backend — this fetches each saved product handle from the storefront's
  * public `/products/{handle}.js` JSON endpoint (no auth required) so prices
@@ -57,11 +66,36 @@ class WishlistPage extends Component {
   }
 
   onWishlistChange = (event) => {
-    const item = this.refs.grid.querySelector(`[data-product-handle="${CSS.escape(event.detail.productHandle)}"]`);
-    if (item && !event.detail.active) {
-      item.remove();
-      this.#toggleEmptyState();
+    const { productHandle, active } = event.detail;
+
+    // `productHandle` is null for the event `renderGrid()` dispatches after
+    // pruning an unresolvable handle — that cleanup already updated this
+    // grid directly, so there's nothing else to do here.
+    if (!productHandle) return;
+
+    const existingItem = this.refs.grid.querySelector(`[data-product-handle="${CSS.escape(productHandle)}"]`);
+
+    if (!active) {
+      if (existingItem) {
+        existingItem.remove();
+        this.#toggleEmptyState();
+      }
+      return;
     }
+
+    // Added elsewhere (e.g. the Recently Viewed grid below) — reflect it
+    // here immediately instead of waiting for the next page load.
+    if (existingItem) return;
+
+    this.#fetchProduct(productHandle)
+      .then((product) => {
+        if (!product) return;
+        this.refs.grid.append(this.#buildItem(product));
+        this.#toggleEmptyState();
+      })
+      .catch((error) => {
+        console.error(`[wishlist] Could not load product "${productHandle}" after adding it to the wishlist.`, error);
+      });
   };
 
   async renderGrid() {
@@ -74,24 +108,25 @@ class WishlistPage extends Component {
 
     const results = await Promise.allSettled(handles.map((handle) => this.#fetchProduct(handle)));
 
+    /** @type {string[]} */
     const notFoundHandles = [];
     const fragment = document.createDocumentFragment();
 
     results.forEach((result, index) => {
       const handle = handles[index];
 
-      if (result.status === 'fulfilled' && result.value) {
-        fragment.append(this.#buildItem(result.value));
-      } else if (result.status === 'fulfilled' && result.value === null) {
-        // #fetchProduct returns null only for a confirmed 404 — the product
-        // was deleted/unpublished, so it's safe to drop from the wishlist.
-        notFoundHandles.push(handle);
-      } else {
+      if (result.status === 'rejected') {
         // Network error, non-2xx response other than 404, or a response that
         // wasn't valid JSON (e.g. a password-protected storefront redirecting
         // to the password page). Leave the handle in the wishlist and just
         // skip rendering it this time, since the failure may be transient.
         console.error(`[wishlist] Could not load product "${handle}" — leaving it in your wishlist.`, result.reason);
+      } else if (result.value) {
+        fragment.append(this.#buildItem(result.value));
+      } else {
+        // #fetchProduct returns null only for a confirmed 404 — the product
+        // was deleted/unpublished, so it's safe to drop from the wishlist.
+        notFoundHandles.push(handle);
       }
     });
 
@@ -99,15 +134,27 @@ class WishlistPage extends Component {
     this.#toggleEmptyState();
 
     if (notFoundHandles.length > 0) {
-      writeWishlist(handles.filter((handle) => !notFoundHandles.includes(handle)));
+      const remainingHandles = handles.filter((handle) => !notFoundHandles.includes(handle));
+      writeWishlist(remainingHandles);
+
+      // writeWishlist() doesn't notify other components in this tab (the
+      // native `storage` event only fires in *other* tabs) — dispatch the
+      // same event `wishlist-button.js` uses so the header badge count
+      // corrects immediately instead of staying stale until the next reload.
+      document.dispatchEvent(
+        new CustomEvent('wishlist:change', {
+          bubbles: true,
+          detail: { productHandle: null, active: false, handles: remainingHandles },
+        })
+      );
     }
   }
 
   /**
    * @param {string} handle
-   * @returns {Promise<object | null>} The product JSON, or `null` if the
-   *   product was confirmed not to exist (HTTP 404). Any other failure throws,
-   *   so the caller can tell "gone" apart from "temporarily unreachable".
+   * @returns {Promise<WishlistProduct | null>} The product JSON, or `null` if
+   *   the product was confirmed not to exist (HTTP 404). Any other failure
+   *   throws, so the caller can tell "gone" apart from "temporarily unreachable".
    */
   async #fetchProduct(handle) {
     const response = await fetch(`/products/${handle}.js`);
@@ -118,10 +165,13 @@ class WishlistPage extends Component {
       throw new Error(`Unexpected HTTP ${response.status} fetching /products/${handle}.js`);
     }
 
+    // Shopify serves this endpoint as `content-type: text/javascript` even
+    // though the body is JSON — only reject if it looks like an HTML page
+    // (e.g. a password-protected storefront redirecting to a login page).
     const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('application/json')) {
+    if (contentType.includes('text/html')) {
       throw new Error(
-        `/products/${handle}.js did not return JSON (content-type: "${contentType}") — the storefront may be password-protected or the request was redirected.`
+        `/products/${handle}.js returned HTML instead of product data (content-type: "${contentType}") — the storefront may be password-protected or the request was redirected.`
       );
     }
 
@@ -129,7 +179,13 @@ class WishlistPage extends Component {
   }
 
   /**
-   * @param {object} product
+   * @param {{
+   *   handle: string,
+   *   title: string,
+   *   price: number,
+   *   featured_image?: string,
+   *   images?: string[],
+   * }} product
    */
   #buildItem(product) {
     const productUrl = `/products/${product.handle}`;
@@ -178,7 +234,21 @@ class WishlistPage extends Component {
       </button>
     `;
 
-    item.append(media, title, priceEl, wishlistButton);
+    const viewButton = document.createElement('a');
+    viewButton.href = productUrl;
+    viewButton.className = 'wishlist-page__view-button';
+    viewButton.setAttribute(
+      'aria-label',
+      (this.dataset.viewLabelTemplate || 'View __PRODUCT_NAME__').replace('__PRODUCT_NAME__', product.title)
+    );
+    viewButton.innerHTML = `
+      <svg class="wishlist-page__view-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20">
+        <path d="M9.5235 4.79973C6.76257 4.92905 4.08307 6.62063 1.1722 9.66543C0.993412 9.85244 0.993412 10.1474 1.1722 10.3344C4.08307 13.3793 6.76258 15.0709 9.52351 15.2003C12.2733 15.3291 15.2667 13.9138 18.8217 10.3399C19.0086 10.152 19.0086 9.84814 18.8217 9.6602C15.2667 6.0863 12.2733 4.67093 9.5235 4.79973ZM9.47509 3.7592C12.6521 3.61039 15.9149 5.26347 19.5564 8.92433C20.1479 9.5189 20.1479 10.4812 19.5564 11.0758C15.9149 14.7366 12.6521 16.3897 9.47508 16.2408C6.30917 16.0924 3.3912 14.1603 0.42305 11.0555C-0.141017 10.4655 -0.141017 9.53435 0.423051 8.94433C3.3912 5.8396 6.30918 3.90749 9.47509 3.7592Z" />
+        <path d="M13.5807 10.0002C13.5807 11.9741 11.9742 13.5586 10.012 13.5586C8.04979 13.5586 6.44327 11.9741 6.44327 10.0002C6.44327 8.02617 8.04979 6.44176 10.012 6.44176C11.9742 6.44176 13.5807 8.02617 13.5807 10.0002ZM10.012 12.5169C11.4096 12.5169 12.5426 11.3901 12.5426 10.0002C12.5426 8.6102 11.4096 7.48342 10.012 7.48342C8.61438 7.48342 7.48138 8.6102 7.48138 10.0002C7.48138 11.3901 8.61438 12.5169 10.012 12.5169Z" />
+      </svg>
+    `;
+
+    item.append(media, title, priceEl, wishlistButton, viewButton);
 
     return item;
   }

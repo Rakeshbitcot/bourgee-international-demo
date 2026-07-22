@@ -63,6 +63,7 @@
     data-empty-body="{{ 'content.wishlist_empty_body' | t }}"
     data-add-label="{{ 'content.wishlist_add' | t }}"
     data-remove-label="{{ 'content.wishlist_remove' | t }}"
+    data-view-label-template="{{ 'accessibility.view_product' | t: product_name: '__PRODUCT_NAME__' }}"
   >
     <ul
       ref="grid"
@@ -180,6 +181,47 @@
 
   .wishlist-page__empty.hidden {
     display: none;
+  }
+
+  .wishlist-page__view-button {
+    position: absolute;
+    top: calc(var(--badge-inset, var(--padding-xs)) + 40px);
+    right: var(--badge-inset, var(--padding-xs));
+    z-index: var(--layer-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--style-border-radius-50);
+    background: rgb(var(--color-background-rgb));
+    box-shadow: var(--shadow-popover);
+    opacity: 0;
+    transition:
+      opacity var(--animation-speed) var(--animation-easing),
+      transform var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-page__item:hover .wishlist-page__view-button,
+  .wishlist-page__view-button:focus-visible {
+    opacity: 1;
+  }
+
+  .wishlist-page__view-button:hover {
+    transform: scale(1.08);
+  }
+
+  /* Always visible on touch devices — there is no hover to reveal it */
+  @media (hover: none), (pointer: coarse) {
+    .wishlist-page__view-button {
+      opacity: 1;
+    }
+  }
+
+  .wishlist-page__view-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-foreground);
   }
 
   .wishlist-recently-viewed {
