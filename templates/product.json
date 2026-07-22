@@ -430,8 +430,6 @@
     },
     "frequently_bought_together_HbXq3T": {
       "type": "frequently-bought-together",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "heading": "Frequently bought together",
         "button_label": "Add selected to cart",
