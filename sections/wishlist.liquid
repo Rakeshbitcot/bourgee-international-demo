@@ -4,7 +4,52 @@
   data source, so the product grid here is built client-side by
   `assets/wishlist-page.js`, which fetches each saved product handle via the
   storefront's `/products/{handle}.js` JSON endpoint.
+
+  The "Recently Viewed" grid below works differently: `viewedProducts`
+  (see `assets/recently-viewed-products.js`) only stores numeric product IDs,
+  and the storefront has no public "get product by id" JSON endpoint. So
+  `assets/wishlist-recently-viewed.js` resolves those IDs into full product
+  cards by re-requesting this section through the Section Rendering API with
+  a `?q=id:123 OR id:456&resources[type]=product` search query — Shopify's
+  native search resolves the IDs server-side into `search.results`, which is
+  rendered below via the theme's `_product-card` block (the same card used
+  on collection/search pages: wishlist button, quick add, badges, pricing,
+  swatches). The JS then copies just that markup into the live grid, leaving
+  the wishlist grid above untouched.
 {% enddoc %}
+
+{% liquid
+  assign has_id_search = false
+  if search.terms contains 'id:'
+    assign has_id_search = true
+  endif
+
+  assign recently_viewed_order_ids = blank
+  assign recently_viewed_products = blank
+  if has_id_search
+    assign recently_viewed_order_ids = search.terms | replace: 'id:', '' | split: ' OR '
+    assign recently_viewed_products = search.results | where: 'object_type', 'product'
+  endif
+%}
+
+{% capture recently_viewed_items_markup %}
+  {% for id_str in recently_viewed_order_ids %}
+    {% assign int_id = id_str | times: 1 %}
+    {% assign recently_viewed_product = recently_viewed_products | find: 'id', int_id %}
+    {% if recently_viewed_product %}
+      <li class="wishlist-recently-viewed__item">
+        {% content_for 'block', type: '_product-card', id: 'recently-viewed-product-card', closest.product: recently_viewed_product %}
+      </li>
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% liquid
+  assign recently_viewed_show_empty = false
+  if has_id_search and recently_viewed_items_markup == blank
+    assign recently_viewed_show_empty = true
+  endif
+%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section page-width-content color-{{ section.settings.color_scheme }} wishlist-section">
@@ -40,6 +85,31 @@
   ></script>
   <script
     src="{{ 'wishlist-page.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <wishlist-recently-viewed
+    class="wishlist-recently-viewed"
+    data-section-id="{{ section.id }}"
+  >
+    <h2 class="wishlist-recently-viewed__heading h3">{{ 'content.recently_viewed_products' | t }}</h2>
+
+    <ul
+      ref="grid"
+      class="wishlist-recently-viewed__grid"
+    >{{ recently_viewed_items_markup }}</ul>
+
+    <div
+      ref="emptyState"
+      class="wishlist-recently-viewed__empty{% unless recently_viewed_show_empty %} hidden{% endunless %}"
+    >
+      <p>{{ 'content.wishlist_recently_viewed_empty' | t }}</p>
+    </div>
+  </wishlist-recently-viewed>
+
+  <script
+    src="{{ 'wishlist-recently-viewed.js' | asset_url }}"
     type="module"
     fetchpriority="low"
   ></script>
@@ -109,6 +179,41 @@
   }
 
   .wishlist-page__empty.hidden {
+    display: none;
+  }
+
+  .wishlist-recently-viewed {
+    display: block;
+    margin-block-start: var(--margin-2xl);
+  }
+
+  .wishlist-recently-viewed__heading {
+    margin-block-end: var(--margin-xl);
+  }
+
+  .wishlist-recently-viewed__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .wishlist-recently-viewed__grid:empty {
+    display: none;
+  }
+
+  .wishlist-recently-viewed__empty {
+    text-align: center;
+    padding-block: var(--padding-2xl);
+  }
+
+  .wishlist-recently-viewed__empty.hidden {
     display: none;
   }
 {% endstylesheet %}
