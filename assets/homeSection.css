@@ -110,3 +110,13 @@
 .best-seller-custom .resource-list__item{
     width:224px;
 }
+.custom-gradient-hero .overlay--gradient {
+    background: linear-gradient(
+        to right,
+        rgba(18,22,18,.92) 0%,
+        rgba(18,22,18,.80) 20%,
+        rgba(18,22,18,.60) 40%,
+        rgba(18,22,18,.25) 65%,
+        rgba(18,22,18,0) 100%
+    ) !important;
+}
