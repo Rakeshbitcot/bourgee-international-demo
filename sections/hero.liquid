@@ -452,7 +452,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class=" custom-gradient-hero hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -498,7 +498,7 @@
   {% endcomment %}
 
   <div
-    class="hero__container spacing-style section section--full-width custom-gradient-hero"
+    class="hero__container spacing-style section section--full-width "
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {%- if section.settings.link != blank -%}
