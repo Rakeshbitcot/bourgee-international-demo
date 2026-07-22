@@ -1057,8 +1057,8 @@
                 "link": "shopify://collections",
                 "open_in_new_tab": false,
                 "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
+                "width": "custom",
+                "custom_width": 10,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100
               },
