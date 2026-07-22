@@ -53,7 +53,13 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section page-width-content color-{{ section.settings.color_scheme }} wishlist-section">
-  <h1 class="wishlist-section__heading h2">{{ section.settings.heading | default: 'content.wishlist_title' | t }}</h1>
+  <h1 class="wishlist-section__heading h2">
+    {%- if section.settings.heading != blank -%}
+      {{ section.settings.heading }}
+    {%- else -%}
+      {{ 'content.wishlist_title' | t }}
+    {%- endif -%}
+  </h1>
 
   <wishlist-page
     class="wishlist-page"
@@ -64,6 +70,9 @@
     data-add-label="{{ 'content.wishlist_add' | t }}"
     data-remove-label="{{ 'content.wishlist_remove' | t }}"
     data-view-label-template="{{ 'accessibility.view_product' | t: product_name: '__PRODUCT_NAME__' }}"
+    data-add-to-cart-label="{{ 'actions.add_to_cart' | t }}"
+    data-added-label="{{ 'actions.added' | t }}"
+    data-sold-out-label="{{ 'blocks.sold_out' | t }}"
   >
     <ul
       ref="grid"
@@ -172,6 +181,20 @@
   .wishlist-page__item-price {
     font-size: var(--font-size--sm);
     color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+  }
+
+  .wishlist-page__add-to-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-2xs);
+    margin-block-start: var(--margin-2xs);
+    width: 100%;
+  }
+
+  .wishlist-page__add-to-cart-icon svg {
+    width: 16px;
+    height: 16px;
   }
 
   .wishlist-page__empty {

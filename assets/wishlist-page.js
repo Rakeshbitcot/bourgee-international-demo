@@ -1,5 +1,6 @@
 import { Component } from '@theme/component';
 import { formatMoney } from '@theme/money-formatting';
+import { CartAddEvent, CartErrorEvent } from '@theme/events';
 
 const STORAGE_KEY = 'bourgee:wishlist';
 
@@ -29,12 +30,20 @@ function readWishlist() {
 }
 
 /**
+ * @typedef {object} WishlistProductVariant
+ * @property {number} id
+ * @property {boolean} available
+ */
+
+/**
  * @typedef {object} WishlistProduct
+ * @property {number} id
  * @property {string} handle
  * @property {string} title
  * @property {number} price
  * @property {string} [featured_image]
  * @property {string[]} [images]
+ * @property {WishlistProductVariant[]} variants
  */
 
 /**
@@ -179,13 +188,7 @@ class WishlistPage extends Component {
   }
 
   /**
-   * @param {{
-   *   handle: string,
-   *   title: string,
-   *   price: number,
-   *   featured_image?: string,
-   *   images?: string[],
-   * }} product
+   * @param {WishlistProduct} product
    */
   #buildItem(product) {
     const productUrl = `/products/${product.handle}`;
@@ -248,9 +251,86 @@ class WishlistPage extends Component {
       </svg>
     `;
 
-    item.append(media, title, priceEl, wishlistButton, viewButton);
+    const variant = product.variants?.find((v) => v.available) ?? product.variants?.[0];
+
+    const addToCartButton = document.createElement('button');
+    addToCartButton.type = 'button';
+    addToCartButton.className = 'wishlist-page__add-to-cart button';
+
+    if (!variant?.available) {
+      addToCartButton.disabled = true;
+      addToCartButton.textContent = this.dataset.soldOutLabel || 'Sold out';
+    } else {
+      addToCartButton.innerHTML = `
+        <span class="svg-wrapper wishlist-page__add-to-cart-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--icon-stroke-width)" d="M16.608 9.421V6.906H3.392v8.016c0 .567.224 1.112.624 1.513.4.402.941.627 1.506.627H8.63M8.818 3h2.333c.618 0 1.212.247 1.649.686a2.35 2.35 0 0 1 .683 1.658v1.562H6.486V5.344c0-.622.246-1.218.683-1.658A2.33 2.33 0 0 1 8.82 3"/>
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="var(--icon-stroke-width)" d="M14.608 12.563v5m2.5-2.5h-5"/>
+          </svg>
+        </span>
+        <span class="wishlist-page__add-to-cart-text">${this.dataset.addToCartLabel || 'Add to cart'}</span>
+      `;
+      addToCartButton.addEventListener('click', () => this.#addToCart(product, variant, addToCartButton));
+    }
+
+    item.append(media, title, priceEl, wishlistButton, viewButton, addToCartButton);
 
     return item;
+  }
+
+  /**
+   * @param {WishlistProduct} product
+   * @param {WishlistProductVariant} variant
+   * @param {HTMLButtonElement} button
+   */
+  async #addToCart(product, variant, button) {
+    const addToCartLabel = this.dataset.addToCartLabel || 'Add to cart';
+    const addedLabel = this.dataset.addedLabel || 'Added';
+    const textEl = button.querySelector('.wishlist-page__add-to-cart-text');
+
+    button.disabled = true;
+
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: variant.id, quantity: 1 }),
+      });
+
+      const body = await response.json();
+
+      if (!response.ok || body.status) {
+        document.dispatchEvent(
+          new CartErrorEvent(button.id, body.message, body.description, body.errors)
+        );
+        if (textEl) textEl.textContent = addToCartLabel;
+        button.disabled = false;
+        return;
+      }
+
+      const cart = await (await fetch('/cart.js')).json();
+
+      document.dispatchEvent(
+        new CartAddEvent(cart, button.id, {
+          source: 'wishlist-page',
+          itemCount: cart.item_count,
+          productId: String(product.id),
+          variantId: String(variant.id),
+        })
+      );
+
+      if (textEl) textEl.textContent = addedLabel;
+    } catch (error) {
+      console.error(`[wishlist] Could not add "${product.handle}" to cart.`, error);
+      if (textEl) textEl.textContent = addToCartLabel;
+      button.disabled = false;
+      return;
+    }
+
+    setTimeout(() => {
+      if (textEl) textEl.textContent = addToCartLabel;
+      button.disabled = false;
+    }, 2000);
   }
 
   #toggleEmptyState() {
