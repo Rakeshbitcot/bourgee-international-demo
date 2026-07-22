@@ -1155,7 +1155,7 @@
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": true,
-        "columns": 7,
+        "columns": 6,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
         "columns_gap": 8,
