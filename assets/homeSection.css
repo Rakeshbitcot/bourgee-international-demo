@@ -516,12 +516,3 @@
     font-size: 15px;
     font-weight: 600;
 }
-.single-product-custom :is(
-    .section:not(.disable-section-top-offset).spacing-style,
-    .section:not(.disable-section-top-offset) .spacing-style
-) :is(
-    .spacing-style,
-    .inherit-spacing
-) {
-    top:7rem;
-}
