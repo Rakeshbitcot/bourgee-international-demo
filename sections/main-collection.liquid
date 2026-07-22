@@ -23,8 +23,10 @@
 {% endjavascript %}
 
 {% if collection != blank %}
-  <div class="collection-breadcrumb-wrapper">
+  <div class="section">
+  <div class="collection-breadcrumb-wrapper" style="padding:0px;">
     {% render 'breadcrumb', collection: collection %}
+  </div>
   </div>
 {% endif %}
 

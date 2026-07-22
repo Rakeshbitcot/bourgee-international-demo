@@ -1,0 +1,68 @@
+
+
+{% liquid
+  assign block_settings = block.settings
+  assign fbt_product = block_settings.product
+  assign selected_variant = fbt_product.selected_or_first_available_variant
+%}
+
+{% if fbt_product != blank and selected_variant != blank %}
+  <div
+    class="fbt-item"
+    data-testid="fbt-item"
+    {{ block.shopify_attributes }}
+  >
+    <label class="fbt-item__checkbox">
+      <input
+        type="checkbox"
+        ref="checkbox[]"
+        checked
+        data-variant-id="{{ selected_variant.id }}"
+        data-price="{{ selected_variant.price }}"
+        on:change="/handleToggle"
+        aria-label="{{ 'accessibility.include_product_in_bundle' | t: product: fbt_product.title }}"
+      >
+    </label>
+    <a
+      href="{{ fbt_product.url }}"
+      class="fbt-item__media"
+      tabindex="-1"
+    >
+      {%- if fbt_product.featured_image != blank -%}
+        {{
+          fbt_product.featured_image
+          | image_url: width: 160
+          | image_tag: loading: 'lazy', widths: '80,160,240', alt: fbt_product.featured_image.alt
+        }}
+      {%- endif -%}
+    </a>
+    <div class="fbt-item__info">
+      <a
+        href="{{ fbt_product.url }}"
+        class="fbt-item__title"
+      >
+        {{- fbt_product.title -}}
+      </a>
+      {% render 'price', product_resource: fbt_product %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:names.fbt_product",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.fbt_product"
+    }
+  ]
+}
+{% endschema %}

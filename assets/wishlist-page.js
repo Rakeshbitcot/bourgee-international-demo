@@ -74,31 +74,57 @@ class WishlistPage extends Component {
 
     const results = await Promise.allSettled(handles.map((handle) => this.#fetchProduct(handle)));
 
-    const staleHandles = [];
+    const notFoundHandles = [];
     const fragment = document.createDocumentFragment();
 
     results.forEach((result, index) => {
+      const handle = handles[index];
+
       if (result.status === 'fulfilled' && result.value) {
         fragment.append(this.#buildItem(result.value));
+      } else if (result.status === 'fulfilled' && result.value === null) {
+        // #fetchProduct returns null only for a confirmed 404 — the product
+        // was deleted/unpublished, so it's safe to drop from the wishlist.
+        notFoundHandles.push(handle);
       } else {
-        staleHandles.push(handles[index]);
+        // Network error, non-2xx response other than 404, or a response that
+        // wasn't valid JSON (e.g. a password-protected storefront redirecting
+        // to the password page). Leave the handle in the wishlist and just
+        // skip rendering it this time, since the failure may be transient.
+        console.error(`[wishlist] Could not load product "${handle}" — leaving it in your wishlist.`, result.reason);
       }
     });
 
     this.refs.grid.append(fragment);
     this.#toggleEmptyState();
 
-    if (staleHandles.length > 0) {
-      writeWishlist(handles.filter((handle) => !staleHandles.includes(handle)));
+    if (notFoundHandles.length > 0) {
+      writeWishlist(handles.filter((handle) => !notFoundHandles.includes(handle)));
     }
   }
 
   /**
    * @param {string} handle
+   * @returns {Promise<object | null>} The product JSON, or `null` if the
+   *   product was confirmed not to exist (HTTP 404). Any other failure throws,
+   *   so the caller can tell "gone" apart from "temporarily unreachable".
    */
   async #fetchProduct(handle) {
     const response = await fetch(`/products/${handle}.js`);
-    if (!response.ok) return null;
+
+    if (response.status === 404) return null;
+
+    if (!response.ok) {
+      throw new Error(`Unexpected HTTP ${response.status} fetching /products/${handle}.js`);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      throw new Error(
+        `/products/${handle}.js did not return JSON (content-type: "${contentType}") — the storefront may be password-protected or the request was redirected.`
+      );
+    }
+
     return response.json();
   }
 

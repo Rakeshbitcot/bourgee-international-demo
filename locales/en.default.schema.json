@@ -313,6 +313,8 @@
     "filters": "Filtering and sorting",
     "follow_on_shop": "Follow on Shop",
     "footer": "Footer",
+    "frequently_bought_together": "Frequently bought together",
+    "fbt_product": "Frequently bought together: product",
     "footer_password": "Password footer",
     // Footer block containing copyright, policies, and social links
     "footer_utilities": "Footer utilities",
@@ -1191,6 +1193,8 @@
     "email_signup_button_label": "Subscribe",
     "featured_collection": "Featured collection",
     "fit": "fit",
+    "frequently_bought_together": "Frequently bought together",
+    "add_selected_to_cart": "Add selected to cart",
     "heading": "Heading",
     "how_much_for_shipping": "How much does shipping cost?",
     "learn_more": "Learn more",
