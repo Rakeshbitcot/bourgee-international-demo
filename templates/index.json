@@ -1810,16 +1810,16 @@
       ],
       "name": "New Arrivals",
       "settings": {
-        "heading": "New Arrivals",
-        "womens_label": "Shop Women's",
-        "womens_url": "shopify://collections/women",
-        "mens_label": "Shop Men's",
-        "mens_url": "shopify://collections/men",
-        "desktop_cards": 4,
+        "heading": "",
+        "womens_label": "",
+        "womens_url": "",
+        "mens_label": "",
+        "mens_url": "",
+        "desktop_cards": 6,
         "tablet_cards": 2,
         "mobile_cards": 1,
         "card_gap": 10,
-        "wrapper_gap": 100
+        "wrapper_gap": 10
       }
     },
     "shop_by_color_c4Tp8a": {
