@@ -1615,7 +1615,7 @@
                 "border_opacity": 100,
                 "border_radius": 0,
                 "toggle_overlay": true,
-                "overlay_color": "#ffffff40",
+                "overlay_color": "#222B267A",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "link": "",
