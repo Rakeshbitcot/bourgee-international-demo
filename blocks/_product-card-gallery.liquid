@@ -8,7 +8,7 @@
   # for merchants who haven't tagged their catalog yet). Priority order when a
   # product carries more than one badge tag: new > bestseller > trending > limited-edition.
   assign auto_badge_key = null
-  if product.tags contains 'new'
+  if product.tags contains 'New'
     assign auto_badge_key = 'new'
   elsif product.tags contains 'bestseller'
     assign auto_badge_key = 'bestseller'
