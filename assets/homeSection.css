@@ -638,3 +638,10 @@ product-card product-price{
     color: #7A2FB5;
     border-color: #C98CF5;
 }
+product-swatches {
+    padding-bottom: 24px;
+}
+.custom-collection-section .swatch {
+    width: 35px;
+    height: 35px;
+}
