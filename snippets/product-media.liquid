@@ -29,21 +29,23 @@
   style="--ratio: {{ media.aspect_ratio }}"
   data-media-id="{{ media.id }}"
 >
-  {% assign badge = '' %}
- {{item.product.tags }}
-  {% if item.product.tags contains 'New' %}
-    {% assign badge = 'New' %}
-  {% elsif item.product.tags contains 'Trending' %}
-    {% assign badge = 'Trending' %}
-  {% elsif item.product.tags contains 'Best Seller' %}
-    {% assign badge = 'Best Seller' %}
-  {% elsif item.product.tags contains 'Limited Edition' %}
-    {% assign badge = 'Limited Edition' %}
-  {% endif %}
+{% for tag in item.product.tags %}
+  {% assign tag_lower = tag | downcase %}
 
-  {% if badge != '' %}
-    <span class="product-badge">{{ badge }}</span>
-  {% endif %}
+  {% case tag_lower %}
+    {% when 'new' %}
+      <span class="product-badge">New</span>
+
+    {% when 'trending' %}
+      <span class="product-badge">Trending</span>
+
+    {% when 'best seller' %}
+      <span class="product-badge">Best Seller</span>
+
+    {% when 'limited edition' %}
+      <span class="product-badge">Limited Edition</span>
+  {% endcase %}
+{% endfor %}
 
   {% liquid
     assign high_res_url = media.preview_image | image_url: width: 3840
