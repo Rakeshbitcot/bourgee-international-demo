@@ -29,7 +29,7 @@
   style="--ratio: {{ media.aspect_ratio }}"
   data-media-id="{{ media.id }}"
 >
-  {{item.product }}
+   {{ item.product.tags | json }}
 {% for tag in item.product.tags %}
   {% assign tag_lower = tag | downcase %}
 
