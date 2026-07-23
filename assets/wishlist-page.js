@@ -274,7 +274,22 @@ class WishlistPage extends Component {
       addToCartButton.addEventListener('click', () => this.#addToCart(product, variant, addToCartButton));
     }
 
-    item.append(media, title, priceEl, wishlistButton, viewButton, addToCartButton);
+   // title + price grouped together
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'wishlist-page__item-info';
+    infoDiv.append(title, priceEl);
+
+    // wishlist button in its own div
+    const buttonDiv = document.createElement('div');
+    buttonDiv.className = 'wishlist-page__item-button';
+    buttonDiv.append(wishlistButton);
+
+    // parent div wrapping both
+    const parentDiv = document.createElement('div');
+    parentDiv.className = 'wishlist-page__item-details';
+    parentDiv.append(infoDiv, buttonDiv);
+
+    item.append(media, parentDiv, viewButton, addToCartButton);
 
     return item;
   }
