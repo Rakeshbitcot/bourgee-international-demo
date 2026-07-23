@@ -1139,7 +1139,7 @@ font-size:24px !important;
    - solid path hidden when not active, shown when active */
 .wishlist-button__icon-solid {
   display: none;
-  fill: currentColor;
+  fill: #ff2d78;
 }
 
 .wishlist-button[data-active="true"] .wishlist-button__icon-solid {
