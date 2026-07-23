@@ -29,6 +29,7 @@
   style="--ratio: {{ media.aspect_ratio }}"
   data-media-id="{{ media.id }}"
 >
+   <span>New Product</span>
   {% liquid
     assign high_res_url = media.preview_image | image_url: width: 3840
     assign fetch_priority = 'auto'
@@ -93,7 +94,6 @@
             {% # Should I be using media_tag here instead like on Dawn? 🤔 %}
             {{ media | model_viewer_tag }}
           </template>
-          <span>New Product</span>
         </product-model>
         <button
           class="button button-secondary button-shopify-xr"
