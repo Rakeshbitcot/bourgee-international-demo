@@ -522,3 +522,6 @@
 .shop-by-category-custom .collection-card__image .resource-image__image {
     height: 93%;
 }
+.product-media img{
+    max-height:200px;
+}
