@@ -783,7 +783,9 @@ product-swatches {
 .frequently-bought-together-wrap{
     padding:80px 0;
 }
-
+.frequently-bought-together-wrap .fbt-heading{
+font-size:24px;
+}
 .frequently-bought-together-wrap .fbt-heading{
     font-size:48px;
     font-weight:700;
