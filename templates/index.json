@@ -1399,7 +1399,7 @@
         "columns": 5,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
-        "columns_gap": 25,
+        "columns_gap": 12,
         "rows_gap": 32,
         "icons_style": "chevron_large",
         "icons_shape": "none",
