@@ -139,7 +139,7 @@
             assign sizes = image_sizes
           endif
 
-          assign class = 'product-media-container media-fit product-media-container--[media_type] btttttttttt' | replace: '[media_type]', media.media_type
+          assign class = 'product-media-container media-fit product-media-container--[media_type]' | replace: '[media_type]', media.media_type
           if constrain_to_viewport
             assign class = class | append: ' constrain-height'
           endif
