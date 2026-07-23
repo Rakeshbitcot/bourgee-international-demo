@@ -1105,9 +1105,9 @@ font-size:24px !important;
 }
 
 .wishlist-page__item .wishlist-page__view-button {
-  position: absolute;
-  top: 16px;
-  left: 68px;   /* sits right of the heart button; adjust with the row */
+    position: absolute;
+    top: 16px;
+    right: 16px;
 }
 
 .wishlist-page__item .wishlist-button:hover,
