@@ -15,7 +15,7 @@
     assign auto_badge_key = 'Best Seller'
   elsif product.tags contains 'trending'
     assign auto_badge_key = 'Trending'
-  elsif product.tags contains 'limited-edition'
+  elsif product.tags contains 'limited-edition' or product.tags contains 'Limited Edition'
     assign auto_badge_key = 'Limited Edition'
   endif
   assign badge_key = auto_badge_key
