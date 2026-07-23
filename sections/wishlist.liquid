@@ -53,40 +53,42 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section  color-{{ section.settings.color_scheme }} wishlist-section">
-  <h1 class="wishlist-section__heading h2">
-    {%- if section.settings.heading != blank -%}
-      {{ section.settings.heading }}
-    {%- else -%}
-      {{ 'content.wishlist_title' | t }}
-    {%- endif -%}
-  </h1>
+  <div class="wishlist-section__layout">
+    <h1 class="wishlist-section__heading h2">
+      {%- if section.settings.heading != blank -%}
+        {{ section.settings.heading }}
+      {%- else -%}
+        {{ 'content.wishlist_title' | t }}
+      {%- endif -%}
+    </h1>
 
-  <wishlist-page
-    class="wishlist-page"
-    data-money-format="{{ shop.money_format | escape }}"
-    data-currency="{{ cart.currency.iso_code }}"
-    data-empty-heading="{{ 'content.wishlist_empty_heading' | t }}"
-    data-empty-body="{{ 'content.wishlist_empty_body' | t }}"
-    data-add-label="{{ 'content.wishlist_add' | t }}"
-    data-remove-label="{{ 'content.wishlist_remove' | t }}"
-    data-view-label-template="{{ 'accessibility.view_product' | t: product_name: '__PRODUCT_NAME__' }}"
-    data-add-to-cart-label="{{ 'actions.add_to_cart' | t }}"
-    data-added-label="{{ 'actions.added' | t }}"
-    data-sold-out-label="{{ 'blocks.sold_out' | t }}"
-  >
-    <ul
-      ref="grid"
-      class="wishlist-page__grid"
-    ></ul>
-
-    <div
-      ref="emptyState"
-      class="wishlist-page__empty hidden"
+    <wishlist-page
+      class="wishlist-page"
+      data-money-format="{{ shop.money_format | escape }}"
+      data-currency="{{ cart.currency.iso_code }}"
+      data-empty-heading="{{ 'content.wishlist_empty_heading' | t }}"
+      data-empty-body="{{ 'content.wishlist_empty_body' | t }}"
+      data-add-label="{{ 'content.wishlist_add' | t }}"
+      data-remove-label="{{ 'content.wishlist_remove' | t }}"
+      data-view-label-template="{{ 'accessibility.view_product' | t: product_name: '__PRODUCT_NAME__' }}"
+      data-add-to-cart-label="{{ 'actions.add_to_cart' | t }}"
+      data-added-label="{{ 'actions.added' | t }}"
+      data-sold-out-label="{{ 'blocks.sold_out' | t }}"
     >
-      <h2 class="h3">{{ 'content.wishlist_empty_heading' | t }}</h2>
-      <p>{{ 'content.wishlist_empty_body' | t }}</p>
-    </div>
-  </wishlist-page>
+      <ul
+        ref="grid"
+        class="wishlist-page__grid"
+      ></ul>
+
+      <div
+        ref="emptyState"
+        class="wishlist-page__empty hidden"
+      >
+        <h2 class="h3">{{ 'content.wishlist_empty_heading' | t }}</h2>
+        <p>{{ 'content.wishlist_empty_body' | t }}</p>
+      </div>
+    </wishlist-page>
+  </div>
 
   <script
     src="{{ 'wishlist-button.js' | asset_url }}"
@@ -124,8 +126,6 @@
     fetchpriority="low" defer="defer"
   ></script>
 </div>
-
-{{ 'wishlist.css' | asset_url | stylesheet_tag: preload: true }}
 
 {% schema %}
 {
