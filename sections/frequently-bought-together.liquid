@@ -13,7 +13,7 @@
   src="{{ 'frequently-bought-together.js' | asset_url }}"
   type="module"
 ></script>
-
+<div class="frequently-bought-together-wrap">
 <frequently-bought-together
   class="frequently-bought-together color-{{ section.settings.color_scheme }}"
   data-testid="frequently-bought-together"
@@ -102,6 +102,7 @@
     {% endif %}
   </div>
 </frequently-bought-together>
+</div>
 
 {% stylesheet %}
   .fbt-heading {
