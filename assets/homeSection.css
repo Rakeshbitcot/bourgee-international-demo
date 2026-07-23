@@ -898,6 +898,7 @@ product-swatches {
     font-weight:700;
     color:#222;
     text-decoration:none;
+    margin-bottom:0;
 }
 
 .frequently-bought-together-wrap .price{
