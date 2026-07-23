@@ -529,3 +529,65 @@
 .card-gallery{
     max-height:250px;
 }
+/* Card */
+product-card.product-card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    padding: 12px;
+}
+
+/* Image area */
+product-card .product-card__content{
+    padding: 0 !important;
+}
+
+product-card .card-gallery{
+    width: 100%;
+    height: 198px;
+}
+
+product-card slideshow-component,
+product-card slideshow-container,
+product-card slideshow-slides,
+product-card .product-media-container,
+product-card .product-media{
+    width: 100%;
+    height: 100%;
+}
+
+product-card .product-media{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Show the complete shoe */
+product-card .product-media__image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Title & Price */
+product-card .product-grid-view-zoom-out--details,
+product-card > a.contents,
+product-card product-price{
+    padding: 0 12px;
+}
+
+product-card product-price{
+    padding-bottom: 12px;
+}
+
+.product-card__content.layout-panel-flex.layout-panel-flex--column.product-grid__card.spacing-style.border-style.gap-style {
+    border:0;
+    background:transparent !important;
+}
+.best-seller-custom .product-card__content:hover {
+    box-shadow:none; 
+}
