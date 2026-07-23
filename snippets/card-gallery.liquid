@@ -6,7 +6,6 @@
   @param [children] - Additional content rendered below the card gallery
   @param [section] - The section object the snippet is rendered in
   @param [block] - The block object the snippet is rendered in
-  @param {object} product - The product for this card
 {%- enddoc -%}
 
 {% liquid
@@ -63,6 +62,7 @@
     endif
   endif
 %}
+
 <div
   ref="cardGallery"
   class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}"
