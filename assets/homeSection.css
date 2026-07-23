@@ -1401,3 +1401,11 @@ font-size:24px !important;
     bottom: 108px; /* keep it next to the heart on mobile */
   }
 }
+.wishlist-page__item-details{
+        display: flex;
+    justify-content: space-between;
+}
+.wishlist-page__item-info{
+     display: flex;
+    justify-content: space-between;
+}
