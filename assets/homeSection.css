@@ -772,3 +772,220 @@ product-swatches {
         line-height: 1.8;
     }
 }
+
+
+
+/* ***********************************************Frequently bought section *****************************************/
+/* ===========================
+   Frequently Bought Together
+=========================== */
+
+.frequently-bought-together-wrap{
+    padding:80px 0;
+}
+
+.frequently-bought-together-wrap .fbt-heading{
+    font-size:48px;
+    font-weight:700;
+    line-height:1.1;
+    margin-bottom:10px;
+}
+
+.frequently-bought-together-wrap .fbt-heading::after{
+    content:"Save more when you buy the perfect combo.";
+    display:block;
+    font-size:18px;
+    font-weight:400;
+    color:#6d6d6d;
+    margin-top:14px;
+}
+
+.frequently-bought-together-wrap .fbt-layout{
+    display:grid;
+    grid-template-columns:1fr 330px;
+    gap:40px;
+    align-items:start;
+    margin-top:40px;
+}
+
+/* Products */
+
+.frequently-bought-together-wrap .fbt-items{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    position:relative;
+}
+
+.frequently-bought-together-wrap .fbt-item{
+    position:relative;
+    background:#fff;
+    border:1px solid #e8e8e8;
+    border-radius:18px;
+    padding:24px 20px;
+    transition:.3s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    min-height:360px;
+}
+
+.frequently-bought-together-wrap .fbt-item:hover{
+    border-color:#bdd8a3;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.frequently-bought-together-wrap .fbt-item:not(:last-child)::after{
+    content:"+";
+    position:absolute;
+    right:-27px;
+    top:50%;
+    transform:translateY(-50%);
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#fff;
+    border:1px solid #e5e5e5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:500;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    z-index:5;
+}
+
+/* checkbox */
+
+.frequently-bought-together-wrap .fbt-item__checkbox{
+    position:absolute;
+    left:18px;
+    top:18px;
+}
+
+.frequently-bought-together-wrap .fbt-item__checkbox input{
+    width:22px;
+    height:22px;
+}
+
+/* image */
+
+.frequently-bought-together-wrap .fbt-item__media{
+    width:190px;
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+}
+
+.frequently-bought-together-wrap .fbt-item__media img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* title */
+
+.frequently-bought-together-wrap .fbt-item__info{
+    width:100%;
+}
+
+.frequently-bought-together-wrap .fbt-item__title{
+    display:block;
+    font-size:26px;
+    font-weight:700;
+    color:#222;
+    text-decoration:none;
+    margin-bottom:8px;
+}
+
+.frequently-bought-together-wrap .price{
+    font-size:24px;
+    font-weight:700;
+    color:#111;
+}
+
+/* ================= Summary ================= */
+
+.frequently-bought-together-wrap .fbt-summary{
+    background:#fbfdf8;
+    border:1px solid #cfe2bf;
+    border-radius:20px;
+    padding:35px;
+    position:sticky;
+    top:30px;
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.frequently-bought-together-wrap .fbt-summary::before{
+    content:"🏷";
+    width:70px;
+    height:70px;
+    border:2px solid #9ac56a;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    margin:0 auto;
+}
+
+.frequently-bought-together-wrap .fbt-summary__total{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    gap:10px;
+    font-size:18px;
+    font-weight:600;
+}
+
+.frequently-bought-together-wrap .fbt-summary__total span{
+    font-size:56px;
+    font-weight:800;
+    color:#111;
+}
+
+.frequently-bought-together-wrap .button{
+    width:100%;
+    border-radius:14px;
+    padding:18px;
+    font-size:18px;
+    font-weight:700;
+}
+
+/* Responsive */
+
+@media(max-width:1200px){
+
+    .frequently-bought-together-wrap .fbt-items{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .frequently-bought-together-wrap .fbt-item:nth-child(2)::after,
+    .frequently-bought-together-wrap .fbt-item::after{
+        display:none;
+    }
+}
+
+@media(max-width:768px){
+
+    .frequently-bought-together-wrap .fbt-layout{
+        grid-template-columns:1fr;
+    }
+
+    .frequently-bought-together-wrap .fbt-items{
+        grid-template-columns:1fr;
+    }
+
+    .frequently-bought-together-wrap .fbt-heading{
+        font-size:36px;
+    }
+
+    .frequently-bought-together-wrap .fbt-summary{
+        position:static;
+    }
+}
