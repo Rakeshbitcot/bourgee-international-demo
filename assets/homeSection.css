@@ -565,7 +565,9 @@ product-card .product-media{
     align-items: center;
     justify-content: center;
 }
-
+product-card .product-media img{
+    margin-right:12px;
+}
 /* Show the complete shoe */
 product-card .product-media__image{
     width: 100%;
