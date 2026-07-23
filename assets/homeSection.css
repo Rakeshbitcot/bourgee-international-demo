@@ -988,4 +988,9 @@ product-swatches {
     .frequently-bought-together-wrap .fbt-summary{
         position:static;
     }
+    .frequently-bought-together-wrap .fbt-item:not(:last-child):after {
+ 
+    left: 46%;
+    bottom: -51px;
+}
 }
