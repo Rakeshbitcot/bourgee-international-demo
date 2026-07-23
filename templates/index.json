@@ -1027,7 +1027,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h3>SHOP BY CATEGORY</h3>",
+                "text": "<h3>Shop By Category</h3>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
