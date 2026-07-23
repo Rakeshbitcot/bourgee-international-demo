@@ -648,3 +648,128 @@ product-swatches {
 .custom-collection-section .product-card__content {
     box-shadow: none !important;
 }
+/* dropdown accordion */
+/* Wrapper */
+.product-desc-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Each accordion */
+.product-desc-accordion accordion-custom .details {
+    border: 1px solid #E8E8E8;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+    transition: all .3s ease;
+}
+
+.product-desc-accordion accordion-custom .details:hover {
+    border-color: #d5d5d5;
+    box-shadow: 0 8px 24px rgba(0,0,0,.05);
+}
+
+/* Remove theme dividers */
+.product-desc-accordion.accordion--dividers accordion-custom .details {
+    border-block: 1px solid #E8E8E8;
+}
+
+/* Header */
+.product-desc-accordion .details__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+    cursor: pointer;
+    list-style: none;
+    transition: all .3s ease;
+}
+
+.product-desc-accordion .details__header:hover {
+    color: #000;
+}
+
+/* Remove default marker */
+.product-desc-accordion summary::-webkit-details-marker {
+    display: none;
+}
+
+.product-desc-accordion summary::marker {
+    display: none;
+}
+
+/* Open state */
+.product-desc-accordion details[open] {
+    border-color: #d8d8d8;
+    box-shadow: 0 12px 30px rgba(0,0,0,.06);
+}
+
+.product-desc-accordion details[open] .details__header {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+/* Content */
+.product-desc-accordion .details-content {
+    padding: 24px;
+}
+
+.product-desc-accordion .details-content p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.9;
+    color: #666;
+}
+
+/* Links */
+.product-desc-accordion .details-content a {
+    color: #111;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color .25s ease;
+}
+
+.product-desc-accordion .details-content a:hover {
+    color: #d59466;
+}
+
+/* Icons */
+.product-desc-accordion .icon-caret,
+.product-desc-accordion .icon-plus {
+    width: 18px;
+    height: 18px;
+    transition: transform .3s ease;
+}
+
+.product-desc-accordion details[open] .icon-caret {
+    transform: rotate(180deg);
+}
+
+/* Optional: hide plus icon if using caret */
+.product-desc-accordion .icon-plus {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width:768px) {
+    .product-desc-accordion {
+        gap: 12px;
+    }
+
+    .product-desc-accordion .details__header {
+        padding: 18px 20px;
+        font-size: 16px;
+    }
+
+    .product-desc-accordion .details-content {
+        padding: 20px;
+    }
+
+    .product-desc-accordion .details-content p {
+        font-size: 15px;
+        line-height: 1.8;
+    }
+}
