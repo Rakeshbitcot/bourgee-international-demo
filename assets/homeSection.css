@@ -653,7 +653,6 @@ product-swatches {
 .product-desc-accordion {
     display: flex;
     flex-direction: column;
-    gap: 16px;
 }
 
 /* Each accordion */
