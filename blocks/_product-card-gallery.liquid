@@ -10,13 +10,13 @@
   
   assign auto_badge_key = null
   if product.tags contains 'New'
-    assign auto_badge_key = 'new'
+    assign auto_badge_key = 'New'
   elsif product.tags contains 'bestseller'
-    assign auto_badge_key = 'bestseller'
+    assign auto_badge_key = 'Best Seller'
   elsif product.tags contains 'trending'
-    assign auto_badge_key = 'trending'
+    assign auto_badge_key = 'Trending'
   elsif product.tags contains 'limited-edition'
-    assign auto_badge_key = 'limited_edition'
+    assign auto_badge_key = 'Limited Edition'
   endif
   assign badge_key = auto_badge_key
   if badge_key == null and block_settings.custom_badge_text != 'none'
