@@ -591,3 +591,48 @@ product-card product-price{
 .best-seller-custom .product-card__content:hover {
     box-shadow:none; 
 }
+.productBadch {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    z-index: 10;
+    font-weight:600;
+}
+
+/* New */
+.productBadch.New {
+    background: #FFE77A;
+    color: #6B5200;
+    border-color: #F2D34F;
+}
+
+/* Best Seller */
+.productBadch.BestSeller {
+    background: #DDF8E8;
+    color: #107A43;
+    border-color: #8CE0B2;
+}
+
+/* Trending */
+.productBadch.Trending {
+    background: #DDEBFF;
+    color: #2158B6;
+    border-color: #8BB5FF;
+}
+
+/* Limited Edition */
+.productBadch.LimitedEdition {
+    background: #F2E2FF;
+    color: #7A2FB5;
+    border-color: #C98CF5;
+}
