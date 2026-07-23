@@ -30,7 +30,7 @@
   data-media-id="{{ media.id }}"
 >
   {% assign badge = '' %}
-
+ {{item.product.tags }}
   {% if item.product.tags contains 'New' %}
     {% assign badge = 'New' %}
   {% elsif item.product.tags contains 'Trending' %}
