@@ -1865,7 +1865,7 @@
                 "image_ratio": "adapt",
                 "custom_badge_text": "limited_edition",
                 "show_wishlist_icon": true,
-                "border": "solid",
+                "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_radius": 0,
