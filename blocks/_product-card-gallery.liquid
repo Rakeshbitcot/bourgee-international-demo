@@ -23,7 +23,7 @@
     assign badge_key = block_settings.custom_badge_text
   endif
 %}
-<span class="productBadch{{ badge_key }}">{{ badge_key }}</span>
+<span class="productBadch-{{badge_key }}">{{ badge_key }}</span>
 {% capture children %}
   {% unless product == blank %}
     <div
