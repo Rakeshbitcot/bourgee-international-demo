@@ -29,7 +29,22 @@
   style="--ratio: {{ media.aspect_ratio }}"
   data-media-id="{{ media.id }}"
 >
-   <span>New Product</span>
+  {% assign badge = '' %}
+
+  {% if item.product.tags contains 'New' %}
+    {% assign badge = 'New' %}
+  {% elsif item.product.tags contains 'Trending' %}
+    {% assign badge = 'Trending' %}
+  {% elsif item.product.tags contains 'Best Seller' %}
+    {% assign badge = 'Best Seller' %}
+  {% elsif item.product.tags contains 'Limited Edition' %}
+    {% assign badge = 'Limited Edition' %}
+  {% endif %}
+
+  {% if badge != '' %}
+    <span class="product-badge">{{ badge }}</span>
+  {% endif %}
+
   {% liquid
     assign high_res_url = media.preview_image | image_url: width: 3840
     assign fetch_priority = 'auto'
