@@ -1377,12 +1377,19 @@ font-size:24px !important;
 /* ==========================================================================
    Responsive
    ========================================================================== */
-
+slideshow-slides[gutters*=start] {
+    padding-inline-start: 0;
+    scroll-padding-inline-start: var(--gutter-slide-width, 0);
+}
 @media (max-width: 990px) {
   .wishlist-page__grid,
   .wishlist-recently-viewed__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  slideshow-slides[gutters*=start] {
+    padding-inline-start: var(--gutter-slide-width, 0);
+    scroll-padding-inline-start: var(--gutter-slide-width, 0);
+}
 }
 
 @media (max-width: 540px) {
