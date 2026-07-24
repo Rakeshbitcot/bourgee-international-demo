@@ -1531,6 +1531,162 @@ slideshow-slides[gutters*=start] {
     justify-content: center;
     line-height: normal;
 }
+/* =================================================shop by color slider===================================== */
+/* ==========================================================================
+   Shop By Color — slider
+   ========================================================================== */
+
+.shop-by-color {
+  --sbc-border: #ececec;
+  --sbc-radius: 12px;
+  --sbc-muted: #6b7280;
+  padding: 60px 40px;
+  background: #fff;
+}
+
+.shop-by-color .page-width {
+  position: relative;
+}
+
+/* --- Heading + arrows on one row ---------------------------------------- */
+
+.shop-by-color .color-heading {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+}
+
+/* Nav buttons — keep Swiper's default positioning, just restyle + shrink */
+.shop-by-color .swiper-button-prev,
+.shop-by-color .swiper-button-next {
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  border: 1px solid var(--sbc-border);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #111;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.shop-by-color .swiper-button-prev:hover,
+.shop-by-color .swiper-button-next:hover {
+  background: #f7f7f7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shop-by-color .swiper-button-prev:active,
+.shop-by-color .swiper-button-next:active {
+  transform: scale(0.95);
+}
+
+/* Kill Swiper's default pseudo arrow — we use the inline SVG arrowhead */
+.shop-by-color .swiper-button-prev:after,
+.shop-by-color .swiper-button-next:after {
+  content: none;
+}
+
+/* Size the existing inline SVG arrowhead */
+.shop-by-color .swiper-navigation-icon {
+  width: 8px;
+  height: auto;
+}
+
+/* Both inline SVGs point right — flip the prev one to point left */
+.shop-by-color .swiper-button-prev .swiper-navigation-icon {
+  transform: rotate(180deg);
+}
+
+.shop-by-color .swiper-button-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+
+@media (max-width: 990px) {
+  .shop-by-color {
+    padding: 40px 20px;
+  }
+
+  .shop-by-color .color-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 640px) {
+  .shop-by-color .color-heading {
+    font-size: 24px;
+  }
+
+  .shop-by-color .color-image {
+    height: 160px;
+  }
+}
+
+/* --- Card ---------------------------------------------------------------- */
+
+.shop-by-color .color-card {
+  display: block;
+  text-decoration: none;
+  color: #111;
+  border: 1px solid var(--sbc-border);
+  border-radius: var(--sbc-radius);
+  background: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+
+.shop-by-color .color-card:hover {
+  border-color: #dcdcdc;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Image — contained on white, not cropped */
+.shop-by-color .color-image {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.shop-by-color .color-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.shop-by-color .color-card:hover .color-image img {
+  transform: scale(1.05);
+}
+
+/* Color strip inside the card */
+.shop-by-color .color-bar {
+  display: block;
+  width: 100%;
+  height: 8px;
+  min-height: 8px;
+}
+
+/* Color name */
+.shop-by-color .color-name {
+  padding: 10px 14px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 
 @media (max-width: 540px) {
 
