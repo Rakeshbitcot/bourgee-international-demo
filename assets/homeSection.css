@@ -1780,7 +1780,6 @@ slideshow-slides[gutters*=start] {
 .shop-by-category-custom .collection-card:hover {
   transform: translateY(-4px);
   border-color: #dcdcdc !important;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.1);
 }
 
 /* Card inner switches to a vertical stack: image area, then info panel */
