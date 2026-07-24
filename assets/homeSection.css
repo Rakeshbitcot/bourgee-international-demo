@@ -1755,4 +1755,8 @@ slideshow-slides[gutters*=start] {
         span.header-logo__image-container.header-logo__image-container--original{
             width:140px;
         }
+        .cart-bubble{
+            width:12px;
+            height:12px;
+        }
 }
