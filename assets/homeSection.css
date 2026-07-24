@@ -1734,3 +1734,8 @@ slideshow-slides[gutters*=start] {
         padding:0 12px;
     }
 }
+@media (max-width: 390px) {
+.header__icon{
+    padding:0;
+}
+}
