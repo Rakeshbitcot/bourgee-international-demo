@@ -1742,4 +1742,7 @@ slideshow-slides[gutters*=start] {
     width:32px;
     padding-left:10px;
 }
+#header-component[data-menu-style=drawer] .header__columns header-actions {
+gap:10px;
+}
 }
