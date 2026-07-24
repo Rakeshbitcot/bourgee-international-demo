@@ -1740,5 +1740,6 @@ slideshow-slides[gutters*=start] {
 }
 .header-actions__action{
     width:32px;
+    padding-left:10px;
 }
 }
