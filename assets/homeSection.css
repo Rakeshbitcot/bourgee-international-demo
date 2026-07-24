@@ -1724,20 +1724,6 @@ slideshow-slides[gutters*=start] {
 
 
 
-/* "View all" → black pill button */
-
-
-.shop-by-category-custom .group-block-content .link::after {
-  content: "\2192"; /* → */
-  font-size: 16px;
-  transition: transform 0.2s ease;
-}
-
-.shop-by-category-custom .group-block-content .link:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-}
 
 .shop-by-category-custom .group-block-content .link:hover::after {
   transform: translateX(4px);
