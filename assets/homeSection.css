@@ -1722,15 +1722,7 @@ slideshow-slides[gutters*=start] {
   padding-bottom: 4px !important;
 }
 
-.shop-by-category-custom .group-block-content .text-block:first-child::after {
-  content: "Explore our wide range of products across all categories.";
-  display: block;
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--sbc-muted);
-  letter-spacing: 0;
-}
+
 
 /* "View all" → black pill button */
 .shop-by-category-custom .group-block-content .link {
