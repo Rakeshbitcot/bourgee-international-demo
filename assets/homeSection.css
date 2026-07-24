@@ -1424,6 +1424,9 @@ slideshow-slides[gutters*=start] {
   .single-product-custom .product-details {
     padding-left: 0px;
 }
+.custom-collection-section {
+    padding: 12px;
+}
 .single-product-custom .variant-option {
     margin-bottom: 0;
 }
