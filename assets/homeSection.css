@@ -118,18 +118,21 @@
 .best-seller-custom .resource-list__item{
     width:100%;
 }
-.custom-gradient-hero .overlay--gradient {
-    background: linear-gradient(
-        to right,
-        rgba(18,22,18,.92) 0%,
-        rgba(18,22,18,.80) 20%,
-        rgba(18,22,18,.60) 40%,
-        rgba(18,22,18,.25) 65%,
-        rgba(18,22,18,0) 100%
-    ) !important;
-}
-/* Desktop only */
+/* Desktop only: the left-dark/right-transparent fade only makes sense once the
+   image is cropped to the right 75% of the hero (see hero__media-wrapper below).
+   On mobile the image is full-width, so this must not leak outside this query
+   or it washes out the right half of the hero with no image behind it. */
 @media screen and (min-width: 750px) {
+    .custom-gradient-hero .overlay--gradient {
+        background: linear-gradient(
+            to right,
+            rgba(18,22,18,.92) 0%,
+            rgba(18,22,18,.80) 20%,
+            rgba(18,22,18,.60) 40%,
+            rgba(18,22,18,.25) 65%,
+            rgba(18,22,18,0) 100%
+        ) !important;
+    }
 
     /* Full-width media container */
     .custom-gradient-hero .hero__media-grid {
@@ -177,7 +180,21 @@
 @media screen and (max-width: 750px) {
  .best-seller-custom .resource-list__carousel slideshow-slide {
     min-width:195px;
-} 
+}
+}
+
+/* Keep the Best Sellers carousel inside the page-width container
+   instead of the theme's default full-bleed (edge-to-edge) carousel layout. */
+.best-seller-custom .force-full-width {
+  grid-column: 2;
+}
+
+.best-seller-custom .resource-list__carousel > div {
+  --gutter-slide-width: 0px !important;
+}
+
+.best-seller-custom .resource-list__carousel slideshow-arrows {
+  padding-inline: 0;
 }
 .trust-badge-custom{
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
