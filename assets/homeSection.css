@@ -1745,4 +1745,7 @@ slideshow-slides[gutters*=start] {
 #header-component[data-menu-style=drawer] .header__columns header-actions {
 gap:10px;
 }
+    span.header-logo__image-container.header-logo__image-container--original {
+    padding-left:0;
+    }
 }
