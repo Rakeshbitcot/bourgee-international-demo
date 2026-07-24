@@ -1739,7 +1739,7 @@ slideshow-slides[gutters*=start] {
         padding:0;
     }
     .header-actions__action{
-       
+        width:38px;
         padding-left:10px;
     }
     #header-component[data-menu-style=drawer] .header__columns header-actions {
