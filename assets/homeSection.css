@@ -1752,4 +1752,7 @@ slideshow-slides[gutters*=start] {
         .wishlist-icon{
             width:28px;
         }
+        span.header-logo__image-container.header-logo__image-container--original{
+            width:140px;
+        }
 }
