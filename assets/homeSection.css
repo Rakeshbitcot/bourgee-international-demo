@@ -1848,16 +1848,7 @@ slideshow-slides[gutters*=start] {
   color: #111;
 }
 
-/* "Shop now →" injected under each title */
-.shop-by-category-custom .collection-card__content .text-block::after {
-  content: "Shop now \2192";
-  display: block;
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--sbc-muted);
-  transition: color 0.2s ease, transform 0.2s ease;
-}
+
 
 .shop-by-category-custom .collection-card:hover .collection-card__content .text-block::after {
   color: #111;
