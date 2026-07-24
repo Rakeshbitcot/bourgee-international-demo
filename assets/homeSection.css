@@ -3,9 +3,13 @@
 .shop-by-category-custom {
   padding: 32px 0;
 }
-/* .shop-by-category-custom .force-full-width{
-      grid-column: unset;  
-} */
+.shop-by-category-custom .force-full-width{
+      width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+}
 
 
 /* Layout spacing */
