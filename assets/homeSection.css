@@ -1699,7 +1699,7 @@ slideshow-slides[gutters*=start] {
   .wishlist-page__item .wishlist-page__view-button {
     left: auto;
     right: 16px;
-    top: auto;
+    top: 14px;
     bottom: 108px;
     /* keep it next to the heart on mobile */
   }
