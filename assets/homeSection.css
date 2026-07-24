@@ -1733,6 +1733,13 @@ slideshow-slides[gutters*=start] {
     .header{
         padding:0 12px;
     }
+      .cart-bubble ,.wishlist-bubble{
+            width:12px !important;
+            height:12px;
+                top: 11px;
+                right: 10px;
+
+        }
 }
 @media (max-width: 390px) {
     .header__icon{
@@ -1755,11 +1762,5 @@ slideshow-slides[gutters*=start] {
         span.header-logo__image-container.header-logo__image-container--original{
             width:140px;
         }
-        .cart-bubble ,.wishlist-bubble{
-            width:12px !important;
-            height:12px;
-                top: 11px;
-                right: 10px;
-
-        }
+      
 }
