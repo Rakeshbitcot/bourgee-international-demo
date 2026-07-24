@@ -1730,4 +1730,7 @@ slideshow-slides[gutters*=start] {
     .frequently-bought-together-wrap{
         padding-top:0;
     }
+    .header{
+        padding:0 12px;
+    }
 }
