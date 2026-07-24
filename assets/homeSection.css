@@ -1558,4 +1558,7 @@ slideshow-slides[gutters*=start] {
   .custom-collection-section .pagination {
     margin-top: 12px;
     }
+    .frequently-bought-together-wrap{
+        padding-top:0;
+    }
 }
