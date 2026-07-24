@@ -1555,4 +1555,7 @@ slideshow-slides[gutters*=start] {
   .single-product-custom .variant-picker {
     margin: 0;
   }
+  .custom-collection-section .pagination {
+    margin-top: 12px;
+    }
 }
