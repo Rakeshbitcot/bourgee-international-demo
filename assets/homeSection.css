@@ -1738,4 +1738,7 @@ slideshow-slides[gutters*=start] {
 .header__icon{
     padding:0;
 }
+.header-actions__action{
+    width:32px;
+}
 }
