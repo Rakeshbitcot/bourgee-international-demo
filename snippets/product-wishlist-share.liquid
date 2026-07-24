@@ -1,0 +1,189 @@
+{%- doc -%}
+  Renders "Add to wishlist" and "Share" text links for the product page,
+  shown below the buy buttons. Wishlist state is stored client-side
+  (localStorage), matching the card wishlist-button component.
+
+  @param {object} product - The product object
+
+  @example
+  {% render 'product-wishlist-share', product: product %}
+{%- enddoc -%}
+
+{% if product != blank %}
+  <div class="product-actions-row">
+    <wishlist-button
+      class="product-wishlist-toggle"
+      data-product-handle="{{ product.handle }}"
+      data-add-label="{{ 'content.wishlist_add' | t }}"
+      data-remove-label="{{ 'content.wishlist_remove' | t }}"
+    >
+      <button
+        type="button"
+        class="product-action-link"
+        aria-pressed="false"
+        aria-label="{{ 'content.wishlist_add' | t }}"
+      >
+        <svg
+          class="product-action-link__icon product-wishlist-icon"
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 20 20"
+        >
+          <path
+            class="product-wishlist-icon__outline"
+            fill-rule="evenodd"
+            d="M10 5.2393L8.5149 3.77392C6.79996 2.08174 4.01945 2.08174 2.30451 3.77392C0.589562 5.4661 0.589563 8.2097 2.30451 9.90188L10 17.4952L17.6955 9.90188C19.4104 8.2097 19.4104 5.4661 17.6955 3.77392C15.9805 2.08174 13.2 2.08174 11.4851 3.77392L10 5.2393ZM10.765 3.06343C12.8777 0.978857 16.3029 0.978856 18.4155 3.06343C20.5282 5.148 20.5282 8.52779 18.4155 10.6124L10.72 18.2057C10.3224 18.5981 9.67763 18.5981 9.27996 18.2057L1.58446 10.6124C-0.528154 8.52779 -0.528154 5.14801 1.58446 3.06343C3.69708 0.978859 7.12233 0.978858 9.23495 3.06343L10 3.81832L10.765 3.06343Z"
+          />
+          <path
+            class="product-wishlist-icon__solid"
+            d="M10.765 3.06343C12.8777 0.978857 16.3029 0.978856 18.4155 3.06343C20.5282 5.148 20.5282 8.52779 18.4155 10.6124L10.72 18.2057C10.3224 18.5981 9.67763 18.5981 9.27996 18.2057L1.58446 10.6124C-0.528154 8.52779 -0.528154 5.14801 1.58446 3.06343C3.69708 0.978859 7.12233 0.978858 9.23495 3.06343L10 3.81832L10.765 3.06343Z"
+          />
+        </svg>
+        <span class="product-action-link__text product-action-link__text--add">
+          {{- 'content.wishlist_add' | t -}}
+        </span>
+        <span class="product-action-link__text product-action-link__text--remove">
+          {{- 'content.wishlist_remove' | t -}}
+        </span>
+      </button>
+    </wishlist-button>
+
+    <share-button
+      data-url="{{ shop.url }}{{ product.url }}"
+      data-title="{{ product.title | escape }}"
+      data-copied-label="{{ 'actions.link_copied' | t }}"
+    >
+      <button
+        type="button"
+        class="product-action-link share-button__toggle"
+      >
+        <svg
+          class="product-action-link__icon"
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            d="M16 6L12 2M12 2L8 6M12 2V15"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M20 13V18C20 19.6569 18.6569 21 17 21H7C5.34315 21 4 19.6569 4 18V13"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span class="product-action-link__text">{{ 'actions.share' | t }}</span>
+      </button>
+    </share-button>
+  </div>
+
+  <script src="{{ 'wishlist-button.js' | asset_url }}" type="module"></script>
+  <script src="{{ 'share-button.js' | asset_url }}" type="module"></script>
+{% endif %}
+
+{% stylesheet %}
+  .product-actions-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: var(--gap-xl);
+    row-gap: var(--gap-xs);
+    width: 100%;
+    margin-block-start: var(--margin-md);
+    margin-block-end: var(--margin-2xs);
+  }
+
+  .product-actions-row wishlist-button,
+  .product-actions-row share-button {
+    display: inline-flex;
+    flex-shrink: 0;
+    max-width: 100%;
+  }
+
+  .product-action-link {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--gap-3xs);
+    width: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-foreground);
+    font-size: var(--font-size--sm);
+    line-height: var(--font-paragraph--line-height, 1.2);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .product-action-link:hover {
+    color: var(--color-foreground-secondary);
+  }
+
+  .product-action-link__icon {
+    width: var(--icon-size-xs, 16px);
+    height: var(--icon-size-xs, 16px);
+    flex-shrink: 0;
+    fill: currentColor;
+  }
+
+  .share-button__toggle .product-action-link__icon {
+    fill: none;
+  }
+
+  .product-wishlist-icon__solid {
+    display: none;
+  }
+
+  .product-wishlist-toggle[data-active='true'] .product-wishlist-icon {
+    color: var(--color-wishlist-active, #ff2d78);
+    fill: var(--color-wishlist-active, #ff2d78);
+  }
+
+  .product-wishlist-toggle[data-active='true'] .product-wishlist-icon__outline {
+    display: none;
+  }
+
+  .product-wishlist-toggle[data-active='true'] .product-wishlist-icon__solid {
+    display: block;
+  }
+
+  .product-action-link__text--remove {
+    display: none;
+  }
+
+  .product-wishlist-toggle[data-active='true'] .product-action-link__text--add {
+    display: none;
+  }
+
+  .product-wishlist-toggle[data-active='true'] .product-action-link__text--remove {
+    display: inline;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-actions-row {
+      column-gap: var(--gap-md);
+    }
+
+    .product-action-link {
+      font-size: var(--font-size--xs);
+    }
+  }
+
+  @media screen and (max-width: 389px) {
+    .product-actions-row {
+      column-gap: var(--gap-sm);
+    }
+  }
+{% endstylesheet %}

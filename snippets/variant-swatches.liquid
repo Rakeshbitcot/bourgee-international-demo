@@ -14,59 +14,30 @@
   swatches-variant-picker-component {
     display: flex;
     width: 100%;
+  }
+
+  .variant-option__swatches-list {
+    display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    list-style: none;
+    gap: var(--gap-sm);
     justify-content: var(--product-swatches-alignment-mobile);
-
-    @media screen and (min-width: 750px) {
-      justify-content: var(--product-swatches-alignment);
-    }
-
-    --overflow-list-padding-block: calc(
+    padding-block: calc(
         var(--product-swatches-padding-block-start) + var(--focus-outline-offset) + var(--focus-outline-width)
       )
       calc(var(--product-swatches-padding-block-end) + var(--focus-outline-offset) + var(--focus-outline-width));
-    --overflow-list-padding-inline: calc(
+    padding-inline: calc(
         var(--product-swatches-padding-inline-start) + var(--focus-outline-offset) + (1.5 * var(--focus-outline-width))
       )
       calc(var(--product-swatches-padding-inline-end) + var(--focus-outline-offset) + var(--focus-outline-width));
 
-    overflow-list::part(list) {
-      gap: var(--gap-sm);
+    @media screen and (min-width: 750px) {
+      justify-content: var(--product-swatches-alignment);
     }
-  }
-
-  swatches-variant-picker-component overflow-list[disabled='true'] {
-    --overflow-list-padding-block: 0px;
-    margin-block-start: calc(
-      var(--product-swatches-padding-block-start) + var(--focus-outline-offset) + var(--focus-outline-width)
-    );
-    margin-block-end: calc(
-      var(--product-swatches-padding-block-end) + var(--focus-outline-offset) + var(--focus-outline-width)
-    );
-  }
-
-  .hidden-swatches__count {
-    display: flex;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
-    background-color: transparent;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-
-    &::before {
-      /* This doesn't work in Safari without the counter-reset. https://stackoverflow.com/a/40179718 */
-      counter-reset: overflow-count var(--overflow-count);
-      content: '+' counter(overflow-count);
-      line-height: 1;
-      cursor: pointer;
-    }
-  }
-
-  .hidden-swatches__count:hover {
-    color: var(--color-foreground-rgb);
   }
 {% endstylesheet %}
 
@@ -110,7 +81,7 @@
       -%}
 
       <fieldset class="variant-option variant-option--buttons variant-option--swatches">
-        {% capture children %}
+        <ul class="variant-option__swatches-list">
           {%- for product_option_value in product_option.values -%}
             {% liquid
               comment
@@ -170,24 +141,13 @@
                 >
                 {% render 'swatch',
                   swatch: product_option_value.swatch,
-                  variant_image: featured_media,
+                  label: product_option_value.name,
                 %}
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
             </li>
           {%- endfor -%}
-          <li
-            slot="more"
-          >
-            <button
-              class="hidden-swatches__count"
-              aria-label="{{ 'actions.show_all_options' | t }}"
-              on:click="/showAllSwatches"
-            ></button>
-          </li>
-        {% endcapture %}
-
-        {% render 'overflow-list', children: children, ref: 'overflowList' %}
+        </ul>
       </fieldset>
     {%- endfor -%}
     <script type="application/json">

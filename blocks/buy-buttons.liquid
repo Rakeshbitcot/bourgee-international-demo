@@ -235,6 +235,10 @@
           </span>
         {%- endif -%}
       {%- endform -%}
+
+      {%- if block_settings.show_wishlist_share -%}
+        {%- render 'product-wishlist-share', product: product -%}
+      {%- endif -%}
     </product-form-component>
   {%- else -%}
     <div class="product-form-buttons">
@@ -385,6 +389,12 @@
       "type": "checkbox",
       "id": "show_pickup_availability",
       "label": "t:settings.show_pickup_availability",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_share",
+      "label": "t:settings.show_wishlist_share",
       "default": true
     },
     {

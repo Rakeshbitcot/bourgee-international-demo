@@ -125,7 +125,9 @@
     "sign_up": "Sign up",
     "submit": "Submit",
     "view_store_information": "View store information",
-    "sort": "Sort"
+    "sort": "Sort",
+    "share": "Share",
+    "link_copied": "Link copied"
   },
   "blocks": {
     "contact_form": {

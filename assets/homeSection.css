@@ -276,13 +276,6 @@
     margin:10px 0;
 }
 
-.custom-collection-section .swatch{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    border:1px solid #ddd;
-}
-
 /* Pagination */
 
 .custom-collection-section .pagination{
@@ -640,10 +633,6 @@ product-card product-price{
 }
 product-swatches {
     padding-bottom: 24px;
-}
-.custom-collection-section .swatch {
-    width: 35px;
-    height: 35px;
 }
 .custom-collection-section .product-card__content {
     box-shadow: none !important;

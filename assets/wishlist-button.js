@@ -29,7 +29,7 @@ function readWishlist() {
 class WishlistButton extends HTMLElement {
   connectedCallback() {
     this.productHandle = this.dataset.productHandle;
-    this.button = this.querySelector('.wishlist-button__toggle');
+    this.button = this.querySelector('button');
 
     if (!this.button || !this.productHandle) return;
 
