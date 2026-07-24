@@ -1430,3 +1430,103 @@ slideshow-slides[gutters*=start] {
      display: flex;
     flex-direction:column;
 }
+
+/* ==================================================share and like button ==================================================*/
+/* ==========================================================================
+   Single product — wishlist + share action row
+   Scoped under .single-product-custom
+   ========================================================================== */
+
+.single-product-custom .product-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* --- Shared card-style button (wishlist + share) ------------------------- */
+
+.single-product-custom .product-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 16px;
+  border: 1px solid #ececec;
+  border-radius: 16px;
+  background: #fff;
+  color: #111;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* Icon-only — hide all button text labels */
+.single-product-custom .product-action-link__text {
+  display: none !important;
+}
+
+.single-product-custom .product-action-link:hover {
+  border-color: #dcdcdc;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.single-product-custom .product-action-link:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.single-product-custom .product-action-link__icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+/* ==========================================================================
+   Wishlist heart — fill state + pop animation
+   ========================================================================== */
+
+/* Solid heart hidden by default, outline shown */
+.single-product-custom .product-wishlist-icon__solid {
+  display: none;
+  fill: #ff4d6d;
+}
+
+.single-product-custom .product-wishlist-icon__outline {
+  fill: currentColor;
+}
+
+/* Active (in wishlist): swap to solid pink heart */
+.single-product-custom .product-wishlist-toggle[data-active="true"] .product-wishlist-icon__solid {
+  display: block;
+}
+
+.single-product-custom .product-wishlist-toggle[data-active="true"] .product-wishlist-icon__outline {
+  display: none;
+}
+
+/* Pop animation — fires whenever the button becomes active.
+   The [data-active="true"] attribute change re-triggers the animation. */
+.single-product-custom .product-wishlist-toggle[data-active="true"] .product-wishlist-icon {
+  animation: wishlist-pop 0.35s ease;
+}
+
+@keyframes wishlist-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(0.8); }
+  60%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .single-product-custom .product-wishlist-toggle[data-active="true"] .product-wishlist-icon,
+  .single-product-custom .product-action-link__icon {
+    animation: none;
+    transition: none;
+  }
+}
