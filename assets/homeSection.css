@@ -1518,7 +1518,19 @@ slideshow-slides[gutters*=start] {
     transition: none;
   }
 }
-
+.wishlist-bubble {
+    --wishlist-bubble-size: 20px;
+    position: absolute;
+    top: 4px;
+    right: 1px;
+    width: var(--wishlist-bubble-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: normal;
+}
 
 @media (max-width: 540px) {
 
