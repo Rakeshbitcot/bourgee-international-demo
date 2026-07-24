@@ -1563,18 +1563,18 @@ slideshow-slides[gutters*=start] {
   width: 36px;
   height: 36px;
   margin: 0;
-  border: 1px solid var(--sbc-border);
+  border: none;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  color: #111;
+  background: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #fff;
   transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .shop-by-color .swiper-button-prev:hover,
 .shop-by-color .swiper-button-next:hover {
-  background: #f7f7f7;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .shop-by-color .swiper-button-prev:active,
@@ -1588,10 +1588,11 @@ slideshow-slides[gutters*=start] {
   content: none;
 }
 
-/* Size the existing inline SVG arrowhead */
+/* Size the existing inline SVG arrowhead — white via currentColor */
 .shop-by-color .swiper-navigation-icon {
   width: 8px;
   height: auto;
+  color: #fff;
 }
 
 /* Both inline SVGs point right — flip the prev one to point left */
@@ -1674,7 +1675,7 @@ slideshow-slides[gutters*=start] {
 .shop-by-color .color-bar {
   display: block;
   width: 100%;
-  height: 12px;
+  height: 8px;
   min-height: 8px;
 }
 
