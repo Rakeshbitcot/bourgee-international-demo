@@ -1733,11 +1733,11 @@ slideshow-slides[gutters*=start] {
     .header{
         padding:0 12px;
     }
-      .cart-bubble ,.wishlist-bubble{
+     .cart-bubble ,.wishlist-bubble{
             width:12px !important;
             height:12px;
-                top: 11px;
-                right: 10px;
+                top: 11px !important;
+                right: 10px !important;
 
         }
 }
