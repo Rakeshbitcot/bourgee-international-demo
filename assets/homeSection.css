@@ -3,7 +3,8 @@
 .shop-by-category-custom {
   padding: 32px 0;
 }
-.shop-by-category-custom .force-full-width{
+.shop-by-category-custom .force-full-width, .best-seller-custom .force-full-width
+{
       width: 100%;
   max-width: 1440px;
   margin-inline: auto;
