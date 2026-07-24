@@ -1708,15 +1708,6 @@ slideshow-slides[gutters*=start] {
   align-items: flex-start !important;
 }
 
-/* Title */
-.shop-by-category-custom .group-block-content h3 {
-  font-size: 40px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: 1.1;
-}
-
 /* Subheading injected via ::after on the title text block */
 .shop-by-category-custom .group-block-content .text-block:first-child {
   padding-bottom: 4px !important;
