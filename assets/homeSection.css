@@ -1978,6 +1978,7 @@ slideshow-slides[gutters*=start] {
         .facets-toggle{
           height:auto;
           top:59px;
+          z-index:6;
         }
 }
 @media (max-width: 390px) {
