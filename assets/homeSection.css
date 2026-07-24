@@ -1421,6 +1421,9 @@ slideshow-slides[gutters*=start] {
     top: auto;
     bottom: 108px; /* keep it next to the heart on mobile */
   }
+  .single-product-custom .product-details {
+    padding-left: 0px;
+}
 }
 .wishlist-page__item-details{
         display: flex;
