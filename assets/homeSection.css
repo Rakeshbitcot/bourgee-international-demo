@@ -1758,5 +1758,8 @@ slideshow-slides[gutters*=start] {
         .cart-bubble ,.wishlist-bubble{
             width:12px !important;
             height:12px;
+                top: 11px;
+                right: 10px;
+
         }
 }
